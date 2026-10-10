@@ -1,0 +1,252 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "07 - The LangGraph graph",
+  "description": "LangGraph from zero, using your graph: state, reducers, nodes, edges, the checkpointer, and resuming.",
+  "nextTour": "08 - Router and entity loader",
+  "steps": [
+    {
+      "file": "backend/chat/graph/state.py",
+      "line": 104,
+      "selection": {
+        "start": {
+          "line": 85,
+          "character": 1
+        },
+        "end": {
+          "line": 104,
+          "character": 92
+        }
+      },
+      "title": "The shared state",
+      "description": "**New idea — graph state:** in LangGraph, every node reads one shared dictionary and returns *only the parts it changes*. LangGraph merges those changes in.\n\n**How it works:** `GraphState` lists every key. `total=False` means none are required. The router fills `routing`, the specialist fills `tool_calls`, and so on.\n\n**Why it matters:** nodes don't call each other. They only talk through this state, which keeps each one simple to test and reason about.\n\n**Watch out:** `Annotated[..., add]` on `messages` means new messages are **appended**, not replaced. Without it, each node would overwrite the conversation."
+    },
+    {
+      "file": "backend/chat/graph/state.py",
+      "line": 39,
+      "selection": {
+        "start": {
+          "line": 17,
+          "character": 1
+        },
+        "end": {
+          "line": 39,
+          "character": 33
+        }
+      },
+      "title": "A custom merge rule",
+      "description": "**New idea — reducer:** a function that decides how a node's update combines with the existing value.\n\n**How it works:** tool calls are matched by `id`. An update to an existing call replaces it, and new calls are added.\n\n**Why it matters:** the specialist adds a call with `result: None`, then the tool executor returns the same call **with** a result. Without this rule you'd get two copies.\n\n**Watch out:** calls without an `id` are dropped by this merge. The model always gives ids, but it's a hidden assumption."
+    },
+    {
+      "file": "backend/chat/graph/state.py",
+      "line": 72,
+      "selection": {
+        "start": {
+          "line": 42,
+          "character": 1
+        },
+        "end": {
+          "line": 72,
+          "character": 70
+        }
+      },
+      "title": "The smaller shapes",
+      "description": "**What it is:** the typed pieces inside the state.\n\n**How it works:**\n- `UserContext`: who you are, plus your loaded accounts, apps, ad units and connected networks.\n- `RoutingResult`: the router's decision: service, capability, reasoning and *path* (`reactive` for simple questions, `workflow` for complex ones).\n- `ToolCall`: one tool request: name, args, result, whether it's dangerous, and its approval status.\n\n**Why it matters:** read these and you know what every node can see.\n\n**Watch out:** `TypedDict` is only a type hint. Python doesn't check it at runtime."
+    },
+    {
+      "file": "backend/chat/graph/state.py",
+      "line": 164,
+      "selection": {
+        "start": {
+          "line": 161,
+          "character": 1
+        },
+        "end": {
+          "line": 164,
+          "character": 82
+        }
+      },
+      "title": "Going backwards (in theory)",
+      "description": "**How it works:** the graph has two arrows that go backwards: to the router when `needs_reroute` is set (a topic change, like *now show my Ad Manager orders*), and to the entity loader when `needs_entity_refresh` is set (after creating an app or ad unit). The router and entity loader clear these flags after they run.\n\n**Why it matters:** the design lets the graph loop back when the situation changes mid-answer.\n\n**Watch out:** nothing in the current code ever **sets** these flags, so the backward arrows are never taken. It's planned behaviour, not working behaviour. If asked, say it's wired into the graph but not triggered yet. Separately, there's a hard limit of 25 steps (later in this tour)."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 167,
+      "selection": {
+        "start": {
+          "line": 156,
+          "character": 1
+        },
+        "end": {
+          "line": 167,
+          "character": 36
+        }
+      },
+      "title": "Nodes",
+      "description": "**How it works:** `StateGraph(GraphState)` creates a graph for that state. `add_node` registers the four steps by name, and `START → router` says where every run begins.\n\n**Why it matters:** this is the whole agent, in a handful of lines.\n\n**Watch out:** the verifier, synthesizer and tool retriever nodes exist in `nodes/`, but they're never added here (atlas A1 covers them)."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 215,
+      "selection": {
+        "start": {
+          "line": 169,
+          "character": 1
+        },
+        "end": {
+          "line": 215,
+          "character": 17
+        }
+      },
+      "title": "Edges",
+      "description": "**New idea — conditional edges:** after a node runs, a small function looks at the state and returns the name of the next node. The dictionary maps that name to a real node, or to `END`.\n\n**How it works:**\n- router → entity loader, or end\n- entity loader → specialist, or end\n- specialist → tool executor, entity loader, router, or end\n- tool executor → specialist, or end\n\n**Why it matters:** the specialist ⇄ tool executor loop is how the agent calls a tool, reads the result, maybe calls another, then answers.\n\n**Watch out:** the graph is only *built* here. It's compiled (with the checkpointer) inside `run_graph`."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 54,
+      "selection": {
+        "start": {
+          "line": 32,
+          "character": 1
+        },
+        "end": {
+          "line": 54,
+          "character": 17
+        }
+      },
+      "title": "Where to after the specialist?",
+      "description": "**How it works:** in order:\n1. a topic change → back to the router\n2. new things were created → back to the entity loader\n3. tool calls waiting for results → tool executor\n4. otherwise → done\n\n**Why it matters:** this one function decides when the agent stops.\n\n**Watch out:** the order matters: a topic change would win even if tool calls were waiting. In practice nothing sets the first two flags yet (step 4), so the choice is tool executor or done."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 85,
+      "selection": {
+        "start": {
+          "line": 57,
+          "character": 1
+        },
+        "end": {
+          "line": 85,
+          "character": 24
+        }
+      },
+      "title": "Where to after a tool?",
+      "description": "**How it works:** stop on an error, or on a *blocking* problem like an expired Google token. Otherwise go back to the specialist, which reads the result and decides what's next.\n\n**Why it matters:** blocking problems end the run right away instead of making the model retry something that can't work.\n\n**Watch out:** both remaining branches return `specialist`. The pending-tools check is there for safety but doesn't change the outcome."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 117,
+      "selection": {
+        "start": {
+          "line": 88,
+          "character": 1
+        },
+        "end": {
+          "line": 117,
+          "character": 24
+        }
+      },
+      "title": "Stopping early",
+      "description": "**How it works:** after the router, stop if there was an error or no service. After the entity loader, stop if `action_required` is blocking, for example if you asked about AdMob but haven't connected it.\n\n**Why it matters:** stopping before the specialist saves an expensive model call when the answer can only be *please connect your account*.\n\n**Watch out:** the user still sees a clear message, because the entity loader's `action_required` becomes an SSE event (tour 06)."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 267,
+      "selection": {
+        "start": {
+          "line": 233,
+          "character": 1
+        },
+        "end": {
+          "line": 267,
+          "character": 26
+        }
+      },
+      "title": "A quick look before routing",
+      "description": "**How it works:** one fast call to the API's internal list of providers, with a 5-second timeout, to learn which networks you've connected.\n\n**Why it matters:** the router can then prefer networks you actually have. *Show my revenue* means AdMob if that's all you've connected.\n\n**Watch out:** it only spots AdMob and Ad Manager here (`admob`, `gam`). Other networks are found later by the entity loader. Any error gives an empty list, and routing continues."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 354,
+      "selection": {
+        "start": {
+          "line": 331,
+          "character": 1
+        },
+        "end": {
+          "line": 354,
+          "character": 6
+        }
+      },
+      "title": "The starting state and the config",
+      "description": "**How it works:** the run starts with your question, your context, the stream id and your history. The *config* carries the thread id, the two queues (so nodes can stream text and events), and `recursion_limit: 25`.\n\n**Why it matters:** queues travel in the config, not the state, because the state is saved to the database and queues can't be saved.\n\n**Watch out:** the 25-step limit protects against endless specialist ⇄ tool loops. Hitting it raises an error, which reaches you as an `error` event."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 379,
+      "selection": {
+        "start": {
+          "line": 361,
+          "character": 1
+        },
+        "end": {
+          "line": 379,
+          "character": 11
+        }
+      },
+      "title": "Compile and stream",
+      "description": "**How it works:** open the Postgres checkpointer, make sure its tables exist (`setup()`), compile the graph with it, then `astream` the run. Two kinds of output come back:\n- `updates`: what each node changed\n- `custom`: progress events nodes send while working\n\n**Why it matters:** this is the loop that tour 06's `run_graph_and_emit` consumes.\n\n**Watch out:** the graph is rebuilt, `setup()` runs, and a new database connection opens on **every** message. It works, but it's extra work per request."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 230,
+      "selection": {
+        "start": {
+          "line": 218,
+          "character": 1
+        },
+        "end": {
+          "line": 230,
+          "character": 61
+        }
+      },
+      "title": "The checkpointer",
+      "description": "**New idea — checkpointer:** LangGraph saves the state after every node. If the run pauses, it can continue later from exactly that point.\n\n**How it works:** `AsyncPostgresSaver` stores those snapshots in your Neon Postgres database, keyed by thread id.\n\n**Why it matters:** this is what makes the approval pause work. The run stops, you click Allow, and it continues, even though that's a new HTTP request.\n\n**Watch out:** no `DATABASE_URL` means no runs at all, because this raises an error."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 442,
+      "selection": {
+        "start": {
+          "line": 440,
+          "character": 1
+        },
+        "end": {
+          "line": 442,
+          "character": 57
+        }
+      },
+      "title": "Resuming after approval",
+      "description": "**How it works:** `resume_graph` rebuilds and compiles the graph with the same checkpointer, then sends `Command(resume={approved, modified_params})` to the same thread. LangGraph reloads the saved state and continues inside the tool executor, right where `interrupt()` paused.\n\n**Why it matters:** human-in-the-loop with no thread waiting around. The paused run is just rows in Postgres.\n\n**Watch out:** the thread id is the 8-character stream id from tour 06. Lose it and the paused run can't be resumed. Tour 11 covers the full approval round-trip."
+    },
+    {
+      "file": "backend/chat/graph/studio.py",
+      "line": 18,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 18,
+          "character": 32
+        }
+      },
+      "title": "Seeing the graph",
+      "description": "**What it is:** a tiny file for LangGraph Studio, a visual tool that draws your graph and lets you run it step by step.\n\n**How it works:** `backend/langgraph.json` points Studio at `studio.py:graph`. Run `langgraph dev` in `backend` to open it.\n\n**Why it matters:** seeing the boxes and arrows is the fastest way to understand this tour.\n\n**Watch out:** Studio uses its own in-memory storage, not your Postgres checkpointer."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Explain state, reducers, nodes and conditional edges using your own graph.\n- Say why queues go in the config and not the state.\n- Explain how the checkpointer makes pause and resume possible.\n- Name the per-message costs (rebuild, setup, new connection) and the 25-step limit.\n\n**Next:** *08 - Router and entity loader*. The first two nodes in detail."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "17 - Billing, invites and admin",
+  "description": "Polar checkout and webhooks, team invites, the waitlist, admin checks, and GDPR export and delete.",
+  "nextTour": "18 - The design system",
+  "steps": [
+    {
+      "file": "frontend/src/server/routes/billing.ts",
+      "line": 186,
+      "selection": {
+        "start": {
+          "line": 169,
+          "character": 1
+        },
+        "end": {
+          "line": 186,
+          "character": 18
+        }
+      },
+      "title": "Starting a subscription",
+      "description": "**How it works:** the API asks Polar (the payment provider) to create a checkout page for the plan, with your email and your user id in the metadata, then returns its address.\n\n**Why it matters:** card details never touch your servers. Polar hosts the payment page.\n\n**Watch out:** the user id in the metadata is how the webhook (next step) knows who paid."
+    },
+    {
+      "file": "frontend/src/server/routes/webhooks.ts",
+      "line": 30,
+      "selection": {
+        "start": {
+          "line": 13,
+          "character": 1
+        },
+        "end": {
+          "line": 30,
+          "character": 77
+        }
+      },
+      "title": "Polar tells you it worked",
+      "description": "**New idea — webhook:** another service calling *your* API when something happens, here when a payment or subscription changes.\n\n**How it works:** the request must carry a valid signature, checked with the shared webhook secret. Then the event updates the subscription.\n\n**Why it matters:** the checkout page alone proves nothing. The signed webhook is the trustworthy signal.\n\n**Watch out:** it reads the raw body *before* parsing, because the signature covers the exact bytes."
+    },
+    {
+      "file": "frontend/src/server/routes/webhooks.ts",
+      "line": 184,
+      "selection": {
+        "start": {
+          "line": 159,
+          "character": 1
+        },
+        "end": {
+          "line": 184,
+          "character": 34
+        }
+      },
+      "title": "Checking the signature",
+      "description": "**How it works:** the header holds a timestamp and a hash. The timestamp must be within 5 minutes, and the hash must match an HMAC-SHA256 of `timestamp.body` with the secret.\n\n**Why it matters:** fakes and replays of old messages are rejected.\n\n**Watch out:** the final comparison uses `timingSafeEqual`, which avoids leaking the answer through timing. A careful detail worth mentioning."
+    },
+    {
+      "file": "frontend/src/server/routes/invite-links.ts",
+      "line": 67,
+      "title": "Joining a team by link",
+      "description": "**How it works:** admins create an invite link; anyone with the link who's signed in can join (`POST /api/invite-links/<token>/join`). This helper adds them as a member directly in Neon Auth's tables.\n\n**Why it matters:** teams share connected ad accounts, so team membership controls who can see whose data.\n\n**Watch out:** writing straight into Neon Auth's tables bypasses its own API. If Neon changes those tables, this breaks."
+    },
+    {
+      "file": "frontend/src/server/routes/waitlist.ts",
+      "line": 244,
+      "title": "The waitlist",
+      "description": "**How it works:** new users join a waitlist; admins invite or reject them (`/admin/...` routes). The logged-in layout sends people without access to `/access-denied` (tour 02).\n\n**Why it matters:** controlled rollout to early users.\n\n**Watch out:** `/status/:email` and `/access/:email` are public. Anyone can check whether an email is on the waitlist."
+    },
+    {
+      "file": "frontend/src/server/middleware/auth.ts",
+      "line": 157,
+      "selection": {
+        "start": {
+          "line": 145,
+          "character": 1
+        },
+        "end": {
+          "line": 157,
+          "character": 16
+        }
+      },
+      "title": "Admins only",
+      "description": "**How it works:** admin routes run `requireAuth` first, then `requireAdmin`, which checks your role from Neon Auth (set in the Neon console).\n\n**Why it matters:** usage stats, conversations and the waitlist are admin-only.\n\n**Watch out:** this is a platform-wide admin role, different from being an admin of your own team."
+    },
+    {
+      "file": "frontend/src/server/routes/account.ts",
+      "line": 516,
+      "title": "Your data, exported or deleted",
+      "description": "**How it works:** `/api/account/export` gives a user all their data (the comment cites GDPR's right to data portability), and `DELETE /api/account` removes the account and its data.\n\n**Why it matters:** in Ireland and the EU, this is a legal requirement, and a strong point to mention.\n\n**Watch out:** deleting an account also writes a row to `deleted_users`. Know what that row keeps if someone asks about full erasure."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Explain checkout → webhook → subscription, and why the webhook is the source of truth.\n- Explain how team invites and the waitlist control access.\n- Mention the GDPR export and delete routes.\n\n**Next:** *18 - The design system*."
+    }
+  ]
+}

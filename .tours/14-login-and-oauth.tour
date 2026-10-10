@@ -1,0 +1,172 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "14 - Login and OAuth",
+  "description": "Signing in with Neon Auth, and connecting AdMob or Ad Manager with Google OAuth: tokens, encryption, refresh, and the weak spots.",
+  "nextTour": "15 - What's saved where",
+  "steps": [
+    {
+      "file": "frontend/src/lib/neon-auth/client.ts",
+      "line": 10,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 10,
+          "character": 45
+        }
+      },
+      "title": "Two different logins",
+      "description": "**What it is:** this tour covers two separate logins:\n1. **Signing in to ADAgentAI** (Neon Auth, with Google).\n2. **Connecting an ad account** (Google OAuth for AdMob or Ad Manager), so the agent can act on it.\n\n**How it works:** this file creates the Neon Auth client for the browser. It reads its address from environment variables.\n\n**Why it matters:** people often mix these up. The first proves who you are; the second gives the app permission to use your ad data.\n\n**Watch out:** the comment says not to pass options. Next.js reads the settings automatically."
+    },
+    {
+      "file": "frontend/src/app/(public)/login/page.tsx",
+      "line": 22,
+      "selection": {
+        "start": {
+          "line": 18,
+          "character": 1
+        },
+        "end": {
+          "line": 22,
+          "character": 9
+        }
+      },
+      "title": "Signing in",
+      "description": "**How it works:** the login button calls Neon Auth's social sign-in with Google. After Google, you land on `/dashboard`; on failure, back on `/login` with an error.\n\n**Why it matters:** no passwords are stored by your app. Neon Auth handles the whole sign-in.\n\n**Watch out:** the session then lives in Neon Auth's cookies and tables (`neon_auth` schema, tour 05)."
+    },
+    {
+      "file": "frontend/src/contexts/user-context.tsx",
+      "line": 87,
+      "selection": {
+        "start": {
+          "line": 85,
+          "character": 1
+        },
+        "end": {
+          "line": 87,
+          "character": 72
+        }
+      },
+      "title": "Reading the session",
+      "description": "**How it works:** `authClient.useSession()` gives the logged-in session, and `getAccessToken` (tour 03) pulls the token from it for API calls.\n\n**Why it matters:** this is the token that `requireAuth` checks on the server (tour 05) and that the agent sends on to the API (tour 06).\n\n**Watch out:** the token can be a session token or a JWT, depending on Neon Auth's settings. The server accepts both."
+    },
+    {
+      "file": "frontend/src/hooks/useProviderManagement.ts",
+      "line": 155,
+      "selection": {
+        "start": {
+          "line": 146,
+          "character": 1
+        },
+        "end": {
+          "line": 155,
+          "character": 37
+        }
+      },
+      "title": "Clicking Connect",
+      "description": "**How it works:** the Connect button asks the API for a Google sign-in address, then sends the whole page there.\n\n**Why it matters:** the API builds the Google address, so secrets like the client id setup stay on the server.\n\n**Watch out:** this is a full page redirect. Any unsaved state on the page is lost."
+    },
+    {
+      "file": "frontend/src/server/routes/providers.ts",
+      "line": 274,
+      "selection": {
+        "start": {
+          "line": 235,
+          "character": 1
+        },
+        "end": {
+          "line": 274,
+          "character": 62
+        }
+      },
+      "title": "Building the Google address",
+      "description": "**How it works:** only team admins can connect accounts. The code packs your user id, team id and the page's origin into a `state` value, then builds Google's address with the right scope, `access_type=offline` (to get a refresh token) and `prompt=consent`.\n\n**Why it matters:** `offline` access is what lets the agent keep working after the first hour.\n\n**Watch out:** the `state` is only base64-encoded JSON. It isn't signed, and the random `nonce` isn't saved anywhere to check later (next step)."
+    },
+    {
+      "file": "frontend/src/server/routes/providers.ts",
+      "line": 318,
+      "selection": {
+        "start": {
+          "line": 295,
+          "character": 1
+        },
+        "end": {
+          "line": 318,
+          "character": 62
+        }
+      },
+      "title": "Google comes back",
+      "description": "**How it works:** Google redirects to `/api/providers/callback/<type>` with a `code` and the `state`. The code decodes the state to learn which user and team this is for, and where to send them back.\n\n**Why it matters:** the callback has no login token (Google is the one calling), which is why the user id travels in the state.\n\n**Watch out:** this is a real weakness. Since the state isn't verified, someone could craft one with another user's id and attach their own Google account to that user. The final redirect also trusts the `origin` inside the state. Compare the waitlist's OAuth (step 10), which does store and check its state."
+    },
+    {
+      "file": "frontend/src/server/routes/providers.ts",
+      "line": 368,
+      "selection": {
+        "start": {
+          "line": 341,
+          "character": 1
+        },
+        "end": {
+          "line": 368,
+          "character": 77
+        }
+      },
+      "title": "Code → tokens → encrypted",
+      "description": "**How it works:** the code is swapped for an access token and a refresh token at Google's token endpoint. Both are encrypted before saving. An existing connection is updated; a new one is inserted.\n\n**Why it matters:** tokens never sit in the database in plain text.\n\n**Watch out:** if Google doesn't return a new refresh token on reconnect, the old one is kept (`|| existing.refreshToken`). That's correct, and easy to break."
+    },
+    {
+      "file": "frontend/src/server/lib/crypto.ts",
+      "line": 33,
+      "selection": {
+        "start": {
+          "line": 18,
+          "character": 1
+        },
+        "end": {
+          "line": 33,
+          "character": 32
+        }
+      },
+      "title": "The encryption key",
+      "description": "**How it works:** the key comes from `TOKEN_ENCRYPTION_SECRET`, which must be at least 32 characters. The first 32 bytes are used. Tokens are encrypted as JWE (`encryptToken`, `decryptToken` below).\n\n**Why it matters:** a leaked database dump is useless without this secret.\n\n**Watch out:** the schema's comment says `BETTER_AUTH_SECRET`, which is out of date. Changing this secret makes every stored token unreadable, so everyone would have to reconnect."
+    },
+    {
+      "file": "frontend/src/server/routes/providers.ts",
+      "line": 1301,
+      "selection": {
+        "start": {
+          "line": 1299,
+          "character": 1
+        },
+        "end": {
+          "line": 1301,
+          "character": 47
+        }
+      },
+      "title": "Keeping tokens fresh",
+      "description": "**How it works:** when the agent asks for a token (tour 05), the API refreshes it with Google if it expires within 5 minutes, saves the new one (encrypted), and returns it.\n\n**Why it matters:** Google access tokens last about an hour. Refreshing on demand means nobody has to reconnect.\n\n**Watch out:** the agent then caches the token for an hour (tour 10), which can outlive a token handed over close to its expiry."
+    },
+    {
+      "file": "frontend/src/server/routes/waitlist.ts",
+      "line": 63,
+      "selection": {
+        "start": {
+          "line": 30,
+          "character": 1
+        },
+        "end": {
+          "line": 63,
+          "character": 1
+        }
+      },
+      "title": "The waitlist does it right",
+      "description": "**What it is:** the waitlist's own Google sign-in, for checking an email before granting access.\n\n**How it works:** it **stores** each OAuth state in the database, and on return **verifies and deletes** it (`verifyAndConsumeOauthState`). Old states are cleaned up.\n\n**Why it matters:** this is the safe pattern. A state can only be used once, and only if your server issued it.\n\n**Watch out:** the same fix would close the gap in the provider callback. A good answer if asked what you'd improve."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Explain the difference between signing in and connecting an ad account.\n- Walk through OAuth: Connect → Google → callback → code for tokens → encrypt → store → refresh → agent.\n- Explain why `offline` access and refresh tokens matter.\n- Name the unsigned-state weakness and how the waitlist shows the fix.\n\n**Next:** *15 - What's saved where*."
+    }
+  ]
+}

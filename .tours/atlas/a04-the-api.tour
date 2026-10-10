@@ -1,0 +1,190 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A04 - Atlas: the API",
+  "description": "Every function in its area (198), one file per step.",
+  "steps": [
+    {
+      "directory": "frontend/src/server",
+      "title": "How to use this atlas",
+      "description": "### A04 - Atlas: the API\n\n**198 functions in 29 files.** Each step opens one file and lists every function in it, in order. Press Ctrl+G and type a line number to jump to one.\n\n**How to read an entry:**\n- ✎ marks a note I wrote after reading the code.\n- Other entries quote the function's own comment from the code. If it has none, it says so.\n- In brackets: facts a script checked, such as *React component*, the API route, or which other files mention it.\n\n*No other file mentions it* is a plain text search. It's a strong hint that a function is unused, but not proof."
+    },
+    {
+      "file": "frontend/src/server/db/index.ts",
+      "line": 1,
+      "title": "frontend/src/server/db/index.ts",
+      "description": "**`frontend/src/server/db/index.ts`** — 2 functions.\n\n- **`getDb`** · line 10 — ✎ Creates the Drizzle database client on first use (Neon's HTTP driver) (tour 05). (no other file mentions it)\n- **`get`** · line 20 — _No comment in the code._ (method)"
+    },
+    {
+      "file": "frontend/src/server/env.ts",
+      "line": 1,
+      "title": "frontend/src/server/env.ts",
+      "description": "**`frontend/src/server/env.ts`** — 2 functions.\n\n- **`validateEnv`** · line 20 — _No comment in the code._ (no other file mentions it)\n- **`get`** · line 34 — _No comment in the code._ (method)"
+    },
+    {
+      "file": "frontend/src/server/index.ts",
+      "line": 1,
+      "title": "frontend/src/server/index.ts",
+      "description": "**`frontend/src/server/index.ts`** — 6 functions.\n\n- **`USE *`** · line 33 — _No comment in the code._ (runs before every `/` route)\n- **`origin`** · line 71 — _No comment in the code._ (used in `components/authenticated-waitlist-dialog.tsx`, `components/molecules/dropdown-menu.tsx`, `components/molecules/popover.tsx` and 10 more)\n- **`GET /`** · line 110 — Routes Root endpoint for Render health checks (HEAD /) (API route `GET /`)\n- **`GET /`** · line 118 — API info endpoint (API route `GET /api`)\n- **`ON SIGINT`** · line 176 — Graceful shutdown handler (API route `ON SIGINT`)\n- **`ON SIGTERM`** · line 182 — _No comment in the code._ (API route `ON SIGTERM`)"
+    },
+    {
+      "file": "frontend/src/server/lib/admob-cache.ts",
+      "line": 1,
+      "title": "frontend/src/server/lib/admob-cache.ts",
+      "description": "**`frontend/src/server/lib/admob-cache.ts`** — 5 functions.\n\n- **`getCachedAdMobData`** · line 28 — Get cached data or fetch it if stale/missing (used in `server/routes/field-options.ts`)\n- **`buildCacheKey`** · line 59 — Build a cache key for AdMob entity data (used in `server/routes/field-options.ts`)\n- **`invalidateAccountCache`** · line 82 — Invalidate cache for a specific account Call this when account data might have changed (e.g., after mutations) (no other file mentions it)\n- **`clearCache`** · line 100 — Clear entire cache Useful for testing or when cache needs full refresh\n- **`getCacheStats`** · line 107 — Get cache statistics for monitoring (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/server/lib/analytics.ts",
+      "line": 1,
+      "title": "frontend/src/server/lib/analytics.ts",
+      "description": "**`frontend/src/server/lib/analytics.ts`** — 8 functions.\n\n- **`initAnalytics`** · line 8 — Initialize PostHog for product analytics (used in `server/index.ts`)\n- **`trackEvent`** · line 30 — Track an event with properties (no other file mentions it)\n- **`identifyUser`** · line 51 — Identify a user with their properties (no other file mentions it)\n- **`trackSignUp`** · line 66 — Track user sign-up (no other file mentions it)\n- **`trackProviderConnected`** · line 76 — Track provider connection (used in `server/routes/providers.ts`)\n- **`trackChatSession`** · line 90 — Track chat session (used in `server/routes/chat.ts`)\n- **`trackSubscription`** · line 104 — Track subscription event (used in `server/routes/billing.ts`)\n- **`flushAnalytics`** · line 117 — Flush all pending events (call on shutdown) (used in `server/index.ts`)"
+    },
+    {
+      "file": "frontend/src/server/lib/audit.ts",
+      "line": 1,
+      "title": "frontend/src/server/lib/audit.ts",
+      "description": "**`frontend/src/server/lib/audit.ts`** — 4 functions.\n\n- **`logAuditEntry`** · line 82 — Log an admin action to the audit log. (used in `server/routes/agents.ts`, `server/routes/blog.ts`)\n- **`createAuditLogger`** · line 109 — Create an audit logger bound to a specific admin user. (no other file mentions it)\n- **`log`** · line 111 — _No comment in the code._ (inside `createAuditLogger`)\n- **`cleanupOldAuditLogs`** · line 130 — Retention policy: Delete audit logs older than specified days. (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/server/lib/crypto.ts",
+      "line": 1,
+      "title": "frontend/src/server/lib/crypto.ts",
+      "description": "**`frontend/src/server/lib/crypto.ts`** — 6 functions.\n\n- **`getEncryptionKey`** · line 18 — Get the encryption key from environment. (no other file mentions it)\n- **`encryptToken`** · line 42 — ✎ Encrypts a token as JWE with the key from `TOKEN_ENCRYPTION_SECRET` (tour 14). (no other file mentions it)\n- **`decryptToken`** · line 58 — ✎ Decrypts a JWE token. (no other file mentions it)\n- **`isEncrypted`** · line 76 — Check if a string looks like an encrypted JWE token. (no other file mentions it)\n- **`safeEncrypt`** · line 84 — Safely encrypt a token, handling null/undefined. (used in `server/routes/ad-sources.ts`, `server/routes/field-options.ts`, `server/routes/providers.ts`)\n- **`safeDecrypt`** · line 92 — ✎ Decrypts if the value looks encrypted, otherwise returns it as-is, for older plain-text rows. (used in `server/routes/ad-sources.ts`, `server/routes/field-options.ts`, `server/routes/internal.ts` and 1 more)"
+    },
+    {
+      "file": "frontend/src/server/lib/email.ts",
+      "line": 1,
+      "title": "frontend/src/server/lib/email.ts",
+      "description": "**`frontend/src/server/lib/email.ts`** — 3 functions.\n\n- **`sendEmail`** · line 34 — _No comment in the code._ (used in `server/routes/waitlist.ts`)\n- **`waitlistConfirmationEmail`** · line 58 — Email templates (used in `server/routes/waitlist.ts`)\n- **`waitlistInviteEmail`** · line 129 — _No comment in the code._ (used in `server/routes/waitlist.ts`)"
+    },
+    {
+      "file": "frontend/src/server/lib/neon-auth.ts",
+      "line": 1,
+      "title": "frontend/src/server/lib/neon-auth.ts",
+      "description": "**`frontend/src/server/lib/neon-auth.ts`** — 8 functions.\n\n- **`getJWKS`** · line 38 — ✎ Fetches and caches Neon Auth's public keys for checking JWTs. (no other file mentions it)\n- **`extractOrgFromJWT`** · line 64 — Extract organization ID from JWT payload Checks common claim names: org, org_id, organization_id (no other file mentions it)\n- **`getUserRoleFromDB`** · line 79 — Look up user role from database (for JWT tokens that don't include role) (no other file mentions it)\n- **`validateJWT`** · line 97 — ✎ Verifies a JWT's signature against Neon Auth's public keys (JWKS), then reads the user and role. (no other file mentions it)\n- **`validateSessionToken`** · line 134 — ✎ Looks the token up in Neon Auth's `session` and `user` tables, rejecting expired sessions. (no other file mentions it)\n- **`validateNeonAuthToken`** · line 192 — ✎ Checks a login token: JWTs (start with `eyJ`) by signature, others by a database lookup (tour 05). (used in `server/middleware/auth.ts`)\n- **`extractAccessToken`** · line 215 — ✎ Reads the token from `x-stack-access-token` (legacy name) or `Authorization: Bearer`. (used in `server/middleware/auth.ts`)\n- **`validateToken`** · line 236 — ✎ A simpler version for internal routes: returns the user or `null`. (used in `server/routes/chat.ts`)"
+    },
+    {
+      "file": "frontend/src/server/lib/sentry.ts",
+      "line": 1,
+      "title": "frontend/src/server/lib/sentry.ts",
+      "description": "**`frontend/src/server/lib/sentry.ts`** — 7 functions.\n\n- **`initSentry`** · line 7 — Initialize Sentry for error tracking and performance monitoring Should be called as early as possible in the application (used in `server/index.ts`)\n- **`beforeSend`** · line 24 — Filter out sensitive data (method; inside `initSentry`)\n- **`captureException`** · line 47 — Capture an exception with optional context (used in `server/middleware/error-handler.ts`)\n- **`captureMessage`** · line 59 — Capture a message with optional level (no other file mentions it)\n- **`setUser`** · line 69 — Set user context for error tracking (no other file mentions it)\n- **`clearUser`** · line 80 — Clear user context (on logout) (no other file mentions it)\n- **`addBreadcrumb`** · line 87 — Add breadcrumb for debugging (used in `server/middleware/error-handler.ts`)"
+    },
+    {
+      "file": "frontend/src/server/middleware/auth.ts",
+      "line": 1,
+      "title": "frontend/src/server/middleware/auth.ts",
+      "description": "**`frontend/src/server/middleware/auth.ts`** — 7 functions.\n\n- **`extractOrganizationId`** · line 31 — Extract selected organization ID from request headers Frontend sends this via x-organization-id header (no other file mentions it)\n- **`validateOrgMembership`** · line 40 — ✎ Checks the user is a member of the team they claim; fails closed on errors. (no other file mentions it)\n- **`requireAuth`** · line 62 — ✎ Blocks requests without a valid token (401), checks team membership, and stores the user on the request (tour 05). (used in `server/routes/account.ts`, `server/routes/ad-sources.ts`, `server/routes/admin/conversations.ts` and 9 more)\n- **`optionalAuth`** · line 106 — ✎ Like `requireAuth`, but lets anonymous requests through without a user. (no other file mentions it)\n- **`requireAdmin`** · line 145 — ✎ Allows only platform admins (role set in Neon Auth). Use after `requireAuth` (tour 17). (used in `server/routes/admin/conversations.ts`, `server/routes/admin/stats.ts`, `server/routes/admin/usage.ts` and 2 more)\n- **`requireOrgContext`** · line 166 — Middleware to require organization context Must be used after requireAuth Ensures request has valid organizationId (not personal/null context) Use this for routes that don't make sense outside of an org (e.g., org-specific providers) (no other file mentions it)\n- **`requireResourceOrgMatch`** · line 188 — Middleware to validate resource belongs to user's current org context Must be used after requireAuth Takes a function that extracts the resource's org ID from the request Returns 403 if resource org doesn't match user's current org context (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/server/middleware/error-handler.ts",
+      "line": 1,
+      "title": "frontend/src/server/middleware/error-handler.ts",
+      "description": "**`frontend/src/server/middleware/error-handler.ts`** — 1 function.\n\n- **`errorHandler`** · line 13 — ✎ Turns thrown errors into clean JSON responses with the right status code. (used in `server/index.ts`)"
+    },
+    {
+      "file": "frontend/src/server/routes/account.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/account.ts",
+      "description": "**`frontend/src/server/routes/account.ts`** — 9 functions.\n\n- **`GET /tos-status`** · line 36 — Check if user has accepted ToS (API route `GET /api/account/tos-status`)\n- **`POST /accept-tos`** · line 80 — _No comment in the code._ (API route `POST /api/account/accept-tos`)\n- **`DELETE /`** · line 143 — _No comment in the code._ (API route `DELETE /api/account`)\n- **`DELETE /chat-history`** · line 365 — Delete all chat history (keep account) Allows users to clear their conversation data without deleting their account (API route `DELETE /api/account/chat-history`)\n- **`GET /data-summary`** · line 439 — Get summary of user's data (for deletion preview) GDPR Article 15: Right of Access - users can see what data we hold (API route `GET /api/account/data-summary`)\n- **`GET /export`** · line 516 — Export all user data (GDPR Article 20: Right to Data Portability) Returns a JSON file with all personal data in a machine-readable format (API route `GET /api/account/export`)\n- **`refreshGoogleAccessToken`** · line 692 — Helper: Refresh Google access token using refresh token (no other file mentions it)\n- **`GET /refresh-avatar`** · line 743 — Fetch latest avatar from Google and update user (API route `GET /api/account/refresh-avatar`)\n- **`GET /contacts/search`** · line 840 — Search user's Google Contacts Requires contacts.readonly scope (API route `GET /api/account/contacts/search`)"
+    },
+    {
+      "file": "frontend/src/server/routes/ad-sources.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/ad-sources.ts",
+      "description": "**`frontend/src/server/routes/ad-sources.ts`** — 13 functions.\n\n- **`USE *`** · line 15 — Most routes require authentication (runs before every `/api/ad-sources` route)\n- **`isOrgAdmin`** · line 127 — Check if user is an admin/owner of the current organization\n- **`encryptCredentials`** · line 157 — Encrypt credentials object using AES-256-GCM (no other file mentions it)\n- **`decryptCredentials`** · line 171 — Decrypt credentials object (no other file mentions it)\n- **`maskCredentials`** · line 185 — Mask credentials for display (show only first/last 4 chars) (no other file mentions it)\n- **`GET /config`** · line 205 — Get ad source configuration schemas Returns the field definitions for each ad source (for form generation) (API route `GET /api/ad-sources/config`)\n- **`GET /`** · line 213 — List user's connected ad sources Optionally filter by providerId query param (API route `GET /api/ad-sources`)\n- **`POST /:adSource`** · line 275 — Connect an ad source with credentials Requires providerId in body to link to parent provider (API route `POST /api/ad-sources/:adSource`)\n- **`DELETE /:id`** · line 389 — Disconnect an ad source (API route `DELETE /api/ad-sources/:id`)\n- **`PATCH /:id/toggle`** · line 427 — Enable/disable ad source (API route `PATCH /api/ad-sources/:id/toggle`)\n- **`POST /:adSource/verify`** · line 464 — Verify ad source credentials Makes a test API call to verify credentials work (API route `POST /api/ad-sources/:adSource/verify`)\n- **`GET /internal/list`** · line 497 — List user's enabled ad sources Protected by internal API key (API route `GET /api/ad-sources/internal/list`)\n- **`POST /internal/credentials`** · line 553 — Get decrypted credentials for an ad source Protected by internal API key (API route `POST /api/ad-sources/internal/credentials`)"
+    },
+    {
+      "file": "frontend/src/server/routes/admin/conversations.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/admin/conversations.ts",
+      "description": "**`frontend/src/server/routes/admin/conversations.ts`** — 3 functions.\n\n- **`GET /`** · line 29 — List all conversations with pagination (API route `GET /api/admin/conversations`)\n- **`GET /:threadId`** · line 161 — Get a specific conversation with all messages (API route `GET /api/admin/conversations/:threadId`)\n- **`GET /stats/overview`** · line 247 — Get conversation statistics (API route `GET /api/admin/conversations/stats/overview`)"
+    },
+    {
+      "file": "frontend/src/server/routes/admin/stats.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/admin/stats.ts",
+      "description": "**`frontend/src/server/routes/admin/stats.ts`** — 2 functions.\n\n- **`GET /`** · line 17 — Get admin dashboard stats Returns user counts, provider counts, waitlist counts, and model usage (API route `GET /api/admin/stats`)\n- **`formatTokens`** · line 160 — _No comment in the code._"
+    },
+    {
+      "file": "frontend/src/server/routes/admin/usage.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/admin/usage.ts",
+      "description": "**`frontend/src/server/routes/admin/usage.ts`** — 4 functions.\n\n- **`GET /`** · line 26 — Get usage metrics (API route `GET /api/admin/usage`)\n- **`addDateCondition`** · line 49 — Helper to add date condition (inside `GET /`)\n- **`formatMetrics`** · line 159 — Format response (inside `GET /`)\n- **`GET /export`** · line 209 — Export usage data as CSV (API route `GET /api/admin/usage/export`)"
+    },
+    {
+      "file": "frontend/src/server/routes/agents.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/agents.ts",
+      "description": "**`frontend/src/server/routes/agents.ts`** — 15 functions.\n\n- **`getConfigDir`** · line 20 — Path to the CrewAI config directory (only for services.yaml now) (no other file mentions it)\n- **`readYamlFile`** · line 42 — Helper to read YAML file (only for services.yaml) (no other file mentions it)\n- **`GET /`** · line 65 — Agent Definitions (Database) Get all agents (API route `GET /api/admin/agents`)\n- **`GET /:key`** · line 101 — Get single agent (API route `GET /api/admin/agents/:key`)\n- **`POST /`** · line 158 — _No comment in the code._ (API route `POST /api/admin/agents`)\n- **`PUT /:key`** · line 225 — _No comment in the code._ (API route `PUT /api/admin/agents/:key`)\n- **`DELETE /:key`** · line 283 — _No comment in the code._ (API route `DELETE /api/admin/agents/:key`)\n- **`GET /tasks/list`** · line 319 — Task Definitions (Database) Get all tasks (API route `GET /api/admin/agents/tasks/list`)\n- **`GET /tasks/:key`** · line 349 — Get single task (API route `GET /api/admin/agents/tasks/:key`)\n- **`POST /tasks`** · line 391 — _No comment in the code._ (API route `POST /api/admin/agents/tasks`)\n- **`PUT /tasks/:key`** · line 442 — _No comment in the code._ (API route `PUT /api/admin/agents/tasks/:key`)\n- **`DELETE /tasks/:key`** · line 490 — _No comment in the code._ (API route `DELETE /api/admin/agents/tasks/:key`)\n- **`GET /services/list`** · line 521 — Services Configuration (still from YAML - read-only) (API route `GET /api/admin/agents/services/list`)\n- **`POST /seed`** · line 536 — Seed from YAML (one-time migration) (API route `POST /api/admin/agents/seed`)\n- **`GET /debug/config-path`** · line 602 — _No comment in the code._ (API route `GET /api/admin/agents/debug/config-path`)"
+    },
+    {
+      "file": "frontend/src/server/routes/billing.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/billing.ts",
+      "description": "**`frontend/src/server/routes/billing.ts`** — 5 functions.\n\n- **`GET /subscription`** · line 27 — Get current subscription status (API route `GET /api/billing/subscription`)\n- **`GET /usage`** · line 89 — Get usage metrics (API route `GET /api/billing/usage`)\n- **`POST /checkout`** · line 169 — Create Polar checkout session (API route `POST /api/billing/checkout`)\n- **`POST /portal`** · line 214 — Get customer portal URL (API route `POST /api/billing/portal`)\n- **`GET /invoices`** · line 246 — List past invoices (API route `GET /api/billing/invoices`)"
+    },
+    {
+      "file": "frontend/src/server/routes/blog.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/blog.ts",
+      "description": "**`frontend/src/server/routes/blog.ts`** — 7 functions.\n\n- **`GET /`** · line 45 — List published posts (API route `GET /api/blog`)\n- **`GET /:slug`** · line 89 — Get single published post (API route `GET /api/blog/:slug`)\n- **`GET /`** · line 125 — List all posts (including drafts) (API route `GET /api/admin/blog`)\n- **`GET /:id`** · line 168 — Get single post by ID (including drafts) (API route `GET /api/admin/blog/:id`)\n- **`POST /`** · line 203 — _No comment in the code._ (API route `POST /api/admin/blog`)\n- **`PUT /:id`** · line 243 — _No comment in the code._ (API route `PUT /api/admin/blog/:id`)\n- **`DELETE /:id`** · line 308 — _No comment in the code._ (API route `DELETE /api/admin/blog/:id`)"
+    },
+    {
+      "file": "frontend/src/server/routes/chat.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/chat.ts",
+      "description": "**`frontend/src/server/routes/chat.ts`** — 10 functions.\n\n- **`POST /internal/validate-token`** · line 16 — ✎ For the agent: checks the shared secret (safely), then validates a user's token (tour 05). (API route `POST /api/chat/internal/validate-token`)\n- **`USE *`** · line 48 — All other chat routes require authentication (runs before every `/api/chat` route)\n- **`GET /sessions`** · line 88 — List user's chat history When in organization context, returns org-scoped sessions When in personal context, returns personal sessions (organizationId is null) (API route `GET /api/chat/sessions`)\n- **`POST /session`** · line 132 — ✎ Creates a chat row for the user (and team), returning it with 201 (tour 04). (API route `POST /api/chat/session`)\n- **`GET /session/:id`** · line 156 — Get single chat with messages (API route `GET /api/chat/session/:id`)\n- **`POST /session/:id/message`** · line 183 — Send message This creates the user message and proxies to the agent service (API route `POST /api/chat/session/:id/message`)\n- **`DELETE /session/:id`** · line 253 — Delete (archive) chat (API route `DELETE /api/chat/session/:id`)\n- **`POST /session/:id/save-message`** · line 280 — Save a single message Used by frontend to persist messages after streaming from agent (API route `POST /api/chat/session/:id/save-message`)\n- **`GET /session/:id/export`** · line 325 — _No comment in the code._ (API route `GET /api/chat/session/:id/export`)\n- **`generateMarkdown`** · line 381 — _No comment in the code._ (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/server/routes/field-options.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/field-options.ts",
+      "description": "**`frontend/src/server/routes/field-options.ts`** — 6 functions.\n\n- **`refreshAccessToken`** · line 58 — Refresh an access token using a refresh token\n- **`getValidAccessToken`** · line 89 — Get a valid access token for a provider, refreshing if necessary\n- **`normalizeNetworkName`** · line 137 — Normalize network name for matching against supported-networks.json Strips \"(bidding)\" suffix and lowercases (no other file mentions it)\n- **`isComingSoonBidding`** · line 150 — Check if an ad source is coming soon for bidding Uses supportedNetworks from shared JSON (single source of truth) (no other file mentions it)\n- **`isComingSoonWaterfall`** · line 159 — Check if an ad source is coming soon for waterfall Uses supportedNetworks from shared JSON (single source of truth) (no other file mentions it)\n- **`GET /:fieldType`** · line 179 — Get field options Query params: - providerId (required): Provider UUID - platform (optional): Filter by platform (IOS, ANDROID) - adFormat (optional): Filter by ad format (BANNER, INTERSTITIAL, REWARDED, etc.) - appId (optional): Filter by … (API route `GET /api/field-options/:fieldType`)"
+    },
+    {
+      "file": "frontend/src/server/routes/health.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/health.ts",
+      "description": "**`frontend/src/server/routes/health.ts`** — 2 functions.\n\n- **`GET /`** · line 5 — _No comment in the code._ (API route `GET /api/health`)\n- **`GET /ready`** · line 13 — _No comment in the code._ (API route `GET /api/health/ready`)"
+    },
+    {
+      "file": "frontend/src/server/routes/internal.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/internal.ts",
+      "description": "**`frontend/src/server/routes/internal.ts`** — 10 functions.\n\n- **`getCacheKey`** · line 66 — _No comment in the code._ (used in `contexts/entity-data-context.tsx`)\n- **`getCachedEntities`** · line 70 — _No comment in the code._ (used in `components/chat/rjsf/widgets/ad-source-toggle-widget.tsx`, `components/chat/rjsf/widgets/ad-source-widget.tsx`, `components/chat/rjsf/widgets/entity-select-widget.tsx` and 2 more)\n- **`setCachedEntities`** · line 89 — _No comment in the code._ (no other file mentions it)\n- **`USE *`** · line 115 — Middleware: Verify internal API key (runs before every `/api/internal` route)\n- **`refreshAccessToken`** · line 133 — Refresh an access token using a refresh token\n- **`getValidAccessToken`** · line 163 — Get valid access token for a provider, refreshing if needed\n- **`fetchAdMobApps`** · line 195 — Fetch apps for an AdMob account (no other file mentions it)\n- **`GET /entities`** · line 254 — ✎ For the agent: all of a user's accounts and apps in one call, cached in memory for 5 minutes (tour 08). (API route `GET /api/internal/entities`)\n- **`POST /entities/invalidate`** · line 354 — Invalidate cache for a user Call this when providers are connected/disconnected or preferences change. (API route `POST /api/internal/entities/invalidate`)\n- **`POST /run-summaries`** · line 397 — ✎ For the agent: saves a run summary (tokens, cost, time) (tour 15). (API route `POST /api/internal/run-summaries`)"
+    },
+    {
+      "file": "frontend/src/server/routes/invite-links.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/invite-links.ts",
+      "description": "**`frontend/src/server/routes/invite-links.ts`** — 9 functions.\n\n- **`isOrgAdmin`** · line 19 — Check if user is an admin/owner of the organization\n- **`isOrgMember`** · line 39 — Check if user is already a member of the organization (no other file mentions it)\n- **`getOrganization`** · line 53 — Get organization details from Neon Auth (no other file mentions it)\n- **`addMemberToOrg`** · line 67 — Add user as member of organization directly in Neon Auth (no other file mentions it)\n- **`GET /`** · line 86 — Get current org's active invite link Requires admin role in the organization (API route `GET /api/invite-links`)\n- **`POST /`** · line 146 — _No comment in the code._ (API route `POST /api/invite-links`)\n- **`DELETE /:id`** · line 219 — Deactivate an invite link (API route `DELETE /api/invite-links/:id`)\n- **`GET /:token/info`** · line 271 — Get invite link details (public) Used by join page to show org info before joining (API route `GET /api/invite-links/:token/info`)\n- **`POST /:token/join`** · line 319 — Join organization via invite link Requires authentication (user must be signed in) (API route `POST /api/invite-links/:token/join`)"
+    },
+    {
+      "file": "frontend/src/server/routes/providers.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/providers.ts",
+      "description": "**`frontend/src/server/routes/providers.ts`** — 20 functions.\n\n- **`USE *`** · line 16 — Most routes require authentication (runs before every `/api/providers` route)\n- **`isOrgAdmin`** · line 64 — Check if user is an admin/owner of the current organization Returns true if personal context (no org) or if user is admin/owner\n- **`GET /`** · line 101 — List user's connected providers When in organization context, returns org-scoped providers with user's enabled preference When in personal context, returns personal providers (organizationId is null) (API route `GET /api/providers`)\n- **`GET /:id`** · line 164 — Get single provider details Returns provider info with account details (API route `GET /api/providers/:id`)\n- **`POST /connect/:type`** · line 235 — ✎ Starts Google OAuth for AdMob or Ad Manager; admins only in a team. The `state` isn't signed or stored (tour 14). (API route `POST /api/providers/connect/:type`)\n- **`GET /callback/:type`** · line 289 — ✎ Google's redirect: decodes the state, swaps the code for tokens, encrypts and saves them (tour 14). (API route `GET /api/providers/callback/:type`)\n- **`GET /:id/apps`** · line 437 — List apps for an AdMob provider SECURITY: Validates provider belongs to user's current org context (API route `GET /api/providers/:id/apps`)\n- **`DELETE /:id`** · line 546 — Disconnect provider Requires org admin role when in organization context SECURITY: Validates provider belongs to user's current org context (API route `DELETE /api/providers/:id`)\n- **`PATCH /:id/toggle`** · line 582 — Enable/disable provider for user's queries This is a per-user preference, any org member can toggle for themselves (API route `PATCH /api/providers/:id/toggle`)\n- **`GET /:type/token`** · line 641 — Get valid access token (auto-refreshes if needed) Used by internal services (LangGraph, MCP) to get tokens without manual refresh SECURITY: Validates provider belongs to user's current org context (API route `GET /api/providers/:type/token`)\n- **`GET /internal/list`** · line 726 — Internal endpoint for fetching user's providers Protected by internal API key. (API route `GET /api/providers/internal/list`)\n- **`GET /internal/apps`** · line 798 — Internal endpoint for fetching apps for a provider Protected by internal API key. (API route `GET /api/providers/internal/apps`)\n- **`GET /internal/ad-units`** · line 900 — Internal endpoint for fetching ad units for a provider Protected by internal API key. (API route `GET /api/providers/internal/ad-units`)\n- **`GET /internal/mediation-groups`** · line 1028 — Internal endpoint for fetching mediation groups Protected by internal API key. (API route `GET /api/providers/internal/mediation-groups`)\n- **`GET /internal/ad-sources`** · line 1121 — Internal endpoint for fetching ad sources (ad networks) Protected by internal API key. (API route `GET /api/providers/internal/ad-sources`)\n- **`POST /internal/token`** · line 1226 — ✎ For the agent: returns a fresh, decrypted Google token. Its key check fails open if the secret is missing (tour 05). (API route `POST /api/providers/internal/token`)\n- **`getValidAccessToken`** · line 1342 — Get a valid access token for a provider, refreshing if necessary\n- **`refreshAccessToken`** · line 1386 — Refresh an access token using a refresh token\n- **`getProviderDisplayName`** · line 1414 — _No comment in the code._ (no other file mentions it)\n- **`fetchProviderData`** · line 1418 — _No comment in the code._ (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/server/routes/test-auth.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/test-auth.ts",
+      "description": "**`frontend/src/server/routes/test-auth.ts`** — 2 functions.\n\n- **`POST /session`** · line 41 — Create a test session for E2E testing POST /api/test-auth/session Returns: { token: string, expiresAt: string } (API route `POST /api/test-auth/session`)\n- **`DELETE /session`** · line 130 — Clean up test user and sessions DELETE /api/test-auth/session (API route `DELETE /api/test-auth/session`)"
+    },
+    {
+      "file": "frontend/src/server/routes/waitlist.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/waitlist.ts",
+      "description": "**`frontend/src/server/routes/waitlist.ts`** — 16 functions.\n\n- **`cleanupOauthStates`** · line 17 — Clean up expired OAuth states from database (no other file mentions it)\n- **`storeOauthState`** · line 30 — Store OAuth state in database (no other file mentions it)\n- **`verifyAndConsumeOauthState`** · line 41 — Verify and consume OAuth state from database (no other file mentions it)\n- **`generateReferralCode`** · line 65 — Generate a unique referral code (no other file mentions it)\n- **`POST /join`** · line 83 — _No comment in the code._ (API route `POST /api/waitlist/join`)\n- **`GET /access/:email`** · line 201 — Check if user has access (invited or joined) Also marks user as \"joined\" if they were \"invited\" (first access) (API route `GET /api/waitlist/access/:email`)\n- **`GET /status/:email`** · line 244 — Check waitlist status by email (API route `GET /api/waitlist/status/:email`)\n- **`GET /stats`** · line 278 — Get waitlist stats (public) (API route `GET /api/waitlist/stats`)\n- **`POST /oauth/init`** · line 299 — OAuth Routes (for Google-first waitlist flow) Initialize OAuth flow for popup Returns the OAuth URL to open in a popup (API route `POST /api/waitlist/oauth/init`)\n- **`GET /oauth/callback`** · line 334 — OAuth callback - exchanges code for email and redirects to frontend (API route `GET /api/waitlist/oauth/callback`)\n- **`redirectToFrontend`** · line 341 — Helper to redirect to frontend callback page (inside `GET /oauth/callback`)\n- **`GET /check-existing/:email`** · line 428 — Check if email already exists in Neon Auth (existing user) (API route `GET /api/waitlist/check-existing/:email`)\n- **`GET /admin/list`** · line 454 — Admin Routes (require admin auth) List all waitlist entries (API route `GET /api/waitlist/admin/list`)\n- **`POST /admin/invite`** · line 500 — _No comment in the code._ (API route `POST /api/waitlist/admin/invite`)\n- **`POST /admin/reject`** · line 546 — _No comment in the code._ (API route `POST /api/waitlist/admin/reject`)\n- **`POST /admin/invite-bulk`** · line 583 — _No comment in the code._ (API route `POST /api/waitlist/admin/invite-bulk`)"
+    },
+    {
+      "file": "frontend/src/server/routes/webhooks.ts",
+      "line": 1,
+      "title": "frontend/src/server/routes/webhooks.ts",
+      "description": "**`frontend/src/server/routes/webhooks.ts`** — 6 functions.\n\n- **`POST /polar`** · line 13 — ✎ Polar's webhook: verifies the signature, then updates the subscription (tour 17). (API route `POST /api/webhooks/polar`)\n- **`handleCheckoutEvent`** · line 79 — _No comment in the code._ (no other file mentions it)\n- **`handleSubscriptionEvent`** · line 103 — _No comment in the code._ (no other file mentions it)\n- **`handleSubscriptionCanceled`** · line 123 — _No comment in the code._ (no other file mentions it)\n- **`handleOrderCreated`** · line 139 — _No comment in the code._ (no other file mentions it)\n- **`verifyWebhookSignature`** · line 159 — ✎ HMAC-SHA256 over `timestamp.body`, within 5 minutes, compared with `timingSafeEqual`. (no other file mentions it)"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists all **198** functions in its area, **24** of them with a hand-written note (✎)."
+    }
+  ]
+}

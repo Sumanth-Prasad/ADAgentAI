@@ -1,0 +1,300 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "05 - The API inside Next.js",
+  "description": "Hono inside Next.js: middleware, the login check, teams, the database, and the internal routes the agent uses.",
+  "nextTour": "06 - The agent server",
+  "steps": [
+    {
+      "file": "frontend/src/server/index.ts",
+      "line": 28,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 28,
+          "character": 24
+        }
+      },
+      "title": "Meet Hono",
+      "description": "**New idea — Hono:** a small web framework for building APIs. You create an `app`, add *middleware* that runs on every request, and attach *routes* that answer specific addresses.\n\n**How it works:** this file imports one route file per feature (chat, providers, billing, …) and creates the main `app`. Each route file is its own small Hono app, mounted later in this file.\n\n**Why it matters:** this is the whole server side of the Next.js app, except the agent. Every `/api/...` call from the browser ends up here.\n\n**Watch out:** this same file can also run on its own with Bun (the last step of this file shows how). That's how it ran before Feb 9."
+    },
+    {
+      "file": "frontend/src/server/index.ts",
+      "line": 40,
+      "selection": {
+        "start": {
+          "line": 30,
+          "character": 1
+        },
+        "end": {
+          "line": 40,
+          "character": 4
+        }
+      },
+      "title": "Middleware, and why this runs lazily",
+      "description": "**New idea — middleware:** `app.use(\"*\", fn)` runs `fn` for every request. Calling `await next()` passes the request on to the next middleware or the route.\n\n**How it works:** on the very first request, this starts Sentry (error tracking) and analytics, then never again.\n\n**Why it matters:** Next.js prerenders pages at build time and loads this module while doing it. Starting Sentry at load time caused crypto errors during prerendering, so it waits for a real request.\n\n**Watch out:** the flag is a plain variable. On Vercel, each new server instance starts with it reset, which is fine because each instance should initialise once."
+    },
+    {
+      "file": "frontend/src/server/index.ts",
+      "line": 53,
+      "selection": {
+        "start": {
+          "line": 46,
+          "character": 1
+        },
+        "end": {
+          "line": 53,
+          "character": 31
+        }
+      },
+      "title": "Timing, logging and security headers",
+      "description": "**How it works:** three ready-made middlewares from Hono:\n- `timing()` adds a `Server-Timing` header showing how long the request took.\n- `logger()` prints each request and its status to the server log.\n- `secureHeaders()` adds standard browser security headers (for example, against clickjacking).\n\n**Why it matters:** cheap, standard protection and visibility for every endpoint.\n\n**Watch out:** order matters. These run before the routes, so even failed requests get logged."
+    },
+    {
+      "file": "frontend/src/server/index.ts",
+      "line": 100,
+      "selection": {
+        "start": {
+          "line": 55,
+          "character": 1
+        },
+        "end": {
+          "line": 100,
+          "character": 3
+        }
+      },
+      "title": "CORS",
+      "description": "**New idea — CORS:** browsers block a page from calling an API on a *different* address unless the API says that address is allowed. This block is that permission list.\n\n**How it works:** allowed: your production domain, localhost, and Vercel preview URLs that contain the project name or `sumanth-prasads-projects`. It also allows the `Authorization`, `x-stack-access-token` and `x-organization-id` headers.\n\n**Why it matters:** since Feb 9, pages and API share one address, so normal page calls don't need CORS at all. It still matters for preview deployments and other callers.\n\n**Watch out:** for an unknown origin, the code returns the *first* allowed origin instead of the caller's. That doesn't match, so the browser blocks the call. It works, but it's an unusual way to say no."
+    },
+    {
+      "file": "frontend/src/server/index.ts",
+      "line": 112,
+      "selection": {
+        "start": {
+          "line": 102,
+          "character": 1
+        },
+        "end": {
+          "line": 112,
+          "character": 4
+        }
+      },
+      "title": "Error handler and an unreachable route",
+      "description": "**How it works:** `errorHandler` catches anything thrown in a route and turns it into a clean JSON error. The `app.get(\"/\")` route answers a health check at the root.\n\n**Why it matters:** routes can just `throw` (like `HTTPException(401)` in the auth check) and the user still gets a tidy response.\n\n**Watch out:** inside Next.js, only `/api/...` reaches Hono, so this root `/` route can never be hit. It's left over from when this ran as its own server on Render."
+    },
+    {
+      "file": "frontend/src/server/index.ts",
+      "line": 152,
+      "selection": {
+        "start": {
+          "line": 126,
+          "character": 1
+        },
+        "end": {
+          "line": 152,
+          "character": 24
+        }
+      },
+      "title": "Mounting every route under /api",
+      "description": "**New idea — sub-apps:** `api.route(\"/chat\", chatRoutes)` attaches a whole route file under a prefix. A route written as `/session` in `chat.ts` becomes `/api/chat/session`.\n\n**How it works:** all features are mounted on `api`, and `api` is mounted on `app` at `/api`. So `providers.ts` answers `/api/providers/...`, `internal.ts` answers `/api/internal/...`, and so on.\n\n**Why it matters:** this list is the table of contents of your API. Each line is one file in `routes/`.\n\n**Watch out:** `/api/test-auth` is mounted in every environment. The comment says it's only *enabled* in CI or test environments, so the check must live inside that route file."
+    },
+    {
+      "file": "frontend/src/server/index.ts",
+      "line": 160,
+      "selection": {
+        "start": {
+          "line": 158,
+          "character": 1
+        },
+        "end": {
+          "line": 160,
+          "character": 49
+        }
+      },
+      "title": "Two ways to run",
+      "description": "**How it works:** if the file is run directly with Bun (`Bun.main === import.meta.path`), it starts its own server on port 3001. Inside Next.js it's only imported, so this block is skipped.\n\n**Why it matters:** one file works both ways: as a route inside Next.js on Vercel, or as a standalone Bun server.\n\n**Watch out:** the banner below still says *KVLabs API Server*. KVLabs is the company name used across the code."
+    },
+    {
+      "file": "frontend/src/server/middleware/auth.ts",
+      "line": 73,
+      "selection": {
+        "start": {
+          "line": 62,
+          "character": 1
+        },
+        "end": {
+          "line": 73,
+          "character": 4
+        }
+      },
+      "title": "The real lock: requireAuth",
+      "description": "**What it is:** the middleware that protects every logged-in API route. This is the lock that the browser-side login check (tour 02) is not.\n\n**How it works:** pull the token from the headers (`extractAccessToken`), then validate it with Neon Auth. No token or a bad token throws a **401**.\n\n**Why it matters:** even if someone skips the website and calls the API directly, they can't get in without a valid token.\n\n**Watch out:** this runs on every protected request, and for session tokens it means a database query every time (next steps)."
+    },
+    {
+      "file": "frontend/src/server/middleware/auth.ts",
+      "line": 99,
+      "selection": {
+        "start": {
+          "line": 75,
+          "character": 1
+        },
+        "end": {
+          "line": 99,
+          "character": 2
+        }
+      },
+      "title": "Teams, and the request context",
+      "description": "**How it works:** if the request names an organisation (`x-organization-id`), the code checks you're really a member of it. If not, it quietly falls back to your personal space. Then `c.set(\"user\", …)` stores your details for the route to read.\n\n**New idea — request context:** `c` is the request's context. `c.set` stores a value for this one request, and `c.get(\"user\")` reads it later, which is how the chat route knew who you were in tour 04.\n\n**Why it matters:** never trust an id the browser sends. Here a fake organisation id can't give you access to someone else's team.\n\n**Watch out:** the `email` and `name` aliases exist only so older billing code keeps working."
+    },
+    {
+      "file": "frontend/src/server/lib/neon-auth.ts",
+      "line": 207,
+      "selection": {
+        "start": {
+          "line": 192,
+          "character": 1
+        },
+        "end": {
+          "line": 207,
+          "character": 2
+        }
+      },
+      "title": "Two kinds of token",
+      "description": "**New idea — session token vs JWT:**\n- A **session token** is a random string. To check it, you look it up in the database.\n- A **JWT** (starts with `eyJ`) is a signed message containing your details. To check it, you verify the signature with the issuer's public keys (JWKS). No database needed.\n\n**How it works:** Neon Auth can hand out either, so this function looks at the first characters and picks the right check.\n\n**Why it matters:** JWT checks are faster. Session checks can be cancelled instantly by deleting the session.\n\n**Watch out:** session tokens carry no organisation, which is why the `x-organization-id` header (previous step) exists."
+    },
+    {
+      "file": "frontend/src/server/lib/neon-auth.ts",
+      "line": 150,
+      "selection": {
+        "start": {
+          "line": 134,
+          "character": 1
+        },
+        "end": {
+          "line": 150,
+          "character": 14
+        }
+      },
+      "title": "The session lookup",
+      "description": "**How it works:** one SQL query joins Neon Auth's `session` and `user` tables, matches the token, and checks it hasn't expired (`expiresAt > NOW()`).\n\n**Why it matters:** this is where *who you are* is decided for most requests.\n\n**Watch out:** the tables live in a schema called `neon_auth`, managed by Neon. They're not in your Drizzle schema file, which is why this is raw SQL. It also logs the start of every token it checks."
+    },
+    {
+      "file": "frontend/src/server/db/index.ts",
+      "line": 28,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 28,
+          "character": 4
+        }
+      },
+      "title": "Connecting to the database",
+      "description": "**New idea — ORM:** Drizzle lets you write database queries in TypeScript (`db.insert(chatSessions)...`) instead of SQL strings, with types checked for you.\n\n**How it works:** `neon(...)` uses Neon's serverless driver, which sends queries over HTTP. That suits Vercel, where servers start and stop all the time. The `Proxy` creates the connection only on first use.\n\n**Why it matters:** during `next build`, `DATABASE_URL` may not exist. Connecting lazily stops the build from crashing.\n\n**Watch out:** a `Proxy` is unusual. Every `db.something` access goes through the `get` trap, which binds functions to the real database object."
+    },
+    {
+      "file": "frontend/src/server/db/schema.ts",
+      "line": 203,
+      "selection": {
+        "start": {
+          "line": 191,
+          "character": 1
+        },
+        "end": {
+          "line": 203,
+          "character": 4
+        }
+      },
+      "title": "A table, written in code",
+      "description": "**How it works:** `pgTable(\"chat_sessions\", {...})` describes a Postgres table: each column with its type and rules (`notNull`, `default`). The second part adds indexes to make lookups by user, organisation and date fast.\n\n**Why it matters:** the same definition gives you the table, the TypeScript types, and the query builder. `bun run db:push` applies it to the database.\n\n**Watch out:** `userId` points at Neon Auth's users, but there's no foreign key (the comment says so). The database won't stop a chat from pointing at a deleted user."
+    },
+    {
+      "file": "frontend/src/server/db/schema.ts",
+      "line": 173,
+      "selection": {
+        "start": {
+          "line": 147,
+          "character": 1
+        },
+        "end": {
+          "line": 173,
+          "character": 4
+        }
+      },
+      "title": "Where your Google tokens live",
+      "description": "**What it is:** one row per connected AdMob or Ad Manager account.\n\n**How it works:** it stores the account's id (`publisherId` or `networkCode`) and the Google OAuth tokens. The tokens are **encrypted** (JWE) before saving, using the key in `TOKEN_ENCRYPTION_SECRET` (`lib/crypto.ts`).\n\n**Why it matters:** these tokens let the agent act on your ad account. Encrypting them means a leaked database dump isn't enough to use them.\n\n**Watch out:** the comment on this table still says `BETTER_AUTH_SECRET`, which is out of date. Also, this file still defines the old Better Auth tables (`users`, `sessions`, …) and CrewAI tables (`crew_agents`, `crew_tasks`) that the current code no longer uses for login or agents. The OAuth tour covers connecting accounts."
+    },
+    {
+      "file": "frontend/src/server/routes/chat.ts",
+      "line": 54,
+      "selection": {
+        "start": {
+          "line": 47,
+          "character": 1
+        },
+        "end": {
+          "line": 54,
+          "character": 4
+        }
+      },
+      "title": "Protecting a whole route file",
+      "description": "**How it works:** `chat.use(\"*\")` runs before every chat route. It applies `requireAuth`, except for addresses containing `/internal/`.\n\n**Why it matters:** one line protects every chat endpoint, so a new route can't forget the check.\n\n**Watch out:** the exception is a plain text check on the path. Internal routes must protect themselves (next step)."
+    },
+    {
+      "file": "frontend/src/server/routes/chat.ts",
+      "line": 44,
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 44,
+          "character": 6
+        }
+      },
+      "title": "The agent asks: is this token real?",
+      "description": "**What it is:** the endpoint the Python agent calls before answering any message (tour 06).\n\n**How it works:** it requires the shared secret in the `X-Internal-Key` header. Then it validates the user's token with the same Neon Auth code and returns the user's id, email and organisation.\n\n**Why it matters:** the agent never touches Neon Auth directly. All login checking lives in one place.\n\n**Watch out:** this check is written safely: `!apiKey || apiKey !== expectedKey` fails if either is missing. Compare the next step."
+    },
+    {
+      "file": "frontend/src/server/routes/providers.ts",
+      "line": 1240,
+      "selection": {
+        "start": {
+          "line": 1226,
+          "character": 1
+        },
+        "end": {
+          "line": 1240,
+          "character": 4
+        }
+      },
+      "title": "Handing the agent your Google token",
+      "description": "**What it is:** the endpoint the agent calls to get your AdMob or Ad Manager access token, so its tools can act for you.\n\n**How it works:** after the key check, it finds your connected account (personal or team), respects your on/off preference, decrypts the tokens, and refreshes them with Google if they expire within 5 minutes.\n\n**Why it matters:** the agent never stores your Google tokens. It asks for them per question and caches them briefly.\n\n**Watch out:** the key check here is only `apiKey !== expectedKey`. If `INTERNAL_API_KEY` were ever missing on a server, a request with no key would pass, because `undefined !== undefined` is false. The chat route's version is safe. Also, the logs here print whether the keys match."
+    },
+    {
+      "file": "frontend/src/server/routes/internal.ts",
+      "line": 124,
+      "selection": {
+        "start": {
+          "line": 115,
+          "character": 1
+        },
+        "end": {
+          "line": 124,
+          "character": 4
+        }
+      },
+      "title": "The internal routes' gate",
+      "description": "**What it is:** the shared-secret check for `/api/internal/...`, like the entities endpoint the entity loader uses (tour 08).\n\n**How it works:** every request must carry the secret in `x-internal-api-key`, or it gets a 401.\n\n**Why it matters:** these routes return data for *any* user id, so the secret is all that protects them.\n\n**Watch out:** the same secret travels under **two** header names: `x-internal-api-key` here and `X-Internal-Key` for the token and validate-token routes. The Python side uses the right one for each, but it's an easy thing to break."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Explain Hono's building blocks: app, middleware, routes and sub-apps.\n- Walk through `requireAuth`, and explain session tokens vs JWTs.\n- Explain how team access is checked, and why the org header can't be trusted.\n- Describe how the agent talks to the API (shared secret, two header names) and the one place that check is weaker.\n\n**Next:** *06 - The agent server*. The Python server that receives your message and streams the answer."
+    }
+  ]
+}

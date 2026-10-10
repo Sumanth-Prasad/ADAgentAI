@@ -1,0 +1,322 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A08 - Atlas: design system components",
+  "description": "Every function in its area (259), one file per step.",
+  "steps": [
+    {
+      "directory": "frontend/src/components/atoms",
+      "title": "How to use this atlas",
+      "description": "### A08 - Atlas: design system components\n\n**259 functions in 51 files.** Each step opens one file and lists every function in it, in order. Press Ctrl+G and type a line number to jump to one.\n\n**How to read an entry:**\n- ✎ marks a note I wrote after reading the code.\n- Other entries quote the function's own comment from the code. If it has none, it says so.\n- In brackets: facts a script checked, such as *React component*, the API route, or which other files mention it.\n\n*No other file mentions it* is a plain text search. It's a strong hint that a function is unused, but not proof."
+    },
+    {
+      "file": "frontend/src/components/atoms/action-button.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/action-button.tsx",
+      "description": "**`frontend/src/components/atoms/action-button.tsx`** — 1 function.\n\n- **`ActionButton`** · line 47 — ActionButton - A reusable icon button with tooltip and active state. (React component; used in `components/atoms/index.ts`, `components/chat/final-answer-block.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/atoms/avatar.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/avatar.tsx",
+      "description": "**`frontend/src/components/atoms/avatar.tsx`** — 3 functions.\n\n- **`Avatar`** · line 8 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(public)/layout-client.tsx`, `components/atoms/index.ts` and 6 more)\n- **`AvatarImage`** · line 24 — _No comment in the code._ (React component; used in `app/(public)/layout-client.tsx`, `components/atoms/index.ts`, `components/chat/message.tsx` and 1 more)\n- **`AvatarFallback`** · line 37 — _No comment in the code._ (React component; used in `app/(public)/layout-client.tsx`, `components/atoms/index.ts`, `components/chat/message.tsx` and 1 more)"
+    },
+    {
+      "file": "frontend/src/components/atoms/badge.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/badge.tsx",
+      "description": "**`frontend/src/components/atoms/badge.tsx`** — 2 functions.\n\n- **`Badge`** · line 48 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(public)/pricing/page.tsx`, `components/atoms/index.ts` and 16 more)\n- **`RemovableBadge`** · line 67 — _No comment in the code._ (React component; used in `components/atoms/index.ts`, `components/chat/badges/context-badges.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/atoms/button.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/button.tsx",
+      "description": "**`frontend/src/components/atoms/button.tsx`** — 1 function.\n\n- **`Button`** · line 47 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/page.tsx`, `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/billing/page.tsx` and 48 more)"
+    },
+    {
+      "file": "frontend/src/components/atoms/checkbox.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/checkbox.tsx",
+      "description": "**`frontend/src/components/atoms/checkbox.tsx`** — 1 function.\n\n- **`Checkbox`** · line 9 — _No comment in the code._ (React component; used in `components/atoms/index.ts`, `components/chat/context-settings/provider-row.tsx`, `components/tos-modal.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/atoms/code-block.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/code-block.tsx",
+      "description": "**`frontend/src/components/atoms/code-block.tsx`** — 2 functions.\n\n- **`CodeBlock`** · line 17 — Code block component with language tag, copy button, and syntax styling. (React component; used in `components/atoms/index.ts`, `components/atoms/markdown.tsx`)\n- **`handleCopy`** · line 20 — _No comment in the code._ (inside `CodeBlock`)"
+    },
+    {
+      "file": "frontend/src/components/atoms/input.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/input.tsx",
+      "description": "**`frontend/src/components/atoms/input.tsx`** — 1 function.\n\n- **`Input`** · line 5 — _No comment in the code._ (React component; used in `chat/adapters/mediation.py`, `chat/adapters/schema.py`, `chat/utils/parsing.py` and 25 more)"
+    },
+    {
+      "file": "frontend/src/components/atoms/label.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/label.tsx",
+      "description": "**`frontend/src/components/atoms/label.tsx`** — 1 function.\n\n- **`Label`** · line 7 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `components/atoms/index.ts`, `components/authenticated-waitlist-dialog.tsx` and 9 more)"
+    },
+    {
+      "file": "frontend/src/components/atoms/loader.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/loader.tsx",
+      "description": "**`frontend/src/components/atoms/loader.tsx`** — 3 functions.\n\n- **`Loader`** · line 54 — Classic rotating bars loader without flashing ping animation. (React component)\n- **`CircularLoader`** · line 103 — Circular pulse loader with optional icon in center. (React component)\n- **`Spinner`** · line 135 — _No comment in the code._ (React component)"
+    },
+    {
+      "file": "frontend/src/components/atoms/markdown.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/markdown.tsx",
+      "description": "**`frontend/src/components/atoms/markdown.tsx`** — 4 functions.\n\n- **`Markdown`** · line 19 — Optimized markdown renderer with block-level memoization. (React component; used in `chat/graph/nodes/synthesizer.py`, `sanity-schema.example.ts`, `app/(public)/blog/[slug]/blog-post-content.tsx` and 3 more)\n- **`MemoizedBlock`** · line 82 — Memoized block renderer - only re-renders when token content changes (React component; no other file mentions it)\n- **`renderToken`** · line 95 — Render a single marked token to React elements (no other file mentions it)\n- **`renderInlineTokens`** · line 203 — Render inline tokens (text, bold, italic, code, links, etc.) (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/atoms/separator.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/separator.tsx",
+      "description": "**`frontend/src/components/atoms/separator.tsx`** — 1 function.\n\n- **`Separator`** · line 8 — _No comment in the code._ (React component; used in `components/atoms/index.ts`, `components/chat/chat-input.tsx`, `components/molecules/command.tsx` and 3 more)"
+    },
+    {
+      "file": "frontend/src/components/atoms/skeleton.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/skeleton.tsx",
+      "description": "**`frontend/src/components/atoms/skeleton.tsx`** — 3 functions.\n\n- **`Skeleton`** · line 7 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/page.tsx`, `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/billing/page.tsx` and 11 more)\n- **`ResponseSkeleton`** · line 26 — Loading skeleton for chat responses - Perplexity style (React component; used in `components/chat/final-answer-block.tsx`)\n- **`InlineSkeleton`** · line 42 — Compact skeleton for inline loading (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/atoms/spinner.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/spinner.tsx",
+      "description": "**`frontend/src/components/atoms/spinner.tsx`** — 1 function.\n\n- **`Spinner`** · line 27 — Hardware-accelerated spinner component. (React component)"
+    },
+    {
+      "file": "frontend/src/components/atoms/switch.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/switch.tsx",
+      "description": "**`frontend/src/components/atoms/switch.tsx`** — 1 function.\n\n- **`Switch`** · line 8 — _No comment in the code._ (React component; used in `chat/graph/nodes/llm.py`, `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/providers/page.tsx` and 13 more)"
+    },
+    {
+      "file": "frontend/src/components/atoms/text-shimmer.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/text-shimmer.tsx",
+      "description": "**`frontend/src/components/atoms/text-shimmer.tsx`** — 1 function.\n\n- **`TextShimmer`** · line 12 — _No comment in the code._ (React component; used in `components/atoms/index.ts`, `components/chat/steps-timeline.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/atoms/textarea.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/textarea.tsx",
+      "description": "**`frontend/src/components/atoms/textarea.tsx`** — 1 function.\n\n- **`Textarea`** · line 5 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/support/page.tsx`, `components/atoms/index.ts` and 2 more)"
+    },
+    {
+      "file": "frontend/src/components/atoms/toggle.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/toggle.tsx",
+      "description": "**`frontend/src/components/atoms/toggle.tsx`** — 1 function.\n\n- **`Toggle`** · line 31 — _No comment in the code._ (React component; used in `app/(public)/layout-client.tsx`, `components/atoms/index.ts`, `components/chat/context-settings/footer-controls.tsx` and 10 more)"
+    },
+    {
+      "file": "frontend/src/components/atoms/visually-hidden.tsx",
+      "line": 1,
+      "title": "frontend/src/components/atoms/visually-hidden.tsx",
+      "description": "**`frontend/src/components/atoms/visually-hidden.tsx`** — 1 function.\n\n- **`VisuallyHidden`** · line 9 — Visually hide content while keeping it accessible to screen readers. (React component; used in `components/authenticated-waitlist-dialog.tsx`, `components/waitlist-dialog.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/brand/logo.tsx",
+      "line": 1,
+      "title": "frontend/src/components/brand/logo.tsx",
+      "description": "**`frontend/src/components/brand/logo.tsx`** — 5 functions.\n\n- **`LogoSvgWide`** · line 16 — Wide spacing version (D further from backslash) (React component; used in `app/(public)/layout-client.tsx`)\n- **`LogoSvgTight`** · line 34 — Tight spacing version (D closer to backslash) (React component; no other file mentions it)\n- **`LogoSvg`** · line 52 — Default export uses wide version (React component; no other file mentions it)\n- **`Logo`** · line 58 — _No comment in the code._ (React component; used in `app/(public)/layout-client.tsx`, `app/(public)/platforms/[platform]/page.tsx`, `app/(public)/platforms/page.tsx` and 3 more)\n- **`LogoIcon`** · line 73 — _No comment in the code._ (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/icons/platform-icons.tsx",
+      "line": 1,
+      "title": "frontend/src/components/icons/platform-icons.tsx",
+      "description": "**`frontend/src/components/icons/platform-icons.tsx`** — 2 functions.\n\n- **`AppleIcon`** · line 11 — Apple logo icon (iOS) Official Apple brand mark from Simple Icons (React component; used in `components/chat/command-palette/chat-command-palette.tsx`)\n- **`AndroidIcon`** · line 27 — Android robot logo icon Official Android brand mark from Simple Icons (React component; used in `components/chat/command-palette/chat-command-palette.tsx`, `components/chat/context-settings/platform-icon.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/icons/provider-logos.tsx",
+      "line": 1,
+      "title": "frontend/src/components/icons/provider-logos.tsx",
+      "description": "**`frontend/src/components/icons/provider-logos.tsx`** — 12 functions.\n\n- **`AdMobLogo`** · line 22 — AdMob Logo - Official Google AdMob logo Source: worldvectorlogo.com (React component; used in `components/chat/badges/inline-provider-badges.tsx`, `components/chat/command-palette/chat-command-palette.tsx`, `components/chat/context-settings/index.tsx` and 2 more)\n- **`GoogleAdManagerLogo`** · line 39 — Google Ad Manager Logo - Official Google Ad Manager logo Source: worldvectorlogo.com (React component; used in `components/chat/badges/inline-provider-badges.tsx`, `components/chat/command-palette/chat-command-palette.tsx`, `components/chat/context-settings/index.tsx`)\n- **`AppLovinLogo`** · line 59 — AppLovin MAX Logo (React component; used in `components/providers/ConnectProviderDropdown.tsx`)\n- **`UnityLogo`** · line 81 — Unity LevelPlay Logo - Official Unity logo Uses light version (white) for dark theme, dark version for light theme (React component; no other file mentions it)\n- **`LiftoffLogo`** · line 106 — Liftoff (Vungle) Logo - Official Liftoff logo Uses light version (white) for dark theme, dark version for light theme (React component; no other file mentions it)\n- **`InMobiLogo`** · line 130 — InMobi Logo - Official InMobi logo (React component; no other file mentions it)\n- **`MintegralLogo`** · line 151 — Mintegral Logo - Official Mintegral logo (React component; no other file mentions it)\n- **`PangleLogo`** · line 174 — Pangle Logo - Official Pangle logo Source: Pangle brand assets (React component; no other file mentions it)\n- **`DTExchangeLogo`** · line 195 — DT Exchange Logo - Official Digital Turbine logo (React component; no other file mentions it)\n- **`NetworkLogo`** · line 216 — Generic network logo component that handles all networks (React component; used in `components/providers/AdSourceCredentialDialog.tsx`, `components/providers/AdSourceListItem.tsx`, `components/providers/SupportedPlatformsCard.tsx`)\n- **`ProviderLogoBadge`** · line 272 — _No comment in the code._ (React component; used in `components/landing/platforms-section.tsx`, `components/providers/ConnectProviderDropdown.tsx`, `components/providers/ProviderListItem.tsx`)\n- **`ProviderLogo`** · line 300 — _No comment in the code._ (React component; used in `app/(authenticated)/providers/[type]/page.tsx`, `app/(authenticated)/providers/page.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/accordion.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/accordion.tsx",
+      "description": "**`frontend/src/components/molecules/accordion.tsx`** — 4 functions.\n\n- **`Accordion`** · line 9 — _No comment in the code._ (React component; used in `components/landing/faq-section.tsx`, `components/molecules/index.ts`)\n- **`AccordionItem`** · line 15 — _No comment in the code._ (React component; used in `components/landing/faq-section.tsx`, `components/molecules/index.ts`)\n- **`AccordionTrigger`** · line 28 — _No comment in the code._ (React component; used in `components/landing/faq-section.tsx`, `components/molecules/index.ts`)\n- **`AccordionContent`** · line 50 — _No comment in the code._ (React component; used in `components/landing/faq-section.tsx`, `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/alert-dialog.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/alert-dialog.tsx",
+      "description": "**`frontend/src/components/molecules/alert-dialog.tsx`** — 11 functions.\n\n- **`AlertDialog`** · line 9 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts` and 3 more)\n- **`AlertDialogTrigger`** · line 15 — _No comment in the code._ (React component; used in `components/molecules/index.ts`, `components/providers/ProviderListItem.tsx`, `components/settings/AccountSection.tsx` and 1 more)\n- **`AlertDialogPortal`** · line 23 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`AlertDialogOverlay`** · line 31 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`AlertDialogContent`** · line 47 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts` and 3 more)\n- **`AlertDialogHeader`** · line 66 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts` and 3 more)\n- **`AlertDialogFooter`** · line 79 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts` and 3 more)\n- **`AlertDialogTitle`** · line 95 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts` and 3 more)\n- **`AlertDialogDescription`** · line 108 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts` and 3 more)\n- **`AlertDialogAction`** · line 121 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts` and 3 more)\n- **`AlertDialogCancel`** · line 134 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts` and 3 more)"
+    },
+    {
+      "file": "frontend/src/components/molecules/card.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/card.tsx",
+      "description": "**`frontend/src/components/molecules/card.tsx`** — 7 functions.\n\n- **`Card`** · line 5 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/loading.tsx`, `components/landing/team-section.tsx`, `components/molecules/index.ts` and 1 more)\n- **`CardHeader`** · line 18 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`CardTitle`** · line 31 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`CardDescription`** · line 41 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`CardAction`** · line 51 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`CardContent`** · line 64 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`CardFooter`** · line 74 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/collapsible.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/collapsible.tsx",
+      "description": "**`frontend/src/components/molecules/collapsible.tsx`** — 3 functions.\n\n- **`Collapsible`** · line 6 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/support/page.tsx`, `components/chat/assistant-message.tsx` and 13 more)\n- **`CollapsibleTrigger`** · line 12 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/support/page.tsx`, `components/chat/assistant-message.tsx` and 9 more)\n- **`CollapsibleContent`** · line 23 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/support/page.tsx`, `components/chat/assistant-message.tsx` and 9 more)"
+    },
+    {
+      "file": "frontend/src/components/molecules/command.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/command.tsx",
+      "description": "**`frontend/src/components/molecules/command.tsx`** — 9 functions.\n\n- **`Command`** · line 16 — _No comment in the code._ (React component; used in `chat/graph/builder.py`, `components/chat/chat-input.tsx`, `components/molecules/index.ts` and 1 more)\n- **`CommandDialog`** · line 32 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`CommandInput`** · line 64 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`CommandList`** · line 86 — _No comment in the code._ (React component; used in `components/molecules/index.ts`, `components/organisms/contact-autocomplete.tsx`)\n- **`CommandEmpty`** · line 102 — _No comment in the code._ (React component; used in `components/molecules/index.ts`, `components/organisms/contact-autocomplete.tsx`)\n- **`CommandGroup`** · line 114 — _No comment in the code._ (React component; used in `components/molecules/index.ts`, `components/organisms/contact-autocomplete.tsx`)\n- **`CommandSeparator`** · line 130 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`CommandItem`** · line 143 — _No comment in the code._ (React component; used in `components/molecules/index.ts`, `components/organisms/contact-autocomplete.tsx`)\n- **`CommandShortcut`** · line 159 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/dialog.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/dialog.tsx",
+      "description": "**`frontend/src/components/molecules/dialog.tsx`** — 10 functions.\n\n- **`Dialog`** · line 9 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/providers/[type]/page.tsx` and 11 more)\n- **`DialogTrigger`** · line 15 — _No comment in the code._ (React component; used in `components/authenticated-waitlist-dialog.tsx`, `components/chat/chat-input.tsx`, `components/chat/context-settings/index.tsx` and 2 more)\n- **`DialogPortal`** · line 21 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DialogClose`** · line 27 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DialogOverlay`** · line 33 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DialogContent`** · line 49 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/authenticated-waitlist-dialog.tsx` and 9 more)\n- **`DialogHeader`** · line 83 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/authenticated-waitlist-dialog.tsx` and 8 more)\n- **`DialogFooter`** · line 93 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/experiments/execution/ExecutionModal.tsx` and 3 more)\n- **`DialogTitle`** · line 106 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/authenticated-waitlist-dialog.tsx` and 9 more)\n- **`DialogDescription`** · line 119 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/authenticated-waitlist-dialog.tsx` and 7 more)"
+    },
+    {
+      "file": "frontend/src/components/molecules/dropdown-menu.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/dropdown-menu.tsx",
+      "description": "**`frontend/src/components/molecules/dropdown-menu.tsx`** — 15 functions.\n\n- **`DropdownMenu`** · line 9 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `app/(public)/layout-client.tsx` and 4 more)\n- **`DropdownMenuPortal`** · line 15 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DropdownMenuTrigger`** · line 21 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `app/(public)/layout-client.tsx` and 4 more)\n- **`DropdownMenuContent`** · line 29 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `app/(public)/layout-client.tsx` and 4 more)\n- **`DropdownMenuGroup`** · line 56 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DropdownMenuItem`** · line 62 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `app/(public)/layout-client.tsx` and 4 more)\n- **`DropdownMenuCheckboxItem`** · line 87 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DropdownMenuRadioGroup`** · line 113 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DropdownMenuRadioItem`** · line 121 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DropdownMenuLabel`** · line 145 — _No comment in the code._ (React component; used in `components/layout/OrganizationSwitcher.tsx`, `components/molecules/index.ts`)\n- **`DropdownMenuSeparator`** · line 165 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/chat-history/page.tsx`, `app/(public)/layout-client.tsx` and 3 more)\n- **`DropdownMenuShortcut`** · line 178 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DropdownMenuSub`** · line 194 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DropdownMenuSubTrigger`** · line 200 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`DropdownMenuSubContent`** · line 224 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/popover.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/popover.tsx",
+      "description": "**`frontend/src/components/molecules/popover.tsx`** — 3 functions.\n\n- **`Popover`** · line 8 — _No comment in the code._ (React component; used in `components/chat/chat-input.tsx`, `components/molecules/index.ts`, `components/organisms/contact-autocomplete.tsx`)\n- **`PopoverTrigger`** · line 14 — _No comment in the code._ (React component; used in `components/chat/chat-input.tsx`, `components/molecules/index.ts`, `components/organisms/contact-autocomplete.tsx`)\n- **`PopoverContent`** · line 20 — _No comment in the code._ (React component; used in `components/molecules/index.ts`, `components/organisms/contact-autocomplete.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/prompt-input.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/prompt-input.tsx",
+      "description": "**`frontend/src/components/molecules/prompt-input.tsx`** — 4 functions.\n\n- **`usePromptInput`** · line 14 — _No comment in the code._ (custom hook; no other file mentions it)\n- **`PromptInput`** · line 24 — _No comment in the code._ (React component; used in `components/chat/chat-input.tsx`, `components/molecules/index.ts`)\n- **`handleClick`** · line 33 — _No comment in the code._ (inside `PromptInput`)\n- **`PromptInputActions`** · line 62 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/prompt-suggestion.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/prompt-suggestion.tsx",
+      "description": "**`frontend/src/components/molecules/prompt-suggestion.tsx`** — 1 function.\n\n- **`PromptSuggestion`** · line 15 — _No comment in the code._ (React component; used in `components/chat/example-prompts.tsx`, `components/demo-chat/demo-example-prompts.tsx`, `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/radio-group.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/radio-group.tsx",
+      "description": "**`frontend/src/components/molecules/radio-group.tsx`** — 2 functions.\n\n- **`RadioGroup`** · line 10 — _No comment in the code._ (React component; used in `components/molecules/dropdown-menu.tsx`, `components/molecules/index.ts`, `components/providers/account-selection-modal.tsx`)\n- **`RadioGroupItem`** · line 23 — _No comment in the code._ (React component; used in `components/molecules/index.ts`, `components/providers/account-selection-modal.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/scroll-area.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/scroll-area.tsx",
+      "description": "**`frontend/src/components/molecules/scroll-area.tsx`** — 4 functions.\n\n- **`ScrollArea`** · line 27 — Adaptive ScrollArea - Lina pattern with Base UI Touch devices: native scrolling + masks (better UX, momentum, rubber-banding) Desktop: custom Base UI scrollbar + masks (refined styling) (React component; used in `components/chat/assistant-message/json-display.tsx`, `components/chat/context-settings/index.tsx`, `components/chat/json-tree-view.tsx` and 3 more)\n- **`handleScroll`** · line 45 — _No comment in the code._ (inside `ScrollArea`)\n- **`setViewportRef`** · line 55 — Check scroll state on mount and content changes (inside `ScrollArea`)\n- **`ScrollBar`** · line 164 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/search-input.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/search-input.tsx",
+      "description": "**`frontend/src/components/molecules/search-input.tsx`** — 2 functions.\n\n- **`SearchInput`** · line 26 — SearchInput - Linear-style search input with icon and clear button Uses design tokens for consistent styling: - --input-bg: Background color - --input-border: Border color - --input-height: Height (32px) - --input-radius: Border radius (5px… (React component; used in `app/(authenticated)/chat-history/page.tsx`, `components/molecules/index.ts`)\n- **`handleClear`** · line 37 — _No comment in the code._ (inside `SearchInput`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/select.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/select.tsx",
+      "description": "**`frontend/src/components/molecules/select.tsx`** — 8 functions.\n\n- **`Select`** · line 9 — _No comment in the code._ (React component; used in `chat/adapters/schema.py`, `chat/approval/schema_extractor.py`, `mcp_servers/curated_schemas.py` and 25 more)\n- **`SelectGroup`** · line 24 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`SelectValue`** · line 30 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/authenticated-waitlist-dialog.tsx` and 7 more)\n- **`SelectTrigger`** · line 36 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/authenticated-waitlist-dialog.tsx` and 7 more)\n- **`SelectContent`** · line 62 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/authenticated-waitlist-dialog.tsx` and 7 more)\n- **`SelectLabel`** · line 92 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`SelectItem`** · line 105 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/dashboard/agents/page.tsx`, `components/authenticated-waitlist-dialog.tsx` and 7 more)\n- **`SelectSeparator`** · line 132 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/sheet.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/sheet.tsx",
+      "description": "**`frontend/src/components/molecules/sheet.tsx`** — 10 functions.\n\n- **`Sheet`** · line 9 — _No comment in the code._ (React component; used in `components/chat/chat-settings-panel.tsx`, `components/molecules/index.ts`, `components/organisms/sidebar.tsx`)\n- **`SheetTrigger`** · line 13 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`SheetClose`** · line 19 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`SheetPortal`** · line 25 — _No comment in the code._ (React component; no other file mentions it)\n- **`SheetOverlay`** · line 31 — _No comment in the code._ (React component; no other file mentions it)\n- **`SheetContent`** · line 47 — _No comment in the code._ (React component; used in `components/chat/chat-settings-panel.tsx`, `components/molecules/index.ts`, `components/organisms/sidebar.tsx`)\n- **`SheetHeader`** · line 85 — _No comment in the code._ (React component; used in `components/chat/chat-settings-panel.tsx`, `components/molecules/index.ts`, `components/organisms/sidebar.tsx`)\n- **`SheetFooter`** · line 95 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`SheetTitle`** · line 105 — _No comment in the code._ (React component; used in `components/chat/chat-settings-panel.tsx`, `components/molecules/index.ts`, `components/organisms/sidebar.tsx`)\n- **`SheetDescription`** · line 118 — _No comment in the code._ (React component; used in `components/chat/chat-settings-panel.tsx`, `components/molecules/index.ts`, `components/organisms/sidebar.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/stat-card.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/stat-card.tsx",
+      "description": "**`frontend/src/components/molecules/stat-card.tsx`** — 1 function.\n\n- **`StatCard`** · line 30 — _No comment in the code._ (React component)"
+    },
+    {
+      "file": "frontend/src/components/molecules/steps.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/steps.tsx",
+      "description": "**`frontend/src/components/molecules/steps.tsx`** — 5 functions.\n\n- **`StepsItem`** · line 13 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`StepsTrigger`** · line 30 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`StepsContent`** · line 61 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`StepsBar`** · line 90 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`Steps`** · line 100 — _No comment in the code._ (React component; used in `chat/graph/nodes/synthesizer.py`, `components/landing/how-it-works.tsx`, `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/table.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/table.tsx",
+      "description": "**`frontend/src/components/molecules/table.tsx`** — 8 functions.\n\n- **`Table`** · line 7 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `components/atoms/markdown.tsx`, `components/experiments/reports/NetworkBreakdown.tsx` and 3 more)\n- **`TableHeader`** · line 22 — _No comment in the code._ (React component; used in `components/experiments/reports/NetworkBreakdown.tsx`, `components/molecules/index.ts`, `components/organisms/data-table.tsx`)\n- **`TableBody`** · line 32 — _No comment in the code._ (React component; used in `components/experiments/reports/NetworkBreakdown.tsx`, `components/molecules/index.ts`, `components/organisms/data-table.tsx`)\n- **`TableFooter`** · line 42 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`TableRow`** · line 55 — _No comment in the code._ (React component; used in `components/experiments/reports/NetworkBreakdown.tsx`, `components/molecules/index.ts`, `components/organisms/data-table.tsx`)\n- **`TableHead`** · line 68 — _No comment in the code._ (React component; used in `components/experiments/reports/NetworkBreakdown.tsx`, `components/molecules/index.ts`, `components/organisms/data-table.tsx`)\n- **`TableCell`** · line 81 — _No comment in the code._ (React component; used in `components/experiments/reports/NetworkBreakdown.tsx`, `components/molecules/index.ts`, `components/organisms/data-table.tsx`)\n- **`TableCaption`** · line 94 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/tabs.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/tabs.tsx",
+      "description": "**`frontend/src/components/molecules/tabs.tsx`** — 4 functions.\n\n- **`Tabs`** · line 8 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/experiments/loading.tsx`, `app/(authenticated)/experiments/page.tsx` and 1 more)\n- **`TabsList`** · line 21 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/experiments/page.tsx`, `components/molecules/index.ts`)\n- **`TabsTrigger`** · line 37 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/experiments/page.tsx`, `components/molecules/index.ts`)\n- **`TabsContent`** · line 53 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/agents/page.tsx`, `app/(authenticated)/experiments/page.tsx`, `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/toggle-group.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/toggle-group.tsx",
+      "description": "**`frontend/src/components/molecules/toggle-group.tsx`** — 2 functions.\n\n- **`ToggleGroup`** · line 21 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)\n- **`ToggleGroupItem`** · line 52 — _No comment in the code._ (React component; used in `components/molecules/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/molecules/tooltip.tsx",
+      "line": 1,
+      "title": "frontend/src/components/molecules/tooltip.tsx",
+      "description": "**`frontend/src/components/molecules/tooltip.tsx`** — 4 functions.\n\n- **`TooltipProvider`** · line 8 — _No comment in the code._ (React component; used in `components/chat/assistant-message/json-display.tsx`, `components/chat/assistant-message/message-actions.tsx`, `components/chat/final-answer-block.tsx` and 2 more)\n- **`Tooltip`** · line 17 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `components/atoms/action-button.tsx`, `components/chat/assistant-message/json-display.tsx` and 7 more)\n- **`TooltipTrigger`** · line 28 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `components/atoms/action-button.tsx`, `components/chat/assistant-message/json-display.tsx` and 5 more)\n- **`TooltipContent`** · line 38 — _No comment in the code._ (React component; used in `app/(authenticated)/admin/waitlist/page.tsx`, `components/atoms/action-button.tsx`, `components/chat/assistant-message/json-display.tsx` and 5 more)"
+    },
+    {
+      "file": "frontend/src/components/organisms/chain-of-thought.tsx",
+      "line": 1,
+      "title": "frontend/src/components/organisms/chain-of-thought.tsx",
+      "description": "**`frontend/src/components/organisms/chain-of-thought.tsx`** — 5 functions.\n\n- **`ChainOfThoughtItem`** · line 14 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`ChainOfThoughtTrigger`** · line 31 — _No comment in the code._ (React component; used in `components/chat/steps-timeline.tsx`, `components/organisms/index.ts`)\n- **`ChainOfThoughtContent`** · line 77 — _No comment in the code._ (React component; used in `components/chat/steps-timeline.tsx`, `components/organisms/index.ts`)\n- **`ChainOfThought`** · line 104 — _No comment in the code._ (React component; used in `components/chat/steps-timeline.tsx`, `components/organisms/index.ts`)\n- **`ChainOfThoughtStep`** · line 134 — _No comment in the code._ (React component; used in `components/chat/steps-timeline.tsx`, `components/organisms/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/organisms/chart.tsx",
+      "line": 1,
+      "title": "frontend/src/components/organisms/chart.tsx",
+      "description": "**`frontend/src/components/organisms/chart.tsx`** — 6 functions.\n\n- **`useChart`** · line 27 — _No comment in the code._ (custom hook; no other file mentions it)\n- **`ChartContainer`** · line 37 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`ChartStyle`** · line 72 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`ChartTooltipContent`** · line 136 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`ChartLegendContent`** · line 289 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`getPayloadConfigFromPayload`** · line 342 — Helper to extract item config from a payload. (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/organisms/contact-autocomplete.tsx",
+      "line": 1,
+      "title": "frontend/src/components/organisms/contact-autocomplete.tsx",
+      "description": "**`frontend/src/components/organisms/contact-autocomplete.tsx`** — 5 functions.\n\n- **`GoogleIconMono`** · line 26 — Monochrome Google \"G\" logo - uses currentColor for theme compatibility (React component)\n- **`ContactAutocomplete`** · line 53 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`handleUsernameChange`** · line 74 — Handle username input change (inside `ContactAutocomplete`)\n- **`handleSelect`** · line 126 — _No comment in the code._ (inside `ContactAutocomplete`)\n- **`handleConnectContacts`** · line 135 — Request contacts permission via linkSocial (inside `ContactAutocomplete`)"
+    },
+    {
+      "file": "frontend/src/components/organisms/data-table.tsx",
+      "line": 1,
+      "title": "frontend/src/components/organisms/data-table.tsx",
+      "description": "**`frontend/src/components/organisms/data-table.tsx`** — 6 functions.\n\n- **`DataTableSection`** · line 26 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`DataTableContainer`** · line 48 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`DataTableHeaderRow`** · line 62 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`DataTableHead`** · line 74 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`DataTableRow`** · line 86 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`DataTableCell`** · line 98 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/organisms/gmail-email-input.tsx",
+      "line": 1,
+      "title": "frontend/src/components/organisms/gmail-email-input.tsx",
+      "description": "**`frontend/src/components/organisms/gmail-email-input.tsx`** — 4 functions.\n\n- **`GoogleIconMono`** · line 15 — Monochrome Google \"G\" logo - uses currentColor for theme compatibility (React component)\n- **`GmailEmailInput`** · line 52 — _No comment in the code._ (React component; used in `components/organisms/index.ts`, `components/settings/OrganizationSection.tsx`)\n- **`handleChange`** · line 64 — Sanitize input - only allow valid email username characters (inside `GmailEmailInput`)\n- **`getFullEmail`** · line 121 — Helper to get full email from username and domain (used in `components/organisms/index.ts`, `components/settings/OrganizationSection.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/organisms/sidebar.tsx",
+      "line": 1,
+      "title": "frontend/src/components/organisms/sidebar.tsx",
+      "description": "**`frontend/src/components/organisms/sidebar.tsx`** — 27 functions.\n\n- **`useSidebar`** · line 47 — _No comment in the code._ (custom hook; used in `components/chat/context-settings/index.tsx`, `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarProvider`** · line 56 — _No comment in the code._ (React component; used in `app/(authenticated)/layout-client.tsx`, `components/organisms/index.ts`)\n- **`setOpen`** · line 76 — _No comment in the code._ (inside `SidebarProvider`)\n- **`toggleSidebar`** · line 92 — Helper to toggle the sidebar. (inside `SidebarProvider`)\n- **`handleKeyDown`** · line 98 — _No comment in the code._ (inside `SidebarProvider`)\n- **`Sidebar`** · line 154 — _No comment in the code._ (React component; used in `app/(public)/platforms/page.tsx`, `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarTrigger`** · line 256 — _No comment in the code._ (React component; used in `app/(authenticated)/layout-client.tsx`, `components/organisms/index.ts`)\n- **`SidebarRail`** · line 282 — _No comment in the code._ (React component; used in `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarInset`** · line 307 — _No comment in the code._ (React component; used in `app/(authenticated)/layout-client.tsx`, `components/organisms/index.ts`)\n- **`SidebarInput`** · line 321 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarHeader`** · line 335 — _No comment in the code._ (React component; used in `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarFooter`** · line 346 — _No comment in the code._ (React component; used in `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarSeparator`** · line 357 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarContent`** · line 371 — _No comment in the code._ (React component; used in `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarGroup`** · line 385 — _No comment in the code._ (React component; used in `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarGroupLabel`** · line 398 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarGroupAction`** · line 421 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarGroupContent`** · line 444 — _No comment in the code._ (React component; used in `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarMenu`** · line 458 — _No comment in the code._ (React component; used in `components/layout/UserMenu.tsx`, `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarMenuItem`** · line 469 — _No comment in the code._ (React component; used in `components/layout/UserMenu.tsx`, `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarMenuButton`** · line 509 — _No comment in the code._ (React component; used in `components/layout/UserMenu.tsx`, `components/layout/app-sidebar.tsx`, `components/organisms/index.ts`)\n- **`SidebarMenuAction`** · line 557 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarMenuBadge`** · line 586 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarMenuSkeleton`** · line 608 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarMenuSub`** · line 649 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarMenuSubItem`** · line 664 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SidebarMenuSubButton`** · line 683 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/organisms/theme.tsx",
+      "line": 1,
+      "title": "frontend/src/components/organisms/theme.tsx",
+      "description": "**`frontend/src/components/organisms/theme.tsx`** — 16 functions.\n\n- **`PageContainer`** · line 76 — PageContainer - Linear-style page layout with centered content Structure (matches Linear): - Outer wrapper: full width, horizontal padding for safe edges - Inner wrapper: flex column, align-items center - Content: max-width constrained Resp… (React component; used in `app/(authenticated)/admin/page.tsx`, `app/(authenticated)/admin/waitlist/page.tsx`, `app/(authenticated)/billing/page.tsx` and 11 more)\n- **`PageHeader`** · line 120 — PageHeader - Linear-style page title and description Spacing (from Linear extraction 2026-01-28): - margin-bottom: 32px (title to first section) (React component; used in `app/(authenticated)/admin/page.tsx`, `app/(authenticated)/billing/page.tsx`, `app/(authenticated)/chat-history/page.tsx` and 9 more)\n- **`SettingsSection`** · line 158 — SettingsSection - Linear-style section with header and card Responsive behavior (from Linear extraction 2026-01-28): - Desktop: margin-bottom 64px between sections - Mobile (≤640px): margin-bottom 32px between sections (React component; used in `app/(authenticated)/admin/page.tsx`, `app/(authenticated)/dashboard/page.tsx`, `app/(authenticated)/experiments/page.tsx` and 6 more)\n- **`SectionCard`** · line 190 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SectionCardHeader`** · line 206 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`SectionCardContent`** · line 243 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`FilterBar`** · line 264 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`ConfigFieldGroup`** · line 280 — _No comment in the code._ (React component; used in `app/(authenticated)/dashboard/page.tsx`, `app/(authenticated)/providers/[type]/page.tsx`, `app/(authenticated)/providers/page.tsx` and 9 more)\n- **`SectionHeader`** · line 297 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`ConfigField`** · line 335 — _No comment in the code._ (React component; used in `components/organisms/index.ts`, `components/settings/AccountSection.tsx`, `components/settings/AppearanceSection.tsx` and 4 more)\n- **`EmptyState`** · line 412 — _No comment in the code._ (React component; used in `app/(authenticated)/chat-history/page.tsx`, `app/(authenticated)/dashboard/page.tsx`, `app/(authenticated)/experiments/page.tsx` and 4 more)\n- **`StatusBadge`** · line 456 — _No comment in the code._ (React component)\n- **`LoadingSpinner`** · line 477 — _No comment in the code._ (React component; used in `app/(authenticated)/experiments/[id]/page.tsx`, `components/organisms/index.ts`)\n- **`ErrorCard`** · line 501 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)\n- **`StatusMessage`** · line 539 — _No comment in the code._ (React component; used in `app/(authenticated)/billing/page.tsx`, `components/organisms/index.ts`, `hooks/useBilling.ts`)\n- **`TablePagination`** · line 574 — _No comment in the code._ (React component; used in `components/organisms/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/organisms/tool.tsx",
+      "line": 1,
+      "title": "frontend/src/components/organisms/tool.tsx",
+      "description": "**`frontend/src/components/organisms/tool.tsx`** — 12 functions.\n\n- **`unwrapSingleKey`** · line 120 — Unwrap data if it has a single wrapper key like \"params\", \"input\", \"args\", etc. (no other file mentions it)\n- **`extractSingleKey`** · line 141 — Extract single-key object to display value directly (eliminating redundant root level). (no other file mentions it)\n- **`hasContent`** · line 154 — Check if data has actual content (not empty object/array/null/undefined) (no other file mentions it)\n- **`formatValue`** · line 165 — Format a value for JSON display (no other file mentions it)\n- **`ToolStateIcon`** · line 183 — _No comment in the code._ (React component; no other file mentions it)\n- **`ToolStateBadge`** · line 199 — _No comment in the code._ (React component; no other file mentions it)\n- **`ViewModeToggle`** · line 214 — _No comment in the code._ (React component; no other file mentions it)\n- **`handleClick`** · line 215 — _No comment in the code._ (inside `ViewModeToggle`)\n- **`handleKeyDown`** · line 220 — _No comment in the code._ (inside `ViewModeToggle`)\n- **`DataSection`** · line 254 — _No comment in the code._ (React component; no other file mentions it)\n- **`Tool`** · line 283 — _No comment in the code._ (React component; used in `chat/__init__.py`, `chat/adapters/schema.py`, `chat/approval/__init__.py` and 39 more)\n- **`handleViewModeToggle`** · line 298 — Stable callback for view mode toggle (inside `Tool`)"
+    },
+    {
+      "file": "frontend/src/components/ui/loader.tsx",
+      "line": 1,
+      "title": "frontend/src/components/ui/loader.tsx",
+      "description": "**`frontend/src/components/ui/loader.tsx`** — 13 functions.\n\n- **`CircularLoader`** · line 25 — _No comment in the code._ (React component)\n- **`ClassicLoader`** · line 59 — _No comment in the code._ (React component; no other file mentions it)\n- **`PulseLoader`** · line 105 — _No comment in the code._ (React component; no other file mentions it)\n- **`PulseDotLoader`** · line 126 — _No comment in the code._ (React component; no other file mentions it)\n- **`DotsLoader`** · line 152 — _No comment in the code._ (React component; no other file mentions it)\n- **`TypingLoader`** · line 196 — _No comment in the code._ (React component; no other file mentions it)\n- **`WaveLoader`** · line 240 — _No comment in the code._ (React component; no other file mentions it)\n- **`BarsLoader`** · line 291 — _No comment in the code._ (React component; no other file mentions it)\n- **`TerminalLoader`** · line 329 — _No comment in the code._ (React component; no other file mentions it)\n- **`TextBlinkLoader`** · line 376 — _No comment in the code._ (React component; no other file mentions it)\n- **`TextShimmerLoader`** · line 404 — _No comment in the code._ (React component; no other file mentions it)\n- **`TextDotsLoader`** · line 434 — _No comment in the code._ (React component; no other file mentions it)\n- **`Loader`** · line 471 — _No comment in the code._ (React component)"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists all **259** functions in its area, **0** of them with a hand-written note (✎)."
+    }
+  ]
+}

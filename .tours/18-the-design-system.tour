@@ -1,0 +1,92 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "18 - The design system",
+  "description": "Design tokens, Tailwind, CVA variants, cn(), and atoms, molecules and organisms.",
+  "nextTour": "19 - Trace: a read request",
+  "steps": [
+    {
+      "directory": "frontend/tokens",
+      "title": "Design tokens",
+      "description": "**New idea — design tokens:** named values for colours, spacing, fonts, radius and motion, stored as data (W3C DTCG format) instead of scattered through CSS.\n\n**How it works:** `primitives/` holds raw values (for example a grey scale). `semantic/` maps them to meanings for light and dark themes (for example *background*, *muted text*). Tokens Studio can sync them with Figma.\n\n**Why it matters:** change one token and every button, card and page follows, in both themes.\n\n**Watch out:** edit the JSON, not the generated CSS (next step)."
+    },
+    {
+      "file": "frontend/tokens/style-dictionary.config.mjs",
+      "line": 1,
+      "title": "Tokens become CSS",
+      "description": "**How it works:** `bun run tokens:build` runs Style Dictionary, which turns the JSON into CSS variables (`src/styles/tokens*.css`) and a JSON copy for code.\n\n**Why it matters:** one source of truth for designers and developers.\n\n**Watch out:** the build runs before `next build`, so a broken token file breaks deployment."
+    },
+    {
+      "file": "frontend/src/app/globals.css",
+      "line": 16,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 16,
+          "character": 51
+        }
+      },
+      "title": "Tailwind meets the tokens",
+      "description": "**New idea — Tailwind:** styling with small class names in JSX (`px-4`, `text-sm`) instead of separate CSS files.\n\n**How it works:** this file loads Tailwind (version 4), animations, Neon Auth's UI styles and your tokens. `@theme inline` turns tokens into Tailwind classes, so `bg-background` uses your token.\n\n**Why it matters:** this is why the JSX in tour 03 can say `text-muted-foreground` and get the right colour in both themes.\n\n**Watch out:** your project rule is to use these semantic classes and never hard-coded colours."
+    },
+    {
+      "file": "frontend/src/components/atoms/button.tsx",
+      "line": 36,
+      "selection": {
+        "start": {
+          "line": 7,
+          "character": 1
+        },
+        "end": {
+          "line": 36,
+          "character": 23
+        }
+      },
+      "title": "One button, many looks",
+      "description": "**New idea — variants (CVA):** `cva` defines a component's styles per option, like `variant: outline` or `size: sm`, and picks the right classes for you.\n\n**How it works:** `<Button variant=\"outline\" size=\"sm\">` combines the base classes with those two variants.\n\n**Why it matters:** every button in the app looks consistent without copying class lists.\n\n**Watch out:** this pattern comes from shadcn/ui (`components.json`: style `new-york`, base colour `zinc`)."
+    },
+    {
+      "file": "frontend/src/lib/utils.ts",
+      "line": 6,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 6,
+          "character": 2
+        }
+      },
+      "title": "cn()",
+      "description": "**How it works:** `cn(...)` joins class names, skips empty ones (`clsx`), and resolves Tailwind conflicts (`twMerge`): `cn(\"px-2\", \"px-4\")` gives `px-4`.\n\n**Why it matters:** components can accept extra classes that safely override their defaults.\n\n**Watch out:** without `twMerge`, conflicting classes would both apply and the result would depend on CSS order."
+    },
+    {
+      "directory": "frontend/src/components/atoms",
+      "title": "Atoms, molecules, organisms",
+      "description": "**New idea — atomic design:** small pieces build bigger ones:\n- **atoms**: buttons, inputs, badges, the spinner\n- **molecules**: cards, dialogs, dropdowns, tabs\n- **organisms**: the sidebar, data tables, the tool and chain-of-thought views\n\n**How it works:** imports read like the hierarchy: `@/atoms/button`, `@/molecules/card`, `@/organisms/sidebar`.\n\n**Why it matters:** you can find any UI piece by its size.\n\n**Watch out:** some older shadcn components still live in `components/ui`."
+    },
+    {
+      "file": ".github/workflows/tokens.yml",
+      "line": 30,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 30,
+          "character": 54
+        }
+      },
+      "title": "Contrast checked in CI",
+      "description": "**How it works:** when tokens change, CI rebuilds them and runs a contrast check on the colour pairs.\n\n**Why it matters:** text stays readable (accessibility) in both themes, automatically.\n\n**Watch out:** a nice detail to mention: accessibility is tested, not just hoped for."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Explain tokens → Style Dictionary → CSS variables → Tailwind classes.\n- Explain variants with CVA and why `cn()` exists.\n- Explain atoms, molecules and organisms.\n\n**Next:** *19 - Trace: a read request*. Two full traces."
+    }
+  ]
+}

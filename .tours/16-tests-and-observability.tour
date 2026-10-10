@@ -1,0 +1,111 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "16 - Tests and observability",
+  "description": "How you know it works: E2E and Python tests, CI, LangSmith tracing, cost tracking, analytics and health checks.",
+  "nextTour": "17 - Billing, invites and admin",
+  "steps": [
+    {
+      "file": "frontend/playwright.config.ts",
+      "line": 27,
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 27,
+          "character": 35
+        }
+      },
+      "title": "End-to-end tests",
+      "description": "**New idea — end-to-end (E2E) tests:** a real browser clicks through the real app, the way a user would. Playwright drives the browser.\n\n**How it works:** tests live in `frontend/tests/e2e`. In CI they retry twice before failing; locally they don't.\n\n**Why it matters:** this catches problems that only show when the frontend, API and agent run together.\n\n**Watch out:** locally, Playwright can start the app for you (`webServer`); in CI it expects the services to be running already."
+    },
+    {
+      "directory": "frontend/tests/e2e",
+      "title": "What the E2E tests cover",
+      "description": "**How it works:** `smoke` (pages load), `auth` (sign-in), `chat-streaming` (messages stream back), `entity-resolution` (real IDs are used), and two approval suites: `tool-approval` and `tool-approval-hybrid`. `global.setup.ts` signs in a test user.\n\n**Why it matters:** the approval flow, the riskiest part, has its own tests.\n\n**Watch out:** these need a running agent and real test credentials, so they can't run anywhere without the secrets."
+    },
+    {
+      "file": "frontend/tests/e2e/tool-approval.spec.ts",
+      "line": 49,
+      "title": "Testing an approval",
+      "description": "**How it works:** this suite checks that a dangerous tool shows the approval card, that Allow runs it, and that Deny stops it.\n\n**Why it matters:** it's proof that human-in-the-loop works, which is exactly what an interviewer might doubt.\n\n**Watch out:** to avoid needing the model to choose a dangerous tool every time, tests can create an approval directly (next step)."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 470,
+      "selection": {
+        "start": {
+          "line": 462,
+          "character": 1
+        },
+        "end": {
+          "line": 470,
+          "character": 42
+        }
+      },
+      "title": "A test-only door",
+      "description": "**How it works:** this endpoint creates a pending approval directly, so tests can try the approve flow without an AI run. It only works when `E2E_TESTING` is set.\n\n**Why it matters:** fast, predictable tests for a flow that normally depends on the model's choices.\n\n**Watch out:** if `E2E_TESTING` were ever set in production, anyone could create approvals. Keep that variable out of production settings."
+    },
+    {
+      "file": "backend/tests/test_approval.py",
+      "line": 1,
+      "title": "Python tests",
+      "description": "**How it works:** 23 pytest tests for the approval system: creating, resolving and timing out approvals, and which tools count as dangerous.\n\n**Why it matters:** the approval logic is tested without a browser or a model.\n\n**Watch out:** no CI workflow runs these. You run them by hand with `uv run pytest` in `backend`."
+    },
+    {
+      "file": ".github/workflows/ci.yml",
+      "line": 15,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 15,
+          "character": 39
+        }
+      },
+      "title": "What CI actually runs",
+      "description": "**How it works:** on every push and pull request to `main` or `DEV`, CI type-checks and unit-tests the API, then installs Playwright.\n\n**Why it matters:** broken API types or tests block the merge.\n\n**Watch out:** it runs in `backend/api`, the **leftover copy** of the API, not the live one in `frontend/src/server`. And the full E2E workflow (`e2e.yml`) is manual-only; its push and pull-request triggers are commented out. Be honest about this if asked."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 329,
+      "selection": {
+        "start": {
+          "line": 319,
+          "character": 1
+        },
+        "end": {
+          "line": 329,
+          "character": 11
+        }
+      },
+      "title": "Tracing with LangSmith",
+      "description": "**New idea — tracing:** recording every step of a run (each node, each model call, inputs and outputs) so you can replay what happened.\n\n**How it works:** functions marked `@traceable` (every node, `run_graph`) are recorded in LangSmith. Here, each run is also tagged with the user, team, thread, model and history length.\n\n**Why it matters:** when a user says *it gave a weird answer*, you can open that exact run and see the prompt, the route and every tool call.\n\n**Watch out:** traces include user questions and tool results, so they hold customer data outside your database."
+    },
+    {
+      "file": "backend/chat/observability/metrics.py",
+      "line": 58,
+      "title": "Counting cost",
+      "description": "**How it works:** token counts from the router and specialist are added up per message, priced per model, and saved as a run summary (tour 15).\n\n**Why it matters:** you can say what a typical question costs, a very common interview question for AI products.\n\n**Watch out:** unknown models fall back to a default price, so the cost is an estimate."
+    },
+    {
+      "file": "frontend/src/components/providers/posthog-provider.tsx",
+      "line": 10,
+      "title": "Product analytics",
+      "description": "**How it works:** PostHog records page views and events in the browser. The API also sends server-side events (`lib/analytics.ts`), like *chat session created*.\n\n**Why it matters:** this tells you what people actually use.\n\n**Watch out:** it only runs when `NEXT_PUBLIC_POSTHOG_KEY` is set."
+    },
+    {
+      "file": "frontend/src/server/routes/health.ts",
+      "line": 13,
+      "title": "Health checks",
+      "description": "**How it works:** the API answers `/api/health` (alive) and `/api/health/ready` (ready, with checks). The agent answers `/` and `/health` (tour 01).\n\n**Why it matters:** hosting platforms and uptime monitors use these to restart or alert.\n\n**Watch out:** the agent's health check doesn't test the database or LangSmith, so it can say *ok* while chats fail."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Answer *how do you know it works?*: E2E tests (including approvals), Python approval tests, API unit tests, LangSmith traces, Sentry, health checks.\n- Explain how cost per question is measured.\n- Be honest about the gaps: CI tests the leftover API, E2E is manual, Python tests aren't in CI.\n\n**Next:** *17 - Billing, invites and admin*."
+    }
+  ]
+}

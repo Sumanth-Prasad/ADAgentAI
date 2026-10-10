@@ -1,0 +1,268 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "09 - The specialist",
+  "description": "The node that answers or calls tools: prompt, model choice, tool filtering, streaming, and what it returns.",
+  "nextTour": "10 - Tools and MCP",
+  "steps": [
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 6,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      },
+      "title": "The specialist's job",
+      "description": "**What it is:** the third node, and the heart of the agent. It's the AI model that either answers you or decides to call tools.\n\n**How it works:** one run of this node does six things: build the prompt, pick the model, load and filter the tools, attach the tools to the model, stream the model's reply, and return either tool calls or a final answer.\n\n**Why it matters:** the router and entity loader only prepare. This is where the thinking happens, and where most of the cost is.\n\n**Watch out:** the docstring says it uses LangGraph's ReAct agent pattern. It doesn't use a ready-made agent; the loop is the graph's own specialist ⇄ tool executor edge (tour 07)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 35,
+      "selection": {
+        "start": {
+          "line": 34,
+          "character": 1
+        },
+        "end": {
+          "line": 35,
+          "character": 14
+        }
+      },
+      "title": "Two numbers worth knowing",
+      "description": "**How it works:** if more than **15** tools are left after filtering, a full-text search keeps only the top **5**.\n\n**Why it matters:** every tool's name, description and argument schema is sent to the model on every call. Fewer tools means a cheaper prompt and fewer wrong choices.\n\n**Watch out:** cutting to 5 can drop the tool the model actually needs. The search ranks by words in your question, not by meaning."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 69,
+      "selection": {
+        "start": {
+          "line": 66,
+          "character": 1
+        },
+        "end": {
+          "line": 69,
+          "character": 2
+        }
+      },
+      "title": "Fast or strong",
+      "description": "**How it works:** the router's *path* picks the model role: `reactive` (simple questions) gets `haiku`, `workflow` (multi-step or risky work) gets `sonnet`.\n\n**Why it matters:** simple questions shouldn't pay for the strong model.\n\n**Watch out:** with the default OpenRouter setup, both roles are Gemini 2.5 Flash (tour 01). The split only changes cost when Claude is used."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 195,
+      "selection": {
+        "start": {
+          "line": 120,
+          "character": 1
+        },
+        "end": {
+          "line": 195,
+          "character": 6
+        }
+      },
+      "title": "Building the prompt",
+      "description": "**What it is:** the system prompt: the standing instructions the model reads before your question.\n\n**How it works:** it combines:\n- the role and goal for this route (from LangSmith)\n- service instructions (from LangSmith)\n- today's date, with worked examples like *last 7 days = … to …*\n- your entities (tour 08)\n- the last 6 messages, each cut to 300 characters\n\nThen it fills these into a template, also pulled from LangSmith.\n\n**Why it matters:** models are bad at dates. Spelling out *yesterday* and *this month* stops wrong date ranges in reports.\n\n**Watch out:** the date is in UTC. Near midnight, *today* can differ from the user's local day."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 233,
+      "selection": {
+        "start": {
+          "line": 198,
+          "character": 1
+        },
+        "end": {
+          "line": 233,
+          "character": 37
+        }
+      },
+      "title": "Picking the model",
+      "description": "**How it works:** if you picked a model in the chat settings, that wins. Otherwise the path decides (previous step). For Claude on the `workflow` path it turns on *extended thinking* with a 4,096-token budget; for OpenRouter it asks for high reasoning effort on every path.\n\n**Why it matters:** thinking makes multi-step tasks more reliable, and the thinking text streams to you as it happens.\n\n**Watch out:** `max_tokens` is 16,000 for the specialist, so a long answer is allowed but costs more."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 568,
+      "selection": {
+        "start": {
+          "line": 537,
+          "character": 1
+        },
+        "end": {
+          "line": 568,
+          "character": 71
+        }
+      },
+      "title": "Loading and filtering tools",
+      "description": "**How it works:**\n- `general`: no tools at all.\n- `orchestration`: tools from every network.\n- otherwise: tools for the routed network.\n\nIf you have no enabled account for that network, the tools are dropped. Then the list is narrowed: by explicit tags first, then by the tool registry, then by keywords, and finally by full-text search if more than 15 remain.\n\n**Why it matters:** an AdMob reporting question sees reporting tools, not 200 tools from nine networks.\n\n**Watch out:** the `retrieved_tools` branch only runs if the tool retriever node ran, and it never does (atlas A1). So it's always the tag filter in practice."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 581,
+      "selection": {
+        "start": {
+          "line": 570,
+          "character": 1
+        },
+        "end": {
+          "line": 581,
+          "character": 74
+        }
+      },
+      "title": "Attaching the tools",
+      "description": "**New idea — tool calling:** `bind_tools` gives the model each tool's name, description and argument schema. The model can then reply with *call this tool with these arguments* instead of text.\n\n**How it works:** for OpenRouter (Gemini), tool names are cleaned first: only certain characters, at most 64 long. If no tools loaded, the model runs without any.\n\n**Why it matters:** this is how the AI gets hands. Without tools, it can only talk.\n\n**Watch out:** cleaning renames the tool objects in place. The renamed tools are also the ones in the 5-minute cache, so the rename can carry over to later runs."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 625,
+      "selection": {
+        "start": {
+          "line": 604,
+          "character": 1
+        },
+        "end": {
+          "line": 625,
+          "character": 37
+        }
+      },
+      "title": "Second time round",
+      "description": "**How it works:** if tools have already run in this turn, this is a *second pass*. For Gemini only, it removes tools that already ran, so they can't be called again, and on the `workflow` path, before any write has happened, it sets `tool_choice=\"required\"`: the model **must** call another tool rather than stop and ask you.\n\n**Why it matters:** multi-step jobs (list ad sources → create a mediation group) keep moving instead of stalling halfway.\n\n**Watch out:** forcing a tool call is powerful but risky. The model may pick a tool with guessed values. The approval card (tour 11) is the safety net for writes."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 657,
+      "selection": {
+        "start": {
+          "line": 634,
+          "character": 1
+        },
+        "end": {
+          "line": 657,
+          "character": 124
+        }
+      },
+      "title": "A planted reminder",
+      "description": "**How it works:** on the first call with Gemini, the code adds a fake user message listing your top 5 accounts, and a fake assistant reply agreeing to use them.\n\n**Why it matters:** Gemini paid less attention to accounts listed in the system prompt, so the list is repeated where it's harder to miss.\n\n**Watch out:** the fake reply always says *I'll use your connected AdMob account*, even when you asked about Ad Manager. A small, odd nudge that could mislead the model."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 762,
+      "selection": {
+        "start": {
+          "line": 710,
+          "character": 1
+        },
+        "end": {
+          "line": 762,
+          "character": 51
+        }
+      },
+      "title": "Streaming the reply",
+      "description": "**How it works:** the reply arrives in small chunks. Each chunk can hold *thinking* or *text*:\n- thinking goes straight to `output_queue` as a `thinking` event\n- text goes to `content_queue`, and tour 06's worker turns it into `content` events\n\nBoth are also added up locally for the final result.\n\n**Why it matters:** this is why you see the agent think and write live.\n\n**Watch out:** Claude sends chunks as a list of typed blocks, while OpenRouter sends plain strings. The code handles both shapes, which is why the loop looks repetitive."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 824,
+      "selection": {
+        "start": {
+          "line": 809,
+          "character": 1
+        },
+        "end": {
+          "line": 824,
+          "character": 27
+        }
+      },
+      "title": "Tool calls arrive in pieces",
+      "description": "**How it works:** a tool call streams in parts: first the name, then the arguments as bits of JSON text. This joins the pieces by id.\n\n**Why it matters:** the full arguments only exist once the stream ends.\n\n**Watch out:** this partial list is replaced right after the loop by the fully parsed `tool_calls` from the merged response (next step). The piecing-together is mostly a fallback."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 830,
+      "selection": {
+        "start": {
+          "line": 826,
+          "character": 1
+        },
+        "end": {
+          "line": 830,
+          "character": 56
+        }
+      },
+      "title": "Putting the reply back together",
+      "description": "**How it works:** all chunks are added together into one message. From that message come the token counts (for cost tracking) and the finished tool calls with parsed arguments.\n\n**Why it matters:** streaming is for your screen. The merged message is what goes into the graph's state.\n\n**Watch out:** token usage hides in different places depending on the provider and library version. The code tries three spots."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 908,
+      "selection": {
+        "start": {
+          "line": 885,
+          "character": 1
+        },
+        "end": {
+          "line": 908,
+          "character": 44
+        }
+      },
+      "title": "No repeats",
+      "description": "**How it works:** a new tool call is dropped if the same tool with the same arguments already has a result in this turn. Arguments are compared with a stable key, so key order and JSON spacing don't matter.\n\n**Why it matters:** Gemini sometimes repeats a call after seeing its result. Without this, it could loop until the 25-step limit.\n\n**Watch out:** if every call was a repeat but there's text, that text becomes the answer."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 928,
+      "selection": {
+        "start": {
+          "line": 911,
+          "character": 1
+        },
+        "end": {
+          "line": 928,
+          "character": 14
+        }
+      },
+      "title": "Returning tool calls",
+      "description": "**How it works:** each tool call goes into the state with `result: None` and `is_dangerous: False`. The tool executor fills those in (tour 11). Any text written before the call is kept as `partial_response`, flagged as already streamed.\n\n**Why it matters:** `result: None` is exactly what tour 07's edge looks for to send the run to the tool executor.\n\n**Watch out:** the tools themselves are **not** stored in the state. The checkpointer can't save them, so the tool executor finds them again through the 5-minute cache (tour 10)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 979,
+      "selection": {
+        "start": {
+          "line": 950,
+          "character": 1
+        },
+        "end": {
+          "line": 979,
+          "character": 46
+        }
+      },
+      "title": "Returning the answer",
+      "description": "**How it works:** no tool calls means this is the final answer. It goes into `response`, with the model name and token counts. The flags mark that thinking and text were already streamed.\n\n**Why it matters:** an empty `tool_calls` plus a `response` is what ends the run (tour 07), and what tour 06 turns into the `result` event.\n\n**Watch out:** if text came only in the merged message (not streamed), it's pulled out of the content blocks here, so the answer isn't lost."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 992,
+      "selection": {
+        "start": {
+          "line": 985,
+          "character": 1
+        },
+        "end": {
+          "line": 992,
+          "character": 10
+        }
+      },
+      "title": "When the model call fails",
+      "description": "**How it works:** any error returns both `error` and a readable `response`.\n\n**Why it matters:** you see *I encountered an error…* instead of a frozen spinner.\n\n**Watch out:** the raw error text goes to the user. That's handy while building, but it can show provider details in production."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- List the six jobs of the specialist, in order.\n- Explain tool calling: what the model sees, and what it sends back.\n- Explain why tool lists are filtered, and the 15 / 5 rule.\n- Explain the second-pass rules: removing used tools, forcing a tool call, and dropping repeats.\n\n**Next:** *10 - Tools and MCP*. Where the tools come from and how they run."
+    }
+  ]
+}

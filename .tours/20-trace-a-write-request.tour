@@ -1,0 +1,220 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "20 - Trace: a write request",
+  "description": "One write request followed end to end, through the approval card.",
+  "nextTour": "21 - Interview prep",
+  "steps": [
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 46,
+      "selection": {
+        "start": {
+          "line": 46,
+          "character": 1
+        },
+        "end": {
+          "line": 46,
+          "character": 73
+        }
+      },
+      "title": "1. Router: admob_mediation, workflow",
+      "description": "**The request:** *Create a mediation group for my rewarded ad units.*\n\nThe router picks `admob_mediation` and `PATH: workflow`, because this is multi-step and changes your account. Workflow means the stronger model role, with thinking on (tour 09)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 620,
+      "selection": {
+        "start": {
+          "line": 620,
+          "character": 1
+        },
+        "end": {
+          "line": 620,
+          "character": 83
+        }
+      },
+      "title": "2. First, reads",
+      "description": "The model first calls read tools, like `accounts_adSources_list`. With Gemini, until a write happens, each pass is forced to call another tool instead of stopping to ask you (tour 09)."
+    },
+    {
+      "file": "backend/chat/tools/registry.py",
+      "line": 41,
+      "selection": {
+        "start": {
+          "line": 41,
+          "character": 1
+        },
+        "end": {
+          "line": 41,
+          "character": 17
+        }
+      },
+      "title": "3. Then the write",
+      "description": "The model calls `accounts_mediationGroups_create`. Its name ends in `_create`, so it's dangerous (tour 10)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 437,
+      "selection": {
+        "start": {
+          "line": 437,
+          "character": 1
+        },
+        "end": {
+          "line": 437,
+          "character": 89
+        }
+      },
+      "title": "4. IDs checked first",
+      "description": "Every ad source and ad unit id is checked against your account. A wrong id goes back to the model to fix, before you see anything."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 472,
+      "selection": {
+        "start": {
+          "line": 472,
+          "character": 1
+        },
+        "end": {
+          "line": 472,
+          "character": 43
+        }
+      },
+      "title": "5. The run pauses",
+      "description": "The approval is saved (temp file), the arguments are reshaped for the form, and `interrupt()` pauses the graph. Its state is already in Postgres (tour 11)."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 191,
+      "selection": {
+        "start": {
+          "line": 191,
+          "character": 1
+        },
+        "end": {
+          "line": 191,
+          "character": 45
+        }
+      },
+      "title": "6. The card appears",
+      "description": "The stream sends `tool_approval_required` with the form schema, then `done`. The run is now paused, not running."
+    },
+    {
+      "file": "frontend/src/components/chat/steps-timeline.tsx",
+      "line": 256,
+      "selection": {
+        "start": {
+          "line": 256,
+          "character": 1
+        },
+        "end": {
+          "line": 256,
+          "character": 41
+        }
+      },
+      "title": "7. You edit and allow",
+      "description": "You see a form with dropdowns filled from your real account. You change the eCPM floor, and the button becomes *Allow with Changes*."
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatApprovals.ts",
+      "line": 73,
+      "selection": {
+        "start": {
+          "line": 73,
+          "character": 1
+        },
+        "end": {
+          "line": 73,
+          "character": 77
+        }
+      },
+      "title": "8. Decision recorded",
+      "description": "The browser posts your decision to `/chat/approve-tool`, which updates the temp file."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 583,
+      "selection": {
+        "start": {
+          "line": 583,
+          "character": 1
+        },
+        "end": {
+          "line": 583,
+          "character": 41
+        }
+      },
+      "title": "9. The run resumes",
+      "description": "The browser calls `/chat/resume`. The agent sends `Command(resume={approved, modified_params})` into the saved thread (tour 07)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 480,
+      "selection": {
+        "start": {
+          "line": 480,
+          "character": 1
+        },
+        "end": {
+          "line": 480,
+          "character": 56
+        }
+      },
+      "title": "10. Your edits, checked again",
+      "description": "The tool executor runs again from its top; `interrupt()` now returns your decision. Your edited values replace the model's, and the ids are validated again."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 1540,
+      "selection": {
+        "start": {
+          "line": 1540,
+          "character": 1
+        },
+        "end": {
+          "line": 1540,
+          "character": 79
+        }
+      },
+      "title": "11. Form back to API",
+      "description": "Bidding and waterfall lines are merged into AdMob's format, and your euro floor becomes micros."
+    },
+    {
+      "file": "backend/mcp_servers/providers/admanager.py",
+      "line": 210,
+      "selection": {
+        "start": {
+          "line": 210,
+          "character": 1
+        },
+        "end": {
+          "line": 210,
+          "character": 45
+        }
+      },
+      "title": "12. The real change",
+      "description": "The generated `accounts_mediationGroups_create` tool sends the request to Google with your token. The new group now exists in your AdMob account."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 352,
+      "selection": {
+        "start": {
+          "line": 352,
+          "character": 1
+        },
+        "end": {
+          "line": 352,
+          "character": 63
+        }
+      },
+      "title": "13. Result and answer",
+      "description": "The `tool_result` shows on the card. The specialist confirms what was created, and the `result` event finishes the reply."
+    },
+    {
+      "title": "The whole write path",
+      "description": "### The whole write path\n\nRouter (`admob_mediation`, workflow) → specialist (reads first) → `accounts_mediationGroups_create` → dangerous → IDs checked → approval saved → `interrupt()` → card → your edits → `/chat/approve-tool` → `/chat/resume` → `Command(resume)` → tool executor again → edits checked → form→API → MCP → Google → result → answer.\n\n**Weak spots on this path:** no login check on approve, no ownership check on resume, and a page reload loses the resume. Know them before someone asks.\n\n**Next:** *21 - Interview prep*."
+    }
+  ]
+}

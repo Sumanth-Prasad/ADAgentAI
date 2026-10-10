@@ -1,0 +1,252 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "06 - The agent server",
+  "description": "The Python server: how it checks your login, runs the graph in the background, and streams events back.",
+  "nextTour": "07 - The LangGraph graph",
+  "steps": [
+    {
+      "file": "backend/chat_server.py",
+      "line": 44,
+      "selection": {
+        "start": {
+          "line": 33,
+          "character": 1
+        },
+        "end": {
+          "line": 44,
+          "character": 47
+        }
+      },
+      "title": "Settings first, imports second",
+      "description": "**What it is:** the top of the agent's main file.\n\n**How it works:** it loads `backend/.env` (or `api/.env` as a fallback) **before** importing the chat package, then adds the backend folder to Python's import path.\n\n**Why it matters:** some modules read settings like `DATABASE_URL` the moment they're imported. Loading `.env` later would be too late.\n\n**Watch out:** the comments above handle Windows: UTF-8 output and a special event loop. Your code was clearly run on Windows at some point."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 95,
+      "selection": {
+        "start": {
+          "line": 86,
+          "character": 1
+        },
+        "end": {
+          "line": 95,
+          "character": 25
+        }
+      },
+      "title": "Startup and shutdown",
+      "description": "**New idea — lifespan:** code before `yield` runs once when the server starts; code after it runs when the server stops.\n\n**How it works:** both times, it deletes the temporary files that track live streams and approvals.\n\n**Why it matters:** stale files from a crash don't confuse the next run.\n\n**Watch out:** this cleanup only makes sense because state lives in temp files on one machine (later in this tour)."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 123,
+      "selection": {
+        "start": {
+          "line": 98,
+          "character": 1
+        },
+        "end": {
+          "line": 123,
+          "character": 2
+        }
+      },
+      "title": "The FastAPI app and its CORS list",
+      "description": "**New idea — FastAPI:** a Python web framework. Decorators like `@app.post(\"/chat/stream\")` attach functions to addresses, and it reads JSON bodies into typed models for you.\n\n**How it works:** the CORS list allows your production domains, localhost, and any `adagent-ai…vercel.app` preview (`allow_origin_regex`).\n\n**Why it matters:** the browser calls this server directly, from another address, so CORS is required here, unlike the API inside Next.js.\n\n**Watch out:** `allow_methods` and `allow_headers` are `*`, which is permissive. That's acceptable only because every endpoint checks the token itself."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 136,
+      "selection": {
+        "start": {
+          "line": 130,
+          "character": 1
+        },
+        "end": {
+          "line": 136,
+          "character": 35
+        }
+      },
+      "title": "The request's shape",
+      "description": "**New idea — Pydantic models:** a class that describes the expected JSON. FastAPI checks incoming data against it and rejects bad requests with a 422 error.\n\n**How it works:** a chat request has a required `message`, plus optional `user_id`, `organization_id`, `history` and `context`.\n\n**Why it matters:** the endpoint can trust the *shape* of the data, though not its truth (next steps).\n\n**Watch out:** `history` and `context` are loose (`list`, `dict`), so their insides aren't checked."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 208,
+      "selection": {
+        "start": {
+          "line": 168,
+          "character": 1
+        },
+        "end": {
+          "line": 208,
+          "character": 6
+        }
+      },
+      "title": "The chat endpoint",
+      "description": "**How it works:**\n1. `validate_user_session` works out who you are from the token. Failure means 401.\n2. Organisation comes from the body or the header.\n3. Your settings (model, context mode, enabled accounts) come from `context`.\n4. It returns a `StreamingResponse` that runs `stream_chat_response` and sends each event as it's produced.\n\n**Why it matters:** this is the one door into the agent. Everything in tours 07–12 starts here.\n\n**Watch out:** `X-Accel-Buffering: no` tells proxies like Nginx not to hold the response back. Without it, a proxy could buffer the whole answer and the streaming would be lost."
+    },
+    {
+      "file": "backend/chat/utils/providers.py",
+      "line": 74,
+      "selection": {
+        "start": {
+          "line": 40,
+          "character": 1
+        },
+        "end": {
+          "line": 74,
+          "character": 20
+        }
+      },
+      "title": "Asking the API who you are",
+      "description": "**How it works:** take the token from `x-stack-access-token` or `Authorization: Bearer`, then send it to the API's `/api/chat/internal/validate-token` with the shared secret. A valid answer gives your user id.\n\n**Why it matters:** the agent trusts the API's answer, not anything the browser claims, such as `user_id` in the body.\n\n**Watch out:** this costs one extra network call per message. If `INTERNAL_API_KEY` isn't set, it returns `None` and every chat gets a 401, a common local setup mistake."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 171,
+      "selection": {
+        "start": {
+          "line": 143,
+          "character": 1
+        },
+        "end": {
+          "line": 171,
+          "character": 35
+        }
+      },
+      "title": "Setting up a stream",
+      "description": "**New idea — async generator:** `stream_chat_response` uses `yield` to hand out SSE events one at a time, and FastAPI sends each one as soon as it's yielded.\n\n**How it works:** it makes a short stream id, starts tracking metrics, and sends the id first so the browser could reconnect. Then it creates two queues:\n- `content_queue` for text pieces from the AI model\n- `output_queue` for finished SSE events, in the order they should go out\n\n**Why it matters:** the graph runs in the background and drops things into the queues. This function just reads `output_queue` and sends.\n\n**Watch out:** the id is only the first 8 characters of a UUID. It's also used as the LangGraph thread id, so the same short id identifies the saved state."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 239,
+      "selection": {
+        "start": {
+          "line": 173,
+          "character": 1
+        },
+        "end": {
+          "line": 239,
+          "character": 41
+        }
+      },
+      "title": "Running the graph",
+      "description": "**How it works:** it loops over everything `run_graph` yields (tour 07):\n- an `__interrupt__` means a tool needs approval, so it sends `tool_approval_required`\n- anything else is a node's update, converted into SSE events by `_convert_state_to_sse`\n\nAt the end it sends stop signals (`None`) down both queues.\n\n**Why it matters:** this is the bridge between LangGraph's world (state updates) and the browser's world (events).\n\n**Watch out:** it waits for `content_done` before stopping the output queue, so no text piece is lost or arrives after `done`."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 254,
+      "selection": {
+        "start": {
+          "line": 241,
+          "character": 1
+        },
+        "end": {
+          "line": 254,
+          "character": 31
+        }
+      },
+      "title": "Text pieces become events",
+      "description": "**How it works:** it reads each text piece from `content_queue`, keeps a copy, and wraps it as a `content` event on `output_queue`. `None` means stop.\n\n**Why it matters:** the specialist (tour 09) puts text into the queue word by word. This is how those words reach your screen while the model is still writing.\n\n**Watch out:** two producers write to `output_queue`: this task and the graph task. That's why everything funnels through one queue, so the order stays right."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 278,
+      "selection": {
+        "start": {
+          "line": 256,
+          "character": 1
+        },
+        "end": {
+          "line": 278,
+          "character": 25
+        }
+      },
+      "title": "The main loop",
+      "description": "**New idea — tasks:** `asyncio.create_task` starts a function running in the background while this one carries on.\n\n**How it works:** both workers start. The loop waits up to 0.1 seconds for the next event, yields it, and repeats. On a timeout it checks whether both workers are finished and drains what's left.\n\n**Why it matters:** this keeps the stream moving without busy-waiting, and stops cleanly when the work is done.\n\n**Watch out:** the 0.1-second timeout is a polling check, not a delay you'll notice."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 314,
+      "selection": {
+        "start": {
+          "line": 289,
+          "character": 1
+        },
+        "end": {
+          "line": 314,
+          "character": 62
+        }
+      },
+      "title": "Always finishing cleanly",
+      "description": "**How it works:** in `finally` (which runs no matter what), it cancels any running work, marks the stream finished, saves usage metrics (tokens, cost, time), then sends `finished` and `done`.\n\n**Why it matters:** the browser always gets `done`, so the spinner always stops.\n\n**Watch out:** if the browser disconnects, this cleanup cancels the graph task, so the run stops part-way. There's no background completion for a closed tab."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 378,
+      "selection": {
+        "start": {
+          "line": 362,
+          "character": 1
+        },
+        "end": {
+          "line": 378,
+          "character": 16
+        }
+      },
+      "title": "From node updates to events",
+      "description": "**How it works:** each node's update becomes events the UI understands:\n- **router** → `routing` and `agent`\n- **entity loader** → `action_required` (for example, connect AdMob first)\n- **specialist** → `thinking`, `content`, `tool` (one per tool call), or `result` when there are no tool calls\n- **tool executor** → `tool_result`, `tool_denied`, `action_required`\n\n**Why it matters:** this table is the contract between the agent and the chat UI. Tour 12 shows the other side.\n\n**Watch out:** it skips thinking or text that was already streamed live (`thinking_streamed`, `content_streamed`), so you never see the same words twice."
+    },
+    {
+      "file": "backend/chat/streaming/events.py",
+      "line": 27,
+      "selection": {
+        "start": {
+          "line": 9,
+          "character": 1
+        },
+        "end": {
+          "line": 27,
+          "character": 18
+        }
+      },
+      "title": "The list of event types",
+      "description": "**What it is:** every event the agent can send, defined in one place.\n\n**How it works:** each event is a small Pydantic class (below this list), and `format_sse` at the bottom of the file turns one into the text `data: {...}` followed by a blank line.\n\n**Why it matters:** the frontend's `StreamEvent` type in `lib/api.ts` (tour 04) mirrors this list. Change one and you must change the other.\n\n**Watch out:** `TASK_PROGRESS`, `TASK_COMPLETE` and `TASK_ERROR` exist for background tasks, but the main chat flow doesn't send them."
+    },
+    {
+      "file": "backend/chat/streaming/state.py",
+      "line": 23,
+      "selection": {
+        "start": {
+          "line": 11,
+          "character": 1
+        },
+        "end": {
+          "line": 23,
+          "character": 31
+        }
+      },
+      "title": "Where live state is kept",
+      "description": "**How it works:** which streams are active is written to JSON files in the server's temp folder. Results waiting to be collected sit in a Python dict in memory. Approvals (tour 11) use temp files the same way.\n\n**Why it matters:** it's simple and works on one server.\n\n**Watch out:** this is a single-server design. With two server instances, one wouldn't see the other's files or memory, and a restart wipes it all. The graph's own state is safer, because it's saved in Postgres (tour 07)."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 553,
+      "selection": {
+        "start": {
+          "line": 548,
+          "character": 1
+        },
+        "end": {
+          "line": 553,
+          "character": 74
+        }
+      },
+      "title": "A broken endpoint",
+      "description": "**What it is:** an admin endpoint meant to show all the agent's prompts.\n\n**How it works:** it imports `ROUTER_SYSTEM_PROMPT`, `SERVICE_INSTRUCTIONS` and `AGENT_ROLES` from the graph nodes.\n\n**Why it matters:** those names no longer exist. The prompts moved to LangSmith (tour 08), so calling this endpoint fails with an import error.\n\n**Watch out:** a good example of code drifting after a refactor. Know it, in case someone opens it."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Explain how a FastAPI endpoint returns a stream, and why `X-Accel-Buffering` matters.\n- Describe the two queues and the two background tasks, and why they share one output queue.\n- Explain how the agent checks your login without talking to Neon Auth.\n- Name the single-server parts (temp files, memory) and what breaks with more than one server.\n\n**Next:** *07 - The LangGraph graph*. The graph that `run_graph` actually runs."
+    }
+  ]
+}

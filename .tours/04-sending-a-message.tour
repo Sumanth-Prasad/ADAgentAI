@@ -1,0 +1,300 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "04 - Sending a message",
+  "description": "Follow one message from the moment you press Enter until it reaches the agent, and see how the answer streams back.",
+  "nextTour": "05 - The API inside Next.js",
+  "steps": [
+    {
+      "file": "frontend/src/components/chat/chat-input.tsx",
+      "line": 329,
+      "selection": {
+        "start": {
+          "line": 310,
+          "character": 1
+        },
+        "end": {
+          "line": 329,
+          "character": 4
+        }
+      },
+      "title": "You press Enter",
+      "description": "**What it is:** the key handler for the chat box.\n\n**How it works:** every key press runs this. Enter (without Shift) blocks the browser's default action and submits. Shift+Enter makes a new line. Typing `@` saves the cursor position and opens the command palette for picking accounts.\n\n**Why it matters:** this is the first line of code your message touches.\n\n**Watch out:** `e.preventDefault()` matters. Without it, Enter would also add a line break to the box."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-input.tsx",
+      "line": 308,
+      "selection": {
+        "start": {
+          "line": 298,
+          "character": 1
+        },
+        "end": {
+          "line": 308,
+          "character": 4
+        }
+      },
+      "title": "handleSubmit",
+      "description": "**What it is:** the submit function.\n\n**How it works:** read the text and trim the spaces. Stop if it's empty or a reply is still running. Otherwise call `onSend(text)`, the function the container passed in (tour 03), then clear the box.\n\n**Why it matters:** the input's job ends here. From now on, the container is in charge.\n\n**Watch out:** the box is cleared **straight away**, before the message is sent. If sending fails, your text is no longer in the box, though it still shows in the chat."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 192,
+      "selection": {
+        "start": {
+          "line": 191,
+          "character": 1
+        },
+        "end": {
+          "line": 192,
+          "character": 62
+        }
+      },
+      "title": "The container takes over",
+      "description": "**What it is:** `handleSendMessage`, the function that runs the whole send. The next steps go through it in order.\n\n**How it works:** a guard comes first. Do nothing if the text is blank, a reply is already loading, or you have no connected accounts.\n\n**Why it matters:** one message at a time keeps the chat history in order.\n\n**Watch out:** the guard returns silently. The input is already disabled in those cases, so users rarely hit it."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 234,
+      "selection": {
+        "start": {
+          "line": 194,
+          "character": 1
+        },
+        "end": {
+          "line": 234,
+          "character": 6
+        }
+      },
+      "title": "Cancelling old approvals",
+      "description": "**What it is:** clean-up before sending.\n\n**How it works:** if an earlier reply is still waiting for you to Allow or Deny a tool, sending a new message cancels it. The code adds a `tool_cancelled` event to that old message and marks the approval as `false`.\n\n**Why it matters:** an old approval no longer makes sense once you've moved on. Approving it later could change your ad account by surprise.\n\n**Watch out:** in `pendingApprovals`, `null` means *still waiting*, `true` means approved, and `false` means denied or cancelled."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 238,
+      "selection": {
+        "start": {
+          "line": 236,
+          "character": 1
+        },
+        "end": {
+          "line": 238,
+          "character": 55
+        }
+      },
+      "title": "Token and cancel switch",
+      "description": "**How it works:** get your login token. Then cancel any request that's still running (`abort()`) and create a new `AbortController` for this one.\n\n**New idea — AbortController:** a cancel switch for `fetch`. The request gets its `signal`, and calling `abort()` stops it.\n\n**Why it matters:** the Stop button and leaving the page both use it to cut off a running answer.\n\n**Watch out:** the old request is cancelled *before* the new one starts, so two answers never stream into the same chat."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 248,
+      "selection": {
+        "start": {
+          "line": 240,
+          "character": 1
+        },
+        "end": {
+          "line": 248,
+          "character": 6
+        }
+      },
+      "title": "Creating the chat",
+      "description": "**What it is:** the first message of a new chat creates a chat record in the database.\n\n**How it works:** `createSession` sends the first 2,000 characters as the title. Then `window.history.replaceState` changes the address to `/chat/<id>` without reloading the page.\n\n**Why it matters:** the chat now has a permanent address, so reloading brings it back.\n\n**Watch out:** if creating the chat fails, `sessionId` stays `null` and the chat still works. It just isn't saved."
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatSession.ts",
+      "line": 31,
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 31,
+          "character": 31
+        }
+      },
+      "title": "The create-chat request",
+      "description": "**How it works:** a plain `fetch` POST to `/api/chat/session`. It's the same site, so it goes to the Hono API inside Next.js (tour 01). It sends the token and, if you're in a team, the organisation id.\n\n**Why it matters:** this is a normal API call. Compare it with the chat call later in this tour, which goes to a **different** server.\n\n**Watch out:** the token travels as `x-stack-access-token`, a legacy header name. The API checks for that header first, then for `Authorization: Bearer` (see `extractAccessToken` in `frontend/src/server/lib/neon-auth.ts`)."
+    },
+    {
+      "file": "frontend/src/server/routes/chat.ts",
+      "line": 150,
+      "selection": {
+        "start": {
+          "line": 132,
+          "character": 1
+        },
+        "end": {
+          "line": 150,
+          "character": 4
+        }
+      },
+      "title": "The API saves the chat",
+      "description": "**What it is:** the API side of that request. Tour 05 covers the rest of the API.\n\n**How it works:**\n1. Before this runs, `requireAuth` has checked the token and stored the user, read here with `c.get(\"user\")`.\n2. `zValidator` checks the body matches `createSessionSchema`.\n3. Drizzle inserts a row into the `chat_sessions` table, and `.returning()` gives back the new row.\n4. It replies with status **201 Created**.\n\n**Why it matters:** chats are stored per user, and per organisation if you're in one.\n\n**Watch out:** the table definitions live in `frontend/src/server/db/schema.ts`."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 287,
+      "selection": {
+        "start": {
+          "line": 277,
+          "character": 1
+        },
+        "end": {
+          "line": 287,
+          "character": 56
+        }
+      },
+      "title": "Collecting the history",
+      "description": "**What it is:** the bookkeeping for this reply, plus the history sent to the agent.\n\n**How it works:** `events`, `toolCalls`, `toolResults` and `finalContent` will collect everything that streams back. `history` is every earlier message that has text, reduced to `{ role, content }`.\n\n**Why it matters:** the agent has no memory of earlier messages on its own. The history gives it context for follow-ups like *and yesterday?*\n\n**Watch out:** the full history is sent every time, but the agent only reads the last 6 messages."
+    },
+    {
+      "file": "frontend/src/lib/api.ts",
+      "line": 10,
+      "selection": {
+        "start": {
+          "line": 7,
+          "character": 1
+        },
+        "end": {
+          "line": 10,
+          "character": 55
+        }
+      },
+      "title": "Two different servers",
+      "description": "**What it is:** the two addresses the browser talks to.\n\n**How it works:**\n- `API_URL` is empty by default, which means *this same site*: the Hono API inside Next.js.\n- `AGENT_URL` is the Python agent, a **separate** server (`localhost:5001` locally, a Render address in production).\n\n**Why it matters:** the chat goes **straight** from your browser to the agent. Next.js isn't in the middle.\n\n**Watch out:** because the agent has a different address, it needs its own CORS settings (`ALLOWED_ORIGINS` in `chat_server.py`) and its own login check."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 275,
+      "selection": {
+        "start": {
+          "line": 250,
+          "character": 1
+        },
+        "end": {
+          "line": 275,
+          "character": 6
+        }
+      },
+      "title": "Showing it straight away",
+      "description": "**New idea — optimistic UI:** show the result **before** the server confirms it.\n\n**How it works:** the code creates your message and an **empty** assistant message, adds both to `messages`, and turns on loading. Your words appear at once, and the empty bubble fills in as the answer streams. Your message is also saved to the database in the background.\n\n**Why it matters:** the app feels instant, even though the agent may take a while.\n\n**Watch out:** `saveMessage` isn't awaited. A failed save doesn't block the chat, but it also doesn't tell you it failed."
+    },
+    {
+      "file": "frontend/src/lib/api.ts",
+      "line": 171,
+      "selection": {
+        "start": {
+          "line": 141,
+          "character": 1
+        },
+        "end": {
+          "line": 171,
+          "character": 8
+        }
+      },
+      "title": "The chat request",
+      "description": "**How it works:** a POST to `/chat/stream` on the agent, with:\n- `Accept: text/event-stream`, meaning *please stream the answer*\n- `Authorization: Bearer <token>`, saying who you are\n- `x-organization-id`, saying which team, if any\n- a body with your `message`, `history` and `context` (enabled accounts, model, context mode)\n\n**Why it matters:** this one request starts everything on the agent: routing, tools and the answer.\n\n**Watch out:** `user_id` is in the body too, but the agent **ignores** it and works out who you are from the token. Never trust an id the browser sends."
+    },
+    {
+      "file": "frontend/src/lib/api.ts",
+      "line": 213,
+      "selection": {
+        "start": {
+          "line": 177,
+          "character": 1
+        },
+        "end": {
+          "line": 213,
+          "character": 6
+        }
+      },
+      "title": "Reading the stream",
+      "description": "**New idea — Server-Sent Events (SSE):** the server keeps the response open and sends small messages as they're ready. Each one looks like `data: {...json...}` followed by a blank line.\n\n**How it works:** `getReader()` reads the response in chunks, and the decoder turns bytes into text. The text is split into lines. The last line may be half-finished, so it's kept in `buffer` for the next chunk. Each `data:` line is parsed as JSON and passed to `handleEvent`.\n\n**Why it matters:** this is why you see the answer appear word by word.\n\n**Watch out:** browsers have a built-in `EventSource` for SSE, but it only does GET requests without custom headers. This chat needs POST and a token, so the code reads the stream by hand."
+    },
+    {
+      "file": "frontend/src/lib/api.ts",
+      "line": 298,
+      "selection": {
+        "start": {
+          "line": 234,
+          "character": 1
+        },
+        "end": {
+          "line": 298,
+          "character": 2
+        }
+      },
+      "title": "One handler per event type",
+      "description": "**What it is:** a switch that sends each event to the right callback.\n\n**How it works:** the agent sends events like `routing` (which network and task), `thinking`, `tool` and `tool_result`, `tool_approval_required`, `content` (a piece of text), `result` (the final answer), `error` and `done`. Each one calls a matching function the container supplied, like `onContent`.\n\n**Why it matters:** `api.ts` only *reads* the stream. The container decides what each event does to the screen.\n\n**Watch out:** `done` is handled in the read loop instead (line 200), so it can only fire once."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 428,
+      "selection": {
+        "start": {
+          "line": 415,
+          "character": 1
+        },
+        "end": {
+          "line": 428,
+          "character": 11
+        }
+      },
+      "title": "Text appears as it arrives",
+      "description": "**How it works:** each chunk is added to `finalContent`, and the assistant message is updated with `setMessages`. React re-renders, and the bubble grows.\n\n**Why it matters:** this is the streaming you see on screen.\n\n**Watch out:** `setMessages(prev => …)` uses the **previous** value instead of `messages`. Inside a long-running async function, `messages` would be an old snapshot, while `prev` is always current."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 462,
+      "selection": {
+        "start": {
+          "line": 447,
+          "character": 1
+        },
+        "end": {
+          "line": 462,
+          "character": 11
+        }
+      },
+      "title": "When the answer is done",
+      "description": "**How it works:** loading turns off. If the chat is saved and there's an answer, the full reply is stored with extra details: the thinking, tool calls, tool results and every event.\n\n**Why it matters:** reopening the chat later shows the whole story, not just the final text.\n\n**Watch out:** if you close the tab mid-answer, `onDone` never runs, so the reply isn't saved."
+    },
+    {
+      "file": "frontend/src/lib/api.ts",
+      "line": 231,
+      "selection": {
+        "start": {
+          "line": 219,
+          "character": 1
+        },
+        "end": {
+          "line": 231,
+          "character": 4
+        }
+      },
+      "title": "When things go wrong",
+      "description": "**How it works:** two special cases:\n- `AbortError`: you pressed Stop or left the page. That's expected, so it's ignored.\n- a failed `fetch`: the agent can't be reached, so you get a clear *Unable to connect to agent service* message.\n\nAnything else goes to `onError`, which shows *Error: …* in the reply bubble.\n\n**Why it matters:** the most common local problem is forgetting to start the agent, and this message says exactly that.\n\n**Watch out:** an HTTP error like 401 is thrown on line 174, so it ends up here too, as `HTTP 401: Unauthorized`."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 178,
+      "selection": {
+        "start": {
+          "line": 168,
+          "character": 1
+        },
+        "end": {
+          "line": 178,
+          "character": 10
+        }
+      },
+      "title": "It lands on the agent",
+      "description": "**What it is:** where your request arrives, in the Python agent.\n\n**How it works:** FastAPI matches the path `/chat/stream` and reads the JSON body into a `ChatRequest`. The first thing it does is `validate_user_session`, which asks the Next.js API whether your token is real. No valid token means **401**.\n\n**Why it matters:** the agent doesn't trust anyone by default, not even the browser it serves.\n\n**Watch out:** tour 06 (the agent server) picks up from here. Tour 05 covers the Hono API first."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Trace a message: Enter → `handleSubmit` → `handleSendMessage` → `createSession` (API) → `streamChat` (agent).\n- Explain why the chat call goes straight to the agent while everything else goes to `/api`.\n- Explain SSE, and why the code reads the stream by hand instead of using `EventSource`.\n- Explain optimistic UI and the `prev =>` pattern.\n\n**Next:** *05 - The API inside Next.js*: Hono, the login check and the database."
+    }
+  ]
+}

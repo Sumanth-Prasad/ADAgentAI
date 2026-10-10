@@ -1,0 +1,262 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "02 - Next.js basics on your app",
+  "description": "How Next.js turns folders into pages, using your own app: layouts, route groups, loading and error screens, API routes.",
+  "nextTour": "03 - React basics on your chat page",
+  "steps": [
+    {
+      "directory": "frontend/src/app",
+      "title": "Folders become web addresses",
+      "description": "**New idea — the App Router:** in Next.js, the folder structure *is* the list of web addresses.\n- A folder with a `page.tsx` becomes a page. `app/(authenticated)/chat/page.tsx` becomes **/chat**.\n- A `layout.tsx` wraps every page in its folder and below, like a picture frame.\n- `loading.tsx` shows while a page loads. `error.tsx` shows if it crashes.\n- A `route.ts` is an API endpoint, not a page.\n\n**Why it matters:** to find the code for any screen, read its URL and follow the folders.\n\n**Watch out:** some folder names have brackets or parentheses. Those are special, and the next steps explain each kind."
+    },
+    {
+      "file": "frontend/src/app/layout.tsx",
+      "line": 37,
+      "selection": {
+        "start": {
+          "line": 33,
+          "character": 1
+        },
+        "end": {
+          "line": 37,
+          "character": 6
+        }
+      },
+      "title": "The root layout",
+      "description": "**New idea — layout and children:** `RootLayout` wraps **every** page in the app. `children` is a placeholder for whichever page is being shown.\n\n**How it works:** Next.js calls this function with the current page as `children`. Lines 61–72 put that page inside `<Providers>` and add the `<Toaster>` for pop-up messages.\n\n**Why it matters:** anything placed here appears on every page: fonts, theme, login state.\n\n**Watch out:** `Readonly<{ children: React.ReactNode }>` is TypeScript for *the props can't be changed, and children can be any React content*."
+    },
+    {
+      "file": "frontend/src/app/layout.tsx",
+      "line": 31,
+      "selection": {
+        "start": {
+          "line": 21,
+          "character": 1
+        },
+        "end": {
+          "line": 31,
+          "character": 3
+        }
+      },
+      "title": "Page title and icons",
+      "description": "**New idea — metadata:** exporting a `metadata` object tells Next.js what to put in the page's `<head>`: the tab title, the description and the icons.\n\n**How it works:** Next.js reads this when it builds the page. You never write a `<title>` tag by hand.\n\n**Why it matters:** this is how *ADAgentAI* appears in the browser tab and in link previews.\n\n**Watch out:** there are two icons, one for light mode and one for dark mode (`prefers-color-scheme`)."
+    },
+    {
+      "file": "frontend/src/app/layout.tsx",
+      "line": 19,
+      "selection": {
+        "start": {
+          "line": 8,
+          "character": 1
+        },
+        "end": {
+          "line": 19,
+          "character": 4
+        }
+      },
+      "title": "Fonts",
+      "description": "**What it is:** two Google fonts: Inter for text, JetBrains Mono for code.\n\n**How it works:** `next/font/google` downloads the fonts when the app is built and serves them from your own site. `variable: \"--font-inter\"` turns each font into a CSS variable, which line 59 attaches to the page.\n\n**Why it matters:** no extra request to Google when a page loads, and no flash of the wrong font.\n\n**Watch out:** the comment mentions Linear. The UI is styled after Linear's look."
+    },
+    {
+      "file": "frontend/src/app/layout.tsx",
+      "line": 57,
+      "selection": {
+        "start": {
+          "line": 39,
+          "character": 1
+        },
+        "end": {
+          "line": 57,
+          "character": 14
+        }
+      },
+      "title": "Hydration and the theme script",
+      "description": "**New idea — hydration:** Next.js first sends ready-made HTML, so the page shows quickly. Then React loads in the browser and *takes over* that HTML. That take-over is called hydration.\n\n**How it works:** this small script runs **before** React. It reads the saved theme and adds `dark` or `light` to the page straight away.\n\n**Why it matters:** without it, you'd see a flash of the wrong theme on every load.\n\n**Watch out:** the script changes the `<html>` tag before React arrives, so React would warn that the HTML doesn't match. `suppressHydrationWarning` on line 39 silences that one expected warning."
+    },
+    {
+      "directory": "frontend/src/app/(public)",
+      "title": "Route groups: (public) and (authenticated)",
+      "description": "**New idea — route groups:** a folder name in parentheses is **left out of the URL**. `app/(public)/pricing/page.tsx` is simply **/pricing**.\n\n**How it works:** a group exists to share a layout. `(public)` holds pages anyone can see: the landing page, login, blog, pricing and terms. `(authenticated)` holds pages that need you to log in: chat, dashboard, providers and settings.\n\n**Why it matters:** each group has its own `layout.tsx`, so logged-in pages get the sidebar and the login check without repeating code.\n\n**Watch out:** the home page is `(public)/page.tsx`, which is **/**."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/layout.tsx",
+      "line": 24,
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 24,
+          "character": 2
+        }
+      },
+      "title": "The logged-in layout",
+      "description": "**What it is:** the layout for every logged-in page.\n\n**New idea — Suspense:** `<Suspense fallback={…}>` means *if something inside is still loading, show this instead*. Here that's a spinner.\n\n**How it works:** this file has no `\"use client\"`, so it's a **server** component. It does one thing: it wraps the real work, `AuthenticatedLayoutClient`, in Suspense.\n\n**Why it matters:** splitting it this way keeps the browser-only code in one file, which is the next step."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/layout-client.tsx",
+      "line": 1,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 1,
+          "character": 13
+        }
+      },
+      "title": "\"use client\"",
+      "description": "**New idea — server and client components:** by default, Next.js runs components on the **server** and sends HTML. Writing `\"use client\"` at the top makes a file run in the **browser** too.\n\n**How it works:** you need the browser when a component uses state (`useState`), effects (`useEffect`), clicks, or browser tools like `useRouter` for redirects. This file uses all of those.\n\n**Why it matters:** server components send less JavaScript to the browser. Client components can react to the user. Your app uses both.\n\n**Watch out:** `\"use client\"` also applies to everything this file imports, so keep it as far down the tree as you can."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/layout-client.tsx",
+      "line": 60,
+      "selection": {
+        "start": {
+          "line": 48,
+          "character": 1
+        },
+        "end": {
+          "line": 60,
+          "character": 94
+        }
+      },
+      "title": "The login check",
+      "description": "**What it is:** the code that sends you away if you aren't allowed in.\n\n**How it works:** once your login status has loaded, two checks run:\n- not logged in → go to **/login**\n- logged in but not on the waitlist → go to **/access-denied**\n\nDemo mode skips both.\n\n**Why it matters:** it keeps logged-in pages out of sight for strangers.\n\n**Watch out:** this check runs in the **browser**, so it's a door sign, not a lock. The real lock is the API: every `/api` call checks your token on the server (tour 05). Your app has no Next.js middleware (or proxy) file, so nothing blocks pages on the server side."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/layout-client.tsx",
+      "line": 118,
+      "selection": {
+        "start": {
+          "line": 92,
+          "character": 1
+        },
+        "end": {
+          "line": 118,
+          "character": 4
+        }
+      },
+      "title": "The app shell",
+      "description": "**What it is:** the frame around every logged-in page: the sidebar, the banners and the terms-of-service pop-up.\n\n**How it works:** `{children}` on line 112 is where the current page goes. Everything around it stays in place.\n\n**Why it matters:** layouts **don't reload** when you move between pages. The sidebar keeps its state as you go from Chat to Dashboard.\n\n**Watch out:** the mobile menu button (line 99) only shows on small screens. `md:hidden` is Tailwind for *hide from medium width upwards*."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/page.tsx",
+      "line": 21,
+      "selection": {
+        "start": {
+          "line": 20,
+          "character": 1
+        },
+        "end": {
+          "line": 21,
+          "character": 71
+        }
+      },
+      "title": "A page file",
+      "description": "**What it is:** the page for **/chat**.\n\n**How it works:** a page is just the component a `page.tsx` file exports as `export default`. This one starts with `\"use client\"` (line 1) because it uses state and effects.\n\n**Why it matters:** this is where the chat screen starts. Tour 03 uses it for your React lesson.\n\n**Watch out:** the file is short on purpose. It loads your connected accounts, then hands everything to `ChatContainer`."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/[id]/page.tsx",
+      "line": 35,
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 35,
+          "character": 2
+        }
+      },
+      "title": "Dynamic routes: [id]",
+      "description": "**New idea — dynamic segments:** a folder name in square brackets matches *any* value. `chat/[id]/page.tsx` handles **/chat/abc123**, and `id` becomes `\"abc123\"`.\n\n**How it works:** Next.js passes the value in `params`. In Next.js 15 and 16, `params` is a **Promise**, so it's read with `await params` (line 20). That's why there's an `async` inner component wrapped in Suspense.\n\n**Why it matters:** each saved chat gets its own address that you can reload or share.\n\n**Watch out:** this file has no `\"use client\"`, so it's a server component. It passes the id to `ChatSessionClient`, which runs in the browser."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/loading.tsx",
+      "line": 25,
+      "selection": {
+        "start": {
+          "line": 3,
+          "character": 1
+        },
+        "end": {
+          "line": 25,
+          "character": 2
+        }
+      },
+      "title": "loading.tsx",
+      "description": "**New idea — instant loading screens:** if a folder has a `loading.tsx`, Next.js shows it straight away while the page loads.\n\n**How it works:** these grey `Skeleton` blocks copy the real layout: prompt buttons in the middle, the input box at the bottom.\n\n**Why it matters:** the screen never goes blank when you click a link.\n\n**Watch out:** Next.js wraps the page in a Suspense boundary for you here. It's the same idea as the logged-in layout, but automatic."
+    },
+    {
+      "file": "frontend/src/app/error.tsx",
+      "line": 17,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 17,
+          "character": 14
+        }
+      },
+      "title": "error.tsx",
+      "description": "**New idea — error boundaries:** if a page crashes while drawing itself, Next.js shows this component instead of a blank screen.\n\n**How it works:** it receives the `error` and a `reset` function. The *Try again* button calls `reset()` to draw the page again.\n\n**Why it matters:** one broken component doesn't take down the whole app.\n\n**Watch out:** error files **must** be client components, hence `\"use client\"`. There's also `global-error.tsx` for crashes in the root layout itself."
+    },
+    {
+      "file": "frontend/src/app/api/[[...route]]/route.ts",
+      "line": 10,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 10,
+          "character": 34
+        }
+      },
+      "title": "API routes and catch-alls",
+      "description": "**New idea — route handlers:** a `route.ts` file is an API endpoint, not a page. You export one function per HTTP method: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`.\n\n**New idea — catch-all:** `[...name]` matches one or more parts of a path. With **double** brackets, `[[...route]]` also matches nothing at all. So this file catches `/api` **and** everything under it.\n\n**Why it matters:** this one file sends all `/api` traffic to Hono. That's why the API code doesn't follow Next.js folder rules: Hono has its own router.\n\n**Watch out:** you met this file in tour 01. Now you know why the brackets look like that."
+    },
+    {
+      "file": "frontend/src/app/api/auth/[...path]/route.ts",
+      "line": 10,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 10,
+          "character": 46
+        }
+      },
+      "title": "Neon Auth's routes",
+      "description": "**What it is:** the login endpoints, handled by Neon Auth's own code.\n\n**How it works:** `[...path]` (single brackets) catches everything under `/api/auth`. The comment lists what's inside: sign-in, sign-up, sign-out, session, and the callback after Google sign-in.\n\n**Why it matters:** login wasn't written from scratch. Neon Auth provides it, and your code only *checks* the tokens it hands out.\n\n**Watch out:** both this file and `api/[[...route]]` could match `/api/auth/session`. Next.js always picks the **more specific** route, so this one wins."
+    },
+    {
+      "file": "frontend/next.config.ts",
+      "line": 30,
+      "selection": {
+        "start": {
+          "line": 24,
+          "character": 1
+        },
+        "end": {
+          "line": 30,
+          "character": 25
+        }
+      },
+      "title": "Next.js settings",
+      "description": "**What it is:** app-wide Next.js settings.\n\n**How it works:**\n- `reactCompiler: true`: React automatically skips re-renders that aren't needed, so hand-written `useMemo` is often unnecessary (your code still has some).\n- `cacheComponents: true`: *Partial Prerendering*. The fixed parts of a page are built ahead of time, and the changing parts stream in.\n\n**Why it matters:** both make pages faster without extra code.\n\n**Watch out:** prerendering runs code at **build** time, where some things break. Your history has the fix, *resolve PPR crypto.randomUUID() error on blog pages* (Feb 9). It's also why the API starts Sentry and analytics lazily, on the first request."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Find the code for any screen from its URL.\n- Tell a server component (no `\"use client\"`) from a client component.\n- Explain route groups `( )`, dynamic segments `[ ]`, and catch-alls `[...]` and `[[...]]`.\n- Say why the login check in the browser isn't real security, and where the real check is.\n\n**Next:** *03 - React basics on your chat page*. It covers state, effects, props and hooks, using the chat screen."
+    }
+  ]
+}

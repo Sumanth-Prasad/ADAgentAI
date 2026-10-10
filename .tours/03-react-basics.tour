@@ -1,0 +1,236 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "03 - React basics on your chat page",
+  "description": "React from zero, taught on your chat screen: components, state, effects, props, refs, custom hooks, context and memo.",
+  "nextTour": "04 - Sending a message",
+  "steps": [
+    {
+      "file": "frontend/src/app/(authenticated)/chat/page.tsx",
+      "line": 24,
+      "selection": {
+        "start": {
+          "line": 20,
+          "character": 1
+        },
+        "end": {
+          "line": 24,
+          "character": 69
+        }
+      },
+      "title": "Components and state",
+      "description": "**New idea — component:** a function that returns what to show on screen. `ChatPage` is one.\n\n**New idea — state:** `React.useState(...)` gives a component a value it remembers between renders, plus a function to change it. `const [providers, setProviders] = React.useState<Provider[]>([])` means: start with an empty list, and call `setProviders` to change it.\n\n**New idea — hooks:** functions whose names start with `use` (`useUser`, `useState`) are hooks. Call them at the top of a component, never inside an `if` or a loop.\n\n**How it works:** when you call a setter, React **runs the component again** and updates the screen.\n\n**Why it matters:** this is how the screen changes when data arrives. You never edit the page directly.\n\n**Watch out:** `_fetchAttempted` is set but never read. A leading underscore is the convention for *intentionally unused*."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/page.tsx",
+      "line": 37,
+      "selection": {
+        "start": {
+          "line": 26,
+          "character": 1
+        },
+        "end": {
+          "line": 37,
+          "character": 72
+        }
+      },
+      "title": "useEffect: doing work after render",
+      "description": "**New idea — effect:** `useEffect` runs code **after** the component appears on screen. It's the right place to fetch data.\n\n**How it works:** the effect defines an `async` function and calls it. That function gets your login token, then calls `/api/providers` through `authFetch`, which adds the token to the request.\n\n**Why it matters:** this is how the chat page learns which ad accounts you've connected.\n\n**Watch out:** the effect function itself can't be `async`. That's why the code defines `fetchProviders` inside it and calls it near the end (line 71)."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/page.tsx",
+      "line": 53,
+      "selection": {
+        "start": {
+          "line": 39,
+          "character": 1
+        },
+        "end": {
+          "line": 53,
+          "character": 40
+        }
+      },
+      "title": "Turning API data into app data",
+      "description": "**What it is:** reshaping the API's reply into the `Provider` type the UI uses.\n\n**How it works:** `.map(...)` builds a new object for each provider. AdMob accounts keep a `publisherId`; Ad Manager (`gam`) accounts keep a `networkCode`. Then `setProviders(...)` stores the list, and React re-renders.\n\n**Why it matters:** the UI never depends on the raw API shape, so the API can change without breaking every component.\n\n**Watch out:** on a 401 (token not ready yet), it just returns and waits. The effect runs again when your user data updates, which is the next step."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/page.tsx",
+      "line": 73,
+      "selection": {
+        "start": {
+          "line": 69,
+          "character": 1
+        },
+        "end": {
+          "line": 73,
+          "character": 44
+        }
+      },
+      "title": "The dependency list",
+      "description": "**New idea — dependencies:** the array at the end of `useEffect` lists the values it depends on. React runs the effect again whenever one of them changes.\n\n**How it works:** here that's `getAccessToken`, `isUserLoading` and `user`. When your login finishes loading, `user` changes and the effect runs again, this time with a token.\n\n**Why it matters:** this is how the 401 case in the last step fixes itself.\n\n**Watch out:** an empty array `[]` means *run once*. No array at all means *run after every render*, a common cause of endless loops."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/page.tsx",
+      "line": 85,
+      "selection": {
+        "start": {
+          "line": 75,
+          "character": 1
+        },
+        "end": {
+          "line": 85,
+          "character": 95
+        }
+      },
+      "title": "Conditional rendering and props",
+      "description": "**New idea — conditional rendering:** a component can return different things. While the user loads, this one returns only a spinner.\n\n**New idea — props:** `<ChatContainer providers={providers} isLoadingProviders={isLoading} />` passes data **down** to a child component. The child can read props but not change them.\n\n**Why it matters:** the page fetches the data and the container shows it. Each component has one job.\n\n**Watch out:** `key=\"new-chat\"` is a special prop. When a key changes, React throws the old component away and starts fresh. As the comment says, that resets the chat when you go from a saved chat back to **/chat**."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 37,
+      "selection": {
+        "start": {
+          "line": 25,
+          "character": 1
+        },
+        "end": {
+          "line": 37,
+          "character": 25
+        }
+      },
+      "title": "Typing props with TypeScript",
+      "description": "**What it is:** the list of props `ChatContainer` accepts.\n\n**How it works:** the `interface` describes each prop's type, and `?` means optional. Inside the function's brackets, `initialMessages = []` sets a default, and `sessionId: initialSessionId` renames a prop for use inside.\n\n**Why it matters:** TypeScript catches mistakes before the app runs, like passing text where a list is expected.\n\n**Watch out:** this `{ a, b = default }` pattern is called *destructuring*. You'll see it all over React code."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 53,
+      "selection": {
+        "start": {
+          "line": 45,
+          "character": 1
+        },
+        "end": {
+          "line": 53,
+          "character": 66
+        }
+      },
+      "title": "State vs refs",
+      "description": "**New idea — refs:** `useRef` also remembers a value, but changing it does **not** redraw the screen.\n\n**How it works:**\n- `messages`, `isLoading` and `currentSessionId` are **state**, because the screen depends on them.\n- `abortControllerRef`, `currentStreamIdRef` and `currentAssistantIdRef` are **refs**: background bookkeeping, read with `.current`.\n\n**Why it matters:** the abort controller lets the **Stop** button cancel a running request. It must be remembered, but there's nothing to show on screen.\n\n**Watch out:** if a value appears on screen, it must be state. If you keep it in a ref, the screen won't update when it changes."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 81,
+      "selection": {
+        "start": {
+          "line": 55,
+          "character": 1
+        },
+        "end": {
+          "line": 81,
+          "character": 5
+        }
+      },
+      "title": "Custom hooks",
+      "description": "**New idea — custom hooks:** you can write your own `use…` functions to move logic out of a component.\n\n**How it works:** the container uses three:\n- `useChatSession` creates a chat in the database and saves messages.\n- `useChatApprovals` tracks tools waiting for your Allow or Deny.\n- `useChatPersistence` restores the chat from the browser's storage after a reload.\n\n**Why it matters:** your project's rule (in `CLAUDE.md`) is *components render UI, hooks handle logic*. That keeps this 579-line component from growing even bigger.\n\n**Watch out:** hooks can take functions and refs as inputs. `useChatApprovals` receives `setMessages`, so it can update the chat from outside the component."
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatSession.ts",
+      "line": 37,
+      "selection": {
+        "start": {
+          "line": 12,
+          "character": 1
+        },
+        "end": {
+          "line": 37,
+          "character": 47
+        }
+      },
+      "title": "Inside a custom hook",
+      "description": "**What it is:** one custom hook, up close.\n\n**How it works:** it returns two functions. `createSession` sends a POST to `/api/chat/session` and returns the new chat's id. `saveMessage` stores one message.\n\n**New idea — useCallback:** wrapping a function in `useCallback` keeps the **same** function between renders, unless its dependencies (`getAccessToken`, `selectedOrganizationId`) change.\n\n**Why it matters:** stable functions stop effects and child components from re-running for no reason.\n\n**Watch out:** this hook sends the token in a header called `x-stack-access-token`, while most other calls use `Authorization: Bearer`. It's a legacy name, and the API accepts both."
+    },
+    {
+      "file": "frontend/src/contexts/user-context.tsx",
+      "line": 751,
+      "selection": {
+        "start": {
+          "line": 745,
+          "character": 1
+        },
+        "end": {
+          "line": 751,
+          "character": 2
+        }
+      },
+      "title": "Context: sharing without passing props",
+      "description": "**New idea — context:** some data is needed almost everywhere, like who's logged in. Instead of passing it through every component as props, React lets you put it in a **context** that any component below can read.\n\n**How it works:** `UserProvider` (line 85) puts the user, the token helper and the organisation into `UserContext`. `useUser()` reads it. If a component calls `useUser()` outside the provider, it throws a clear error.\n\n**Why it matters:** any component can call `useUser()` to get the token. That's how the chat page got `getAccessToken`.\n\n**Watch out:** when a context value changes, every component reading it re-renders. That's why big apps split context into several smaller ones."
+    },
+    {
+      "file": "frontend/src/components/providers/index.tsx",
+      "line": 60,
+      "selection": {
+        "start": {
+          "line": 40,
+          "character": 1
+        },
+        "end": {
+          "line": 60,
+          "character": 40
+        }
+      },
+      "title": "The provider stack",
+      "description": "**What it is:** every app-wide context, nested like layers of an onion. The root layout wraps every page in this.\n\n**How it works**, from outside to inside:\n1. PostHog: product analytics\n2. React Query: caching for API data\n3. Neon Auth UI: login screens and the session\n4. Demo mode and demo experiments\n5. User: the `useUser()` data\n6. Entity data: your accounts and apps\n7. Theme: light or dark\n\n**Why it matters:** order matters, because an inner provider can use an outer one. `UserProvider` reads the session from Neon Auth, so it sits inside it.\n\n**Watch out:** the `Suspense` with `fallback={null}` (line 52) means that while something inside loads, nothing is shown rather than a spinner."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 189,
+      "selection": {
+        "start": {
+          "line": 163,
+          "character": 1
+        },
+        "end": {
+          "line": 189,
+          "character": 115
+        }
+      },
+      "title": "useMemo: remembering calculations",
+      "description": "**New idea — useMemo:** `useMemo(() => value, [deps])` remembers a calculated value and only recalculates it when the deps change.\n\n**How it works:** the container works out which accounts are active and enabled, then builds `chatContext`. That's the settings sent to the agent with every message: enabled accounts, model and context mode.\n\n**Why it matters:** without it, these values would be rebuilt on every render, and anything depending on them would think they had changed.\n\n**Watch out:** with the React Compiler switched on (tour 02), much of this would happen automatically. The hand-written versions still work."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-input.tsx",
+      "line": 436,
+      "selection": {
+        "start": {
+          "line": 418,
+          "character": 1
+        },
+        "end": {
+          "line": 436,
+          "character": 13
+        }
+      },
+      "title": "JSX and Tailwind",
+      "description": "**New idea — JSX:** the HTML-like code inside a component. It turns into JavaScript. Two differences from HTML: `className` instead of `class`, and `{ }` for JavaScript values.\n\n**How it works:**\n- `className={cn(...)}` combines Tailwind classes. Each class is one small style: `px-4` is horizontal padding, `text-sm` is small text, `max-h-[200px]` is a custom height limit.\n- `contentEditable` makes a plain `div` editable. It's used instead of a textarea so accounts can appear as inline badges when you type `@`.\n- `data-testid=\"chat-input\"` lets the Playwright tests find this box.\n\n**Why it matters:** you can now read any component: logic at the top, JSX at the bottom.\n\n**Watch out:** editable divs are fiddly. Pasting, cursor position and empty states all need custom code, which is a big part of why this file is 601 lines."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 520,
+      "selection": {
+        "start": {
+          "line": 513,
+          "character": 1
+        },
+        "end": {
+          "line": 520,
+          "character": 44
+        }
+      },
+      "title": "Passing a function down",
+      "description": "**New idea — lifting state up:** the input box doesn't send messages itself. The container passes it a function, `onSend={handleSendMessage}`, and the input calls it.\n\n**How it works:** data flows **down** as props (`isLoading`, `providers`), and events flow **up** through functions (`onSend`, `onStop`).\n\n**Why it matters:** the container owns the chat state, so it's the only place that changes it. That makes the flow easy to follow, and tour 04 traces it.\n\n**Watch out:** `disabled={!hasProviders}` greys out the input until you connect an ad account."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Read a component: props in, state and effects inside, JSX out.\n- Tell state from refs, and say when an effect runs again.\n- Follow data down (props) and events up (functions).\n- Say where shared data lives (context) and where logic lives (custom hooks).\n\n**Next:** *04 - Sending a message*. It follows your typed message from the input box to the agent server."
+    }
+  ]
+}

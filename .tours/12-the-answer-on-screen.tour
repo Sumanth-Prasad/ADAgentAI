@@ -1,0 +1,220 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "12 - The answer on screen",
+  "description": "How streamed events become the timeline, the approval card and the final answer, and how the chat survives a reload.",
+  "nextTour": "13 - Production",
+  "steps": [
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 475,
+      "selection": {
+        "start": {
+          "line": 417,
+          "character": 1
+        },
+        "end": {
+          "line": 475,
+          "character": 26
+        }
+      },
+      "title": "What the browser receives",
+      "description": "**How it works:** from a specialist update, the stream sends `thinking` (unless already streamed), `content` for text written before a tool call (unless already streamed), one `tool` event per new tool call, and `result` only when there are no tool calls.\n\n**Why it matters:** `result` means *this is the final answer*. Everything else is the story of how it got there.\n\n**Watch out:** each `tool` event carries the same data twice: as `name`/`params` for a newer format, and as `tool`/`input_preview` for an older one. The browser reads the older fields (tour 04)."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 304,
+      "selection": {
+        "start": {
+          "line": 295,
+          "character": 1
+        },
+        "end": {
+          "line": 304,
+          "character": 11
+        }
+      },
+      "title": "Routing shows up",
+      "description": "**How it works:** the routing event is saved in the reply's `events` list, and the reply's label becomes the service and capability, like `admob / reporting`.\n\n**Why it matters:** you can see which specialist is answering, before any text arrives.\n\n**Watch out:** `events` is a plain local list. Each update copies it into state with `[...events]`, so React sees a new list and redraws."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 328,
+      "selection": {
+        "start": {
+          "line": 312,
+          "character": 1
+        },
+        "end": {
+          "line": 328,
+          "character": 11
+        }
+      },
+      "title": "Thinking grows live",
+      "description": "**How it works:** if the last event is already a thinking event, the new text is added to it; otherwise a new thinking event starts.\n\n**Why it matters:** one growing thinking block instead of hundreds of tiny ones.\n\n**Watch out:** this changes `lastEvent.content` in place, on an object React already holds. It works because the list is copied each time, but React's rule is not to change state objects directly."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 351,
+      "selection": {
+        "start": {
+          "line": 329,
+          "character": 1
+        },
+        "end": {
+          "line": 351,
+          "character": 11
+        }
+      },
+      "title": "A tool call shows up",
+      "description": "**How it works:** any text written so far is first saved as a `content` event. Then the tool call is added with its parsed arguments.\n\n**Why it matters:** this builds the *chain of thought* you see: *I'll check your revenue…* → tool call → result → answer.\n\n**Watch out:** if the arguments aren't valid JSON, they're kept as `{ input: … }` so the step still shows."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 372,
+      "selection": {
+        "start": {
+          "line": 352,
+          "character": 1
+        },
+        "end": {
+          "line": 372,
+          "character": 11
+        }
+      },
+      "title": "A tool result shows up",
+      "description": "**How it works:** JSON results are parsed and unwrapped from MCP's text blocks (`extractMcpContent`), then saved as a `tool_result` event matched to its call by name.\n\n**Why it matters:** the timeline can show the result as a readable tree instead of a string.\n\n**Watch out:** matching by name means two calls to the same tool in one reply can pair up wrongly. The comment says name matching was added to fix results after an approval."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 414,
+      "selection": {
+        "start": {
+          "line": 373,
+          "character": 1
+        },
+        "end": {
+          "line": 414,
+          "character": 11
+        }
+      },
+      "title": "Approvals, denials and actions",
+      "description": "**How it works:** an approval request is saved as an event and added to `pendingApprovals` as `null` (waiting). A denial and an *action required* (like *connect AdMob*) are saved as events too.\n\n**Why it matters:** every special situation is just another event in the same list, drawn by its own component.\n\n**Watch out:** the schema is passed through untouched. The card trusts the agent's schema completely."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 438,
+      "selection": {
+        "start": {
+          "line": 429,
+          "character": 1
+        },
+        "end": {
+          "line": 438,
+          "character": 11
+        }
+      },
+      "title": "The final answer",
+      "description": "**How it works:** the `result` event replaces the streamed text with the final version and is saved as its own event.\n\n**Why it matters:** the streamed text and the final answer can differ slightly. The result is the one that's kept.\n\n**Watch out:** this is where tour 04's `onDone` picks up and saves the reply to the database."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-messages.tsx",
+      "line": 101,
+      "selection": {
+        "start": {
+          "line": 63,
+          "character": 1
+        },
+        "end": {
+          "line": 101,
+          "character": 85
+        }
+      },
+      "title": "The message list",
+      "description": "**How it works:** every message is drawn in order. Only the **last** message, if it's from the assistant and loading is on, is marked as streaming. A typing indicator shows while waiting for the first event.\n\n**Why it matters:** older messages are drawn as finished, so only the newest one animates.\n\n**Watch out:** `TypingIndicator` and the scroll button are wrapped in `React.memo`, so they don't redraw with every streamed word."
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message.tsx",
+      "line": 470,
+      "selection": {
+        "start": {
+          "line": 428,
+          "character": 1
+        },
+        "end": {
+          "line": 470,
+          "character": 35
+        }
+      },
+      "title": "Sorting a reply's events",
+      "description": "**How it works:** the reply's events are split into three groups:\n- timeline events: routing, thinking, content, tools, approvals\n- denials and *action required*, shown as separate blocks\n- the final answer, from the `result` event (or from the plain text for simple replies)\n\n**Why it matters:** one list of events, drawn in three places.\n\n**Watch out:** if tools were used but no `result` arrived (for example, the run stopped), there's no final answer block, only the timeline."
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message.tsx",
+      "line": 520,
+      "selection": {
+        "start": {
+          "line": 483,
+          "character": 1
+        },
+        "end": {
+          "line": 520,
+          "character": 43
+        }
+      },
+      "title": "Drawing a reply",
+      "description": "**How it works:** top to bottom: the steps timeline, then denial blocks, then *action required* blocks (with a link like *Connect AdMob*), then the answer.\n\n**Why it matters:** you see *how* the agent got there before *what* it concluded.\n\n**Watch out:** while streaming with no timeline yet, the answer block shows the live text directly."
+    },
+    {
+      "file": "frontend/src/components/chat/steps-timeline.tsx",
+      "line": 566,
+      "selection": {
+        "start": {
+          "line": 540,
+          "character": 1
+        },
+        "end": {
+          "line": 566,
+          "character": 44
+        }
+      },
+      "title": "The timeline hands off to the card",
+      "description": "**How it works:** when the timeline reaches an approval event, it draws the `ToolApprovalStep` from tour 11, with its state: pending, running, denied, or finished with a result.\n\n**Why it matters:** the approval lives inside the timeline, exactly where the agent paused.\n\n**Watch out:** the card's state comes from `pendingApprovals` and the events after it, not from the server. A reload rebuilds it from saved messages."
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message.tsx",
+      "line": 120,
+      "selection": {
+        "start": {
+          "line": 66,
+          "character": 1
+        },
+        "end": {
+          "line": 120,
+          "character": 31
+        }
+      },
+      "title": "Markdown",
+      "description": "**How it works:** the answer is Markdown, drawn by `ReactMarkdown`. `remarkGfm` adds tables and lists; `remarkBreaks` keeps single line breaks.\n\n**Why it matters:** revenue tables from the model show as real tables.\n\n**Watch out:** this file also has `AssistantMessageLegacy`, which nothing uses any more."
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatPersistence.ts",
+      "line": 34,
+      "selection": {
+        "start": {
+          "line": 7,
+          "character": 1
+        },
+        "end": {
+          "line": 34,
+          "character": 35
+        }
+      },
+      "title": "Surviving a reload",
+      "description": "**How it works:** the current chat (messages and chat id) is saved in the browser's `localStorage` under `adagent_active_chat`, and restored when the page loads.\n\n**Why it matters:** a refresh doesn't wipe a conversation in progress.\n\n**Watch out:** this restores the *messages*, not the agent's in-memory stream id, which is why a reload breaks resuming an approval (tour 11). Saved chats are reopened from the database instead, through `/api/chat/session/<id>`."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Map each event type to what you see on screen.\n- Explain the chain of thought: text → tool call → result → answer.\n- Explain where a reply is kept: React state, then `localStorage`, then the database.\n- Explain why only the last message streams, and how `React.memo` helps.\n\n**You've now followed one message all the way round.** Next come 13 (production), the system tours, the two real-request traces, and the remaining atlases."
+    }
+  ]
+}

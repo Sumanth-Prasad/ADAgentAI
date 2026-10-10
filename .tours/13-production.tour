@@ -1,0 +1,156 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "13 - Production",
+  "description": "Where everything runs, the settings that must be right, releases, Sentry, and Claude in GitHub.",
+  "nextTour": "14 - Login and OAuth",
+  "steps": [
+    {
+      "file": "frontend/vercel.json",
+      "line": 4,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      },
+      "title": "The Next.js app on Vercel",
+      "description": "**What it is:** the only Vercel setting: build with Bun.\n\n**How it works:** Vercel detects Next.js and builds `frontend` (`bun run build`, which builds the design tokens first). The pages and the Hono API ship together as one deployment. Each API call runs as a serverless function, up to 30 seconds (tour 01).\n\n**Why it matters:** one deploy for the whole website, with preview URLs for every branch.\n\n**Watch out:** `backend/api/vercel.json` is from the old standalone API and isn't used any more."
+    },
+    {
+      "file": "frontend/src/server/env.ts",
+      "line": 16,
+      "selection": {
+        "start": {
+          "line": 3,
+          "character": 1
+        },
+        "end": {
+          "line": 16,
+          "character": 4
+        }
+      },
+      "title": "The API's settings, checked",
+      "description": "**What it is:** the list of environment variables the API needs, checked with Zod.\n\n**How it works:** the database URL, Neon Auth's address, the token encryption secret (at least 32 characters), Google OAuth keys, optional Polar billing keys, and the site addresses.\n\n**Why it matters:** a missing or malformed setting fails clearly instead of breaking in a random route.\n\n**Watch out:** `BACKEND_URL` defaults to port 3001, the old standalone API. Google's OAuth callback is built from it (tour 14), so in production it must point at the Next.js app."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 20,
+      "selection": {
+        "start": {
+          "line": 20,
+          "character": 1
+        },
+        "end": {
+          "line": 20,
+          "character": 61
+        }
+      },
+      "title": "How the agent finds the API",
+      "description": "**How it works:** every call from the agent to the API (login check, accounts, Google tokens) uses `API_URL`.\n\n**Why it matters:** in production this must be the Vercel address of the Next.js app.\n\n**Watch out:** the default is `localhost:3001`, the old API's port. Since the API moved into Next.js (port 3000 locally), an unset `API_URL` sends the agent to a server that no longer runs, and every chat fails the login check."
+    },
+    {
+      "file": "backend/requirements.txt",
+      "line": 2,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 2,
+          "character": 101
+        }
+      },
+      "title": "The agent on Render",
+      "description": "**What it is:** the Python packages Render installs for the agent.\n\n**How it works:** this file is generated from `pyproject.toml` with `uv pip compile` for Linux and Python 3.13. Locally you use `uv` and `uv.lock` instead.\n\n**Why it matters:** Render runs `chat_server.py` from this list, so the agent works the same way in production as on your machine.\n\n**Watch out:** regenerate it whenever `pyproject.toml` changes, or production can be missing a package that works locally."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 114,
+      "selection": {
+        "start": {
+          "line": 106,
+          "character": 1
+        },
+        "end": {
+          "line": 114,
+          "character": 2
+        }
+      },
+      "title": "The production addresses",
+      "description": "**How it works:** the agent accepts browser requests from the Vercel app (`ad-agent-ai.vercel.app`), two `kovio.dev` domains (internal and dashboard), and localhost.\n\n**Why it matters:** this list doubles as a map of where the product ran.\n\n**Watch out:** adding a new domain means changing code and redeploying the agent."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 662,
+      "selection": {
+        "start": {
+          "line": 640,
+          "character": 1
+        },
+        "end": {
+          "line": 662,
+          "character": 36
+        }
+      },
+      "title": "Starting the agent",
+      "description": "**How it works:** Uvicorn serves FastAPI on `AGENT_PORT` (default 5000). On Windows it forces a selector event loop, which the Postgres driver needs.\n\n**Why it matters:** this is the command Render runs.\n\n**Watch out:** it reads `AGENT_PORT`, not Render's usual `PORT`. Render has to be told the port, or the port has to be set as `AGENT_PORT`."
+    },
+    {
+      "file": ".github/workflows/sentry-release.yml",
+      "line": 32,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 32,
+          "character": 42
+        }
+      },
+      "title": "Releases to Sentry",
+      "description": "**How it works:** every push to `main` builds the frontend and creates a Sentry release.\n\n**Why it matters:** errors in Sentry are tagged with the release that caused them.\n\n**Watch out:** this tracks the Next.js side only. The Python agent isn't connected to Sentry."
+    },
+    {
+      "file": "frontend/src/server/lib/sentry.ts",
+      "line": 21,
+      "selection": {
+        "start": {
+          "line": 7,
+          "character": 1
+        },
+        "end": {
+          "line": 21,
+          "character": 73
+        }
+      },
+      "title": "Error tracking",
+      "description": "**How it works:** if `SENTRY_DSN` is set, Sentry starts (lazily, on the first API request) and records errors, plus 10% of request traces in production.\n\n**Why it matters:** you hear about production errors without waiting for a user to report them.\n\n**Watch out:** no DSN, no Sentry, silently."
+    },
+    {
+      "file": ".github/workflows/claude-code-review.yml",
+      "line": 36,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 36,
+          "character": 47
+        }
+      },
+      "title": "Claude reviews pull requests",
+      "description": "**How it works:** on every pull request, Claude Code's GitHub Action reviews the change. `claude.yml` also lets you mention `@claude` in issues and PR comments to ask for help.\n\n**Why it matters:** an automatic first review before a human looks.\n\n**Watch out:** good to mention if asked how you kept quality up while moving fast with AI-assisted code."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Name where each part runs: Vercel (pages + API), Render (agent), Neon (database).\n- List the settings that must be right in production: `API_URL`, `BACKEND_URL`, the internal key, the encryption secret.\n- Explain how releases reach Sentry, and what Claude does in GitHub.\n\n**Next:** *14 - Login and OAuth*."
+    }
+  ]
+}

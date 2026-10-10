@@ -1,0 +1,128 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "15 - What's saved where",
+  "description": "Every place data lives: Postgres, server memory, temp files, the browser and third parties, and what survives a restart.",
+  "nextTour": "16 - Tests and observability",
+  "steps": [
+    {
+      "file": "frontend/src/server/db/schema.ts",
+      "line": 222,
+      "selection": {
+        "start": {
+          "line": 206,
+          "character": 1
+        },
+        "end": {
+          "line": 222,
+          "character": 4
+        }
+      },
+      "title": "Chats in Postgres",
+      "description": "**What it is:** the first of many places data lives. This tour answers: *what survives a restart, and what doesn't?*\n\n**How it works:** every chat is a row in `chat_sessions` (tour 05) and every message a row in `messages`, including the assistant's metadata: thinking, tool calls, tool results and events.\n\n**Why it matters:** this is why reopening an old chat shows the full timeline.\n\n**Watch out:** **survives restarts.** Lives in Neon Postgres, written by the API."
+    },
+    {
+      "file": "frontend/src/server/db/schema.ts",
+      "line": 422,
+      "selection": {
+        "start": {
+          "line": 382,
+          "character": 1
+        },
+        "end": {
+          "line": 422,
+          "character": 4
+        }
+      },
+      "title": "Usage and cost",
+      "description": "**How it works:** after each message, the agent sends a run summary (tokens, cost, time, tools used, service, model) to the API's `/api/internal/run-summaries`, which saves it here.\n\n**Why it matters:** this powers usage numbers, billing limits and the admin stats.\n\n**Watch out:** **survives restarts.** If saving fails, the chat still works; the summary is just lost."
+    },
+    {
+      "file": "frontend/src/server/lib/neon-auth.ts",
+      "line": 146,
+      "title": "Logins: Neon's own tables",
+      "description": "**How it works:** users, sessions, organisations and members live in the `neon_auth` schema, managed by Neon Auth. Your code reads them with raw SQL.\n\n**Why it matters:** your app doesn't own login data; Neon does.\n\n**Watch out:** **survives restarts.** Your `schema.ts` still defines older `users`, `sessions` and `organizations` tables from Better Auth. Those aren't where logins live any more."
+    },
+    {
+      "file": "frontend/src/server/db/schema.ts",
+      "line": 325,
+      "title": "Leftover tables",
+      "description": "**What it is:** `crew_agents` and `crew_tasks`, from the CrewAI version of the agent.\n\n**Why it matters:** if someone looks at your database, these tables need an explanation.\n\n**Watch out:** the admin agents page still uses them, but the LangGraph agent doesn't."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 364,
+      "title": "The graph's saved state",
+      "description": "**How it works:** `setup()` creates LangGraph's own tables in the same Postgres database: `checkpoints`, `checkpoint_blobs`, `checkpoint_writes` and `checkpoint_migrations`. A snapshot is saved after every node, keyed by the stream id.\n\n**Why it matters:** a paused approval survives an agent restart, because its state is here.\n\n**Watch out:** **survives restarts**, but nothing ever deletes old checkpoints. The tables only grow."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_retriever.py",
+      "line": 37,
+      "title": "The tool search table",
+      "description": "**How it works:** `tool_embeddings` holds tool names and descriptions with a full-text index, used when more than 15 tools need ranking.\n\n**Why it matters:** the specialist's top-5 trimming depends on it.\n\n**Watch out:** nothing in the current code fills it (`populate_tools_from_registry` is never called). If it's empty, the search falls back to the first 5 tools."
+    },
+    {
+      "file": "frontend/src/server/routes/internal.ts",
+      "line": 64,
+      "selection": {
+        "start": {
+          "line": 63,
+          "character": 1
+        },
+        "end": {
+          "line": 64,
+          "character": 49
+        }
+      },
+      "title": "The API's entity cache",
+      "description": "**How it works:** your accounts and apps are kept in a plain `Map` in the API's memory for 5 minutes.\n\n**Why it matters:** every chat message needs them, so this saves Google API calls.\n\n**Watch out:** **lost on restart, and per server.** On Vercel, each serverless instance has its own copy, so the cache hit rate is lower than it looks. There's an `/entities/invalidate` route to clear it after changes."
+    },
+    {
+      "file": "backend/chat/streaming/state.py",
+      "line": 15,
+      "selection": {
+        "start": {
+          "line": 13,
+          "character": 1
+        },
+        "end": {
+          "line": 15,
+          "character": 65
+        }
+      },
+      "title": "The agent's temp files",
+      "description": "**How it works:** active streams (here) and approvals (`approval/handlers.py`) are JSON files in the agent server's temp folder.\n\n**Why it matters:** simple, and fine on one server.\n\n**Watch out:** **lost on restart**, and invisible to a second server. A paused run can survive in Postgres while its approval file is gone."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 54,
+      "selection": {
+        "start": {
+          "line": 48,
+          "character": 1
+        },
+        "end": {
+          "line": 54,
+          "character": 79
+        }
+      },
+      "title": "The agent's memory caches",
+      "description": "**How it works:** Google tokens (1 hour) and running tool servers with their tool lists (5 minutes) are kept in the agent's memory. So are results waiting to be collected (tour 06).\n\n**Why it matters:** these make the second message much faster than the first.\n\n**Watch out:** **lost on restart.** Nothing breaks; the next message just rebuilds them."
+    },
+    {
+      "file": "frontend/src/lib/chat-settings.ts",
+      "line": 102,
+      "title": "In your browser",
+      "description": "**How it works:** the browser's `localStorage` keeps: chat settings (`chat-settings`), the open chat (`adagent_active_chat`), the selected team (`adagent_selected_org`), cached accounts (`entity_cache_data`), the theme, and demo-mode flags.\n\n**Why it matters:** settings and the open chat survive a page reload without asking the server.\n\n**Watch out:** **per browser, per device.** Clearing site data resets them, and none of it is shared between your laptop and your phone."
+    },
+    {
+      "file": "backend/chat/utils/prompts.py",
+      "line": 14,
+      "title": "Outside your servers: LangSmith and PostHog",
+      "description": "**How it works:** the prompts live in LangSmith (tour 08), and every run is traced there too. PostHog stores product analytics from the browser. Sentry stores errors.\n\n**Why it matters:** if LangSmith is down or its key is missing, the agent can't even route a question.\n\n**Watch out:** **survives restarts**, but it's outside your database, so a database backup doesn't include your prompts."
+    },
+    {
+      "title": "The whole picture",
+      "description": "### What survives what\n\n- **Postgres (survives everything):** chats, messages, run summaries, connected accounts with encrypted tokens, Neon Auth's logins, LangGraph checkpoints, tool search table.\n- **Server memory or temp files (lost on restart):** API entity cache, agent token cache, tool servers, live streams, approvals.\n- **Browser (per device):** settings, open chat, team, theme.\n- **Third parties:** LangSmith prompts and traces, PostHog analytics, Sentry errors.\n\n**The key insight:** a paused approval is split across three places: the graph state (Postgres), the approval record (temp file) and the stream id (browser memory). Losing either of the last two breaks the resume.\n\n**Next:** *16 - Tests and observability*."
+    }
+  ]
+}

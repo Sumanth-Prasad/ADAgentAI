@@ -1,0 +1,142 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A10 - Atlas: tests, scripts and the rest",
+  "description": "Every function in its area (103), one file per step.",
+  "steps": [
+    {
+      "directory": "frontend/tests",
+      "title": "How to use this atlas",
+      "description": "### A10 - Atlas: tests, scripts and the rest\n\n**103 functions in 21 files.** Each step opens one file and lists every function in it, in order. Press Ctrl+G and type a line number to jump to one.\n\n**How to read an entry:**\n- ✎ marks a note I wrote after reading the code.\n- Other entries quote the function's own comment from the code. If it has none, it says so.\n- In brackets: facts a script checked, such as *React component*, the API route, or which other files mention it.\n\n*No other file mentions it* is a plain text search. It's a strong hint that a function is unused, but not proof."
+    },
+    {
+      "file": "backend/scripts/generate_postman_collection.py",
+      "line": 1,
+      "title": "backend/scripts/generate_postman_collection.py",
+      "description": "**`backend/scripts/generate_postman_collection.py`** — 6 functions.\n\n- **`clean_url`** · line 11 — _No comment in the code._ (no other file mentions it)\n- **`schema_to_example`** · line 15 — Convert a JSON schema to an example value. (no other file mentions it)\n- **`get_google_items`** · line 60 — _No comment in the code._ (no other file mentions it)\n- **`walk`** · line 73 — _No comment in the code._ (inside `get_google_items`)\n- **`get_yaml_items`** · line 701 — _No comment in the code._ (no other file mentions it)\n- **`generate`** · line 778 — _No comment in the code._ (used in `chat/graph/nodes/specialist.py`, `chat/graph/nodes/synthesizer.py`, `scripts/push_prompts_to_langsmith.py` and 5 more)"
+    },
+    {
+      "file": "backend/scripts/push_prompts_to_langsmith.py",
+      "line": 1,
+      "title": "backend/scripts/push_prompts_to_langsmith.py",
+      "description": "**`backend/scripts/push_prompts_to_langsmith.py`** — 2 functions.\n\n- **`push_prompts`** · line 398 — Push all prompts to LangSmith. (no other file mentions it)\n- **`_push_prompt`** · line 441 — Push a single prompt to LangSmith. (no other file mentions it)"
+    },
+    {
+      "file": "backend/shared/token_service.py",
+      "line": 1,
+      "title": "backend/shared/token_service.py",
+      "description": "**`backend/shared/token_service.py`** — 4 functions.\n\n- **`get_access_token`** · line 30 — Get a valid OAuth access token for a provider. (used in `shared/__init__.py`)\n- **`_fetch_token_from_api`** · line 96 — Fetch token from the API's internal endpoint. (no other file mentions it)\n- **`_get_service_account_token`** · line 131 — Get token using service account credentials. (no other file mentions it)\n- **`clear_token_cache`** · line 180 — Clear cached tokens. (used in `shared/__init__.py`)"
+    },
+    {
+      "file": "backend/tests/test_approval.py",
+      "line": 1,
+      "title": "backend/tests/test_approval.py",
+      "description": "**`backend/tests/test_approval.py`** — 24 functions.\n\n- **`cleanup`** · line 26 — Clean up approval files before and after each test. (used in `chat/approval/handlers.py`, `chat/streaming/state.py`, `chat/tasks/__init__.py` and 4 more)\n- **`test_create_pending_approval`** · line 40 — Should create a pending approval and return an ID. (method; inside `TestPendingApproval`)\n- **`test_resolve_approval_approved`** · line 56 — Should approve a pending approval. (method; inside `TestPendingApproval`)\n- **`test_resolve_approval_denied`** · line 69 — Should deny a pending approval. (method; inside `TestPendingApproval`)\n- **`test_resolve_approval_with_modified_params`** · line 82 — Should store modified params when approving. (method; inside `TestPendingApproval`)\n- **`test_resolve_nonexistent_approval`** · line 100 — Should return False for unknown approval ID. (method; inside `TestPendingApproval`)\n- **`test_get_modified_params`** · line 105 — Should retrieve modified params after approval. (method; inside `TestPendingApproval`)\n- **`test_get_modified_params_none_when_not_modified`** · line 121 — Should return None when no modifications were made. (method; inside `TestPendingApproval`)\n- **`test_has_pending_approvals`** · line 133 — Should detect presence of pending approvals. (method; inside `TestPendingApproval`)\n- **`test_multiple_pending_approvals`** · line 147 — Should handle multiple concurrent pending approvals. (method; inside `TestPendingApproval`)\n- **`test_poll_pending_returns_none`** · line 170 — Should return None for pending approval. (method; inside `TestPollApprovalStatus`)\n- **`test_poll_approved_returns_true_and_cleans_up`** · line 180 — Should return True for approved and clean up. (method; inside `TestPollApprovalStatus`)\n- **`test_poll_denied_returns_false_and_cleans_up`** · line 191 — Should return False for denied and clean up. (method; inside `TestPollApprovalStatus`)\n- **`test_poll_nonexistent_returns_none`** · line 202 — Should return None for unknown approval ID. (method; inside `TestPollApprovalStatus`)\n- **`test_add_and_check_pre_approved`** · line 215 — Should mark tool as pre-approved and consume it. (method; inside `TestPreApproval`)\n- **`test_check_not_pre_approved`** · line 227 — Should return False for non-pre-approved tool. (method; inside `TestPreApproval`)\n- **`test_clear_pre_approved_tools`** · line 232 — Should clear all pre-approved tools. (method; inside `TestPreApproval`)\n- **`test_add_and_check_blocked`** · line 250 — Should mark tool as blocked and detect it. (method; inside `TestBlockedTools`)\n- **`test_not_blocked_tool`** · line 258 — Should return False for non-blocked tool. (method; inside `TestBlockedTools`)\n- **`test_clear_blocked_tools`** · line 264 — Should clear all blocked tools. (method; inside `TestBlockedTools`)\n- **`test_cleanup_removes_files`** · line 284 — Should remove all approval state files. (method; inside `TestCleanup`)\n- **`test_cleanup_handles_missing_files`** · line 300 — Should not error when files don't exist. (method; inside `TestCleanup`)\n- **`test_full_approval_workflow`** · line 313 — Should handle complete approval workflow. (method; inside `TestApprovalWorkflow`)\n- **`test_full_denial_workflow`** · line 348 — Should handle complete denial workflow. (method; inside `TestApprovalWorkflow`)"
+    },
+    {
+      "file": "backend/tests/verify_all_endpoints.py",
+      "line": 1,
+      "title": "backend/tests/verify_all_endpoints.py",
+      "description": "**`backend/tests/verify_all_endpoints.py`** — 6 functions.\n\n- **`probe`** · line 13 — _No comment in the code._ (no other file mentions it)\n- **`get_google_endpoints`** · line 35 — _No comment in the code._ (no other file mentions it)\n- **`walk`** · line 47 — _No comment in the code._ (inside `get_google_endpoints`)\n- **`get_yaml_endpoints`** · line 74 — _No comment in the code._ (no other file mentions it)\n- **`run`** · line 101 — _No comment in the code._\n- **`safe_probe`** · line 112 — _No comment in the code._ (inside `run`)"
+    },
+    {
+      "file": "frontend/sanity-schema.example.ts",
+      "line": 1,
+      "title": "frontend/sanity-schema.example.ts",
+      "description": "**`frontend/sanity-schema.example.ts`** — 6 functions.\n\n- **`validation`** · line 29 — _No comment in the code._\n- **`validation`** · line 39 — _No comment in the code._\n- **`validation`** · line 47 — _No comment in the code._\n- **`validation`** · line 68 — _No comment in the code._\n- **`prepare`** · line 108 — _No comment in the code._ (method)\n- **`validation`** · line 129 — _No comment in the code._"
+    },
+    {
+      "file": "frontend/scripts/kill-ports.cjs",
+      "line": 1,
+      "title": "frontend/scripts/kill-ports.cjs",
+      "description": "**`frontend/scripts/kill-ports.cjs`** — 1 function.\n\n- **`killPort`** · line 17 — _No comment in the code._ (no other file mentions it)"
+    },
+    {
+      "file": "frontend/scripts/seed-blog.ts",
+      "line": 1,
+      "title": "frontend/scripts/seed-blog.ts",
+      "description": "**`frontend/scripts/seed-blog.ts`** — 1 function.\n\n- **`seedBlog`** · line 279 — _No comment in the code._ (no other file mentions it)"
+    },
+    {
+      "file": "frontend/scripts/start-agent.cjs",
+      "line": 1,
+      "title": "frontend/scripts/start-agent.cjs",
+      "description": "**`frontend/scripts/start-agent.cjs`** — 5 functions.\n\n- **`hasUv`** · line 22 — Check if uv is available (no other file mentions it)\n- **`ON error`** · line 96 — _No comment in the code._ (API route `ON error`)\n- **`ON exit`** · line 101 — _No comment in the code._ (API route `ON exit`)\n- **`ON SIGINT`** · line 109 — Handle termination signals (API route `ON SIGINT`)\n- **`ON SIGTERM`** · line 113 — _No comment in the code._ (API route `ON SIGTERM`)"
+    },
+    {
+      "file": "frontend/scripts/validate-contrast.ts",
+      "line": 1,
+      "title": "frontend/scripts/validate-contrast.ts",
+      "description": "**`frontend/scripts/validate-contrast.ts`** — 5 functions.\n\n- **`hexToRgb`** · line 9 — Simple contrast ratio calculation (WCAG 2.1 formula) (no other file mentions it)\n- **`luminance`** · line 19 — _No comment in the code._ (no other file mentions it)\n- **`getContrastRatio`** · line 27 — _No comment in the code._ (no other file mentions it)\n- **`isLevelAA`** · line 39 — WCAG AA: 4.5:1 for normal text, 3:1 for large text WCAG AAA: 7:1 for normal text, 4.5:1 for large text (no other file mentions it)\n- **`isLevelAAA`** · line 43 — _No comment in the code._ (no other file mentions it)"
+    },
+    {
+      "file": "frontend/tests/e2e/auth.spec.ts",
+      "line": 1,
+      "title": "frontend/tests/e2e/auth.spec.ts",
+      "description": "**`frontend/tests/e2e/auth.spec.ts`** — 1 function.\n\n- **`unauthenticatedPage`** · line 14 — _No comment in the code._ (no other file mentions it)"
+    },
+    {
+      "file": "frontend/tests/e2e/fixtures.ts",
+      "line": 1,
+      "title": "frontend/tests/e2e/fixtures.ts",
+      "description": "**`frontend/tests/e2e/fixtures.ts`** — 16 functions.\n\n- **`authenticatedPage`** · line 14 — _No comment in the code._ (no other file mentions it)\n- **`waitForChatReady`** · line 25 — Test helper: Wait for the chat to be ready (no other file mentions it)\n- **`sendChatMessage`** · line 49 — Test helper: Send a message in the chat (used in `tests/e2e/chat-streaming.spec.ts`, `tests/e2e/entity-resolution.spec.ts`, `tests/e2e/tool-approval-hybrid.spec.ts` and 1 more)\n- **`waitForAIResponse`** · line 60 — Test helper: Wait for AI response to appear (used in `tests/e2e/chat-streaming.spec.ts`, `tests/e2e/entity-resolution.spec.ts`, `tests/e2e/tool-approval.spec.ts`)\n- **`waitForToolApproval`** · line 90 — Test helper: Wait for tool approval dialog to appear (no other file mentions it)\n- **`approveToolExecution`** · line 100 — Test helper: Click approve button in tool approval dialog (no other file mentions it)\n- **`denyToolExecution`** · line 111 — Test helper: Click deny button in tool approval dialog (no other file mentions it)\n- **`navigateToChat`** · line 122 — Test helper: Navigate to chat and wait for ready state (used in `tests/e2e/chat-streaming.spec.ts`, `tests/e2e/entity-resolution.spec.ts`, `tests/e2e/tool-approval-hybrid.spec.ts` and 1 more)\n- **`navigateToSettings`** · line 147 — Test helper: Navigate to settings (no other file mentions it)\n- **`openContextSettings`** · line 158 — Test helper: Open context settings dialog (no other file mentions it)\n- **`isToolApprovalVisible`** · line 169 — Test helper: Check if a tool approval dialog is visible (no other file mentions it)\n- **`waitForToolApprovalDialog`** · line 180 — Test helper: Wait for tool approval to appear and return the approval element (no other file mentions it)\n- **`clickAllowButton`** · line 196 — Test helper: Click the Allow button in tool approval (no other file mentions it)\n- **`clickDenyButton`** · line 204 — Test helper: Click the Deny button in tool approval (no other file mentions it)\n- **`waitForToolAllowed`** · line 212 — Test helper: Wait for tool to be allowed (badge shows \"Allowed\") (no other file mentions it)\n- **`waitForToolDenied`** · line 222 — Test helper: Wait for tool to be denied (badge shows \"Denied\") (no other file mentions it)"
+    },
+    {
+      "file": "frontend/tests/e2e/global.setup.ts",
+      "line": 1,
+      "title": "frontend/tests/e2e/global.setup.ts",
+      "description": "**`frontend/tests/e2e/global.setup.ts`** — 1 function.\n\n- **`globalSetup`** · line 14 — _No comment in the code._ (used in `playwright.config.ts`)"
+    },
+    {
+      "file": "frontend/tests/e2e/global.teardown.ts",
+      "line": 1,
+      "title": "frontend/tests/e2e/global.teardown.ts",
+      "description": "**`frontend/tests/e2e/global.teardown.ts`** — 1 function.\n\n- **`globalTeardown`** · line 14 — _No comment in the code._ (used in `playwright.config.ts`)"
+    },
+    {
+      "file": "frontend/tests/e2e/helpers/mock-sse.ts",
+      "line": 1,
+      "title": "frontend/tests/e2e/helpers/mock-sse.ts",
+      "description": "**`frontend/tests/e2e/helpers/mock-sse.ts`** — 8 functions.\n\n- **`mockApprovalSSE`** · line 32 — Mock the /chat/stream endpoint to emit a tool_approval_required event. (used in `tests/e2e/tool-approval-hybrid.spec.ts`)\n- **`mockResumeSSE`** · line 72 — Mock the /chat/resume endpoint to emit completion events. (used in `tests/e2e/tool-approval-hybrid.spec.ts`)\n- **`mockDenialResumeSSE`** · line 142 — Mock the /chat/resume endpoint for denial case. (used in `tests/e2e/tool-approval-hybrid.spec.ts`)\n- **`buildApprovalSSE`** · line 189 — Build a complete SSE payload for a tool approval scenario. (no other file mentions it)\n- **`formatSSEEvent`** · line 240 — Format a single SSE event. (no other file mentions it)\n- **`getSchemaForTool`** · line 248 — Get RJSF schema for a tool. (no other file mentions it)\n- **`clearChatMocks`** · line 353 — Clear all route mocks for chat endpoints. (used in `tests/e2e/tool-approval-hybrid.spec.ts`)\n- **`mockFieldOptions`** · line 363 — Mock the /chat/field-options endpoint to return specific entities. (used in `tests/e2e/tool-approval-hybrid.spec.ts`)"
+    },
+    {
+      "file": "frontend/tests/e2e/tool-approval.spec.ts",
+      "line": 1,
+      "title": "frontend/tests/e2e/tool-approval.spec.ts",
+      "description": "**`frontend/tests/e2e/tool-approval.spec.ts`** — 1 function.\n\n- **`waitForApprovalOptional`** · line 24 — Helper to check if approval dialog appears within timeout Returns true if approval appears, false otherwise (no other file mentions it)"
+    },
+    {
+      "file": "frontend/tokens/style-dictionary.config.mjs",
+      "line": 1,
+      "title": "frontend/tokens/style-dictionary.config.mjs",
+      "description": "**`frontend/tokens/style-dictionary.config.mjs`** — 2 functions.\n\n- **`transform`** · line 28 — _No comment in the code._ (used in `chat/adapters/mediation.py`, `chat/graph/nodes/tool_executor.py`, `app/(authenticated)/support/page.tsx` and 26 more)\n- **`filter`** · line 58 — _No comment in the code._ (used in `chat/adapters/schema.py`, `chat/approval/schema_extractor.py`, `chat/graph/nodes/specialist.py` and 66 more)"
+    },
+    {
+      "file": "scripts/generate-logo-tight.py",
+      "line": 1,
+      "title": "scripts/generate-logo-tight.py",
+      "description": "**`scripts/generate-logo-tight.py`** — 1 function.\n\n- **`generate_logo`** · line 3 — _No comment in the code._"
+    },
+    {
+      "file": "scripts/generate-logo-wide.py",
+      "line": 1,
+      "title": "scripts/generate-logo-wide.py",
+      "description": "**`scripts/generate-logo-wide.py`** — 1 function.\n\n- **`generate_logo`** · line 3 — _No comment in the code._"
+    },
+    {
+      "file": "studio-sanity/schemaTypes/post.ts",
+      "line": 1,
+      "title": "studio-sanity/schemaTypes/post.ts",
+      "description": "**`studio-sanity/schemaTypes/post.ts`** — 7 functions.\n\n- **`validation`** · line 18 — _No comment in the code._\n- **`validation`** · line 109 — _No comment in the code._\n- **`initialValue`** · line 176 — _No comment in the code._\n- **`initialValue`** · line 184 — _No comment in the code._\n- **`initialValue`** · line 191 — _No comment in the code._\n- **`initialValue`** · line 198 — _No comment in the code._\n- **`prepare`** · line 209 — _No comment in the code._ (method)"
+    },
+    {
+      "file": "tests/web/test_public_pages.py",
+      "line": 1,
+      "title": "tests/web/test_public_pages.py",
+      "description": "**`tests/web/test_public_pages.py`** — 4 functions.\n\n- **`test_public_pages`** · line 7 — Test that public pages load correctly. (no other file mentions it)\n- **`test_landing_page_elements`** · line 59 — Test landing page has key elements. (no other file mentions it)\n- **`test_login_page`** · line 104 — Test login page has required elements. (no other file mentions it)\n- **`test_navigation`** · line 148 — Test navigation between pages works via direct links. (no other file mentions it)"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists all **103** functions in its area, **0** of them with a hand-written note (✎)."
+    }
+  ]
+}

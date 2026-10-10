@@ -1,0 +1,236 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "19 - Trace: a read request",
+  "description": "One read question followed end to end, file by file.",
+  "nextTour": "20 - Trace: a write request",
+  "steps": [
+    {
+      "file": "frontend/src/components/chat/chat-input.tsx",
+      "line": 328,
+      "selection": {
+        "start": {
+          "line": 325,
+          "character": 1
+        },
+        "end": {
+          "line": 328,
+          "character": 6
+        }
+      },
+      "title": "1. You press Enter",
+      "description": "**The question:** *How much did I earn on AdMob this week?*\n\nEnter submits the box (tour 04). The text goes up to the container through `onSend`."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 289,
+      "selection": {
+        "start": {
+          "line": 289,
+          "character": 1
+        },
+        "end": {
+          "line": 289,
+          "character": 22
+        }
+      },
+      "title": "2. The browser calls the agent",
+      "description": "The container shows your message at once, creates the chat if it's new, then calls `streamChat` with your history and settings (tour 04)."
+    },
+    {
+      "file": "frontend/src/lib/api.ts",
+      "line": 160,
+      "selection": {
+        "start": {
+          "line": 160,
+          "character": 1
+        },
+        "end": {
+          "line": 160,
+          "character": 40
+        }
+      },
+      "title": "3. POST /chat/stream",
+      "description": "One POST to the agent with your token. The response stays open as a stream of `data:` events."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 173,
+      "selection": {
+        "start": {
+          "line": 173,
+          "character": 1
+        },
+        "end": {
+          "line": 173,
+          "character": 51
+        }
+      },
+      "title": "4. The agent checks you",
+      "description": "The agent asks the Next.js API whether your token is valid (tour 06), then starts streaming."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 315,
+      "selection": {
+        "start": {
+          "line": 315,
+          "character": 1
+        },
+        "end": {
+          "line": 315,
+          "character": 83
+        }
+      },
+      "title": "5. The graph starts",
+      "description": "`run_graph` learns you've connected AdMob, builds the starting state, and starts the graph (tour 07)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 180,
+      "selection": {
+        "start": {
+          "line": 180,
+          "character": 1
+        },
+        "end": {
+          "line": 180,
+          "character": 54
+        }
+      },
+      "title": "6. Router: admob_reporting",
+      "description": "The fast model replies `ROUTE: admob_reporting`, probably `PATH: reactive`. The browser gets a `routing` event and shows *admob / reporting* (tour 08)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 178,
+      "selection": {
+        "start": {
+          "line": 178,
+          "character": 1
+        },
+        "end": {
+          "line": 178,
+          "character": 82
+        }
+      },
+      "title": "7. Entity loader: your real accounts",
+      "description": "Your AdMob publisher id, apps and ad units are loaded and written into the prompt, so the model uses real ids (tour 08)."
+    },
+    {
+      "file": "backend/mcp_servers/annotations.py",
+      "line": 373,
+      "selection": {
+        "start": {
+          "line": 373,
+          "character": 1
+        },
+        "end": {
+          "line": 373,
+          "character": 47
+        }
+      },
+      "title": "8. Specialist: three reporting tools",
+      "description": "Tagged tools for `admob` + `reporting` are `accounts_networkReport_generate`, `accounts_mediationReport_generate` and `accounts_campaignReport_generate`. Only these are attached to the model (tour 09)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 710,
+      "selection": {
+        "start": {
+          "line": 710,
+          "character": 1
+        },
+        "end": {
+          "line": 710,
+          "character": 65
+        }
+      },
+      "title": "9. The model calls a tool",
+      "description": "The model writes a short note, then calls `accounts_networkReport_generate` with your publisher id and this week's dates. The dates come from the date examples in the prompt."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 53,
+      "selection": {
+        "start": {
+          "line": 52,
+          "character": 1
+        },
+        "end": {
+          "line": 53,
+          "character": 31
+        }
+      },
+      "title": "10. Edge: to the tool executor",
+      "description": "The call has no result yet, so the graph moves to the tool executor (tour 07)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 404,
+      "selection": {
+        "start": {
+          "line": 404,
+          "character": 1
+        },
+        "end": {
+          "line": 404,
+          "character": 49
+        }
+      },
+      "title": "11. Not dangerous: no approval",
+      "description": "`generate` is a read, so it isn't dangerous. No approval card; the soft ID check runs and the tool runs (tour 11)."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 533,
+      "selection": {
+        "start": {
+          "line": 533,
+          "character": 1
+        },
+        "end": {
+          "line": 533,
+          "character": 43
+        }
+      },
+      "title": "12. Through MCP to Google",
+      "description": "The cached AdMob tool server, started with your token, sends the report request to Google's AdMob API and returns the numbers (tour 10)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 592,
+      "selection": {
+        "start": {
+          "line": 592,
+          "character": 1
+        },
+        "end": {
+          "line": 592,
+          "character": 83
+        }
+      },
+      "title": "13. Specialist again: the answer",
+      "description": "Back in the specialist, the tool result is in the conversation. The model writes the answer, often as a Markdown table, and calls no more tools."
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 429,
+      "selection": {
+        "start": {
+          "line": 429,
+          "character": 1
+        },
+        "end": {
+          "line": 429,
+          "character": 46
+        }
+      },
+      "title": "14. On your screen",
+      "description": "The `result` event becomes the final answer under the timeline. `done` stops the spinner, and the reply is saved with its events (tour 12)."
+    },
+    {
+      "title": "The whole read path",
+      "description": "### The whole read path\n\nEnter → `handleSendMessage` → `streamChat` → `/chat/stream` → login check → `run_graph` → router (`admob_reporting`) → entity loader → specialist (3 tools) → tool call → tool executor (no approval) → MCP → Google → specialist → `result` → screen.\n\nIf you can say this without looking, you understand the core of ADAgentAI.\n\n**Next:** *20 - Trace: a write request*. The same, with a change to your account."
+    }
+  ]
+}

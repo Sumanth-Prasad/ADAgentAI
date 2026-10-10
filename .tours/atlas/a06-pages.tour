@@ -1,0 +1,328 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A06 - Atlas: pages",
+  "description": "Every function in its area (161), one file per step.",
+  "steps": [
+    {
+      "directory": "frontend/src/app",
+      "title": "How to use this atlas",
+      "description": "### A06 - Atlas: pages\n\n**161 functions in 52 files.** Each step opens one file and lists every function in it, in order. Press Ctrl+G and type a line number to jump to one.\n\n**How to read an entry:**\n- ✎ marks a note I wrote after reading the code.\n- Other entries quote the function's own comment from the code. If it has none, it says so.\n- In brackets: facts a script checked, such as *React component*, the API route, or which other files mention it.\n\n*No other file mentions it* is a plain text search. It's a strong hint that a function is unused, but not proof."
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/admin/layout.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/admin/layout.tsx",
+      "description": "**`frontend/src/app/(authenticated)/admin/layout.tsx`** — 1 function.\n\n- **`AdminLayout`** · line 8 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/admin/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/admin/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/admin/page.tsx`** — 9 functions.\n\n- **`DiscordIcon`** · line 41 — Discord icon (not in Lucide) (React component; no other file mentions it)\n- **`WhatsAppIcon`** · line 50 — WhatsApp icon (not in Lucide) (React component; no other file mentions it)\n- **`Sparkline`** · line 178 — Simple sparkline component (React component; no other file mentions it)\n- **`StatCard`** · line 227 — _No comment in the code._ (React component)\n- **`cleanModelName`** · line 294 — Clean up model name for display (no other file mentions it)\n- **`consolidateModelUsage`** · line 306 — Consolidate model usage by cleaned display name (no other file mentions it)\n- **`ModelUsageBar`** · line 335 — Model usage bar (React component; no other file mentions it)\n- **`AdminDashboardPage`** · line 357 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`fetchStats`** · line 363 — _No comment in the code._ (inside `AdminDashboardPage`)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/admin/waitlist/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/admin/waitlist/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/admin/waitlist/page.tsx`** — 9 functions.\n\n- **`StatusBadge`** · line 74 — _No comment in the code._ (React component)\n- **`getStatusInfo`** · line 75 — _No comment in the code._ (inside `StatusBadge`)\n- **`formatDate`** · line 126 — _No comment in the code._\n- **`getInitials`** · line 133 — _No comment in the code._ (used in `components/chat/user-message.tsx`)\n- **`WaitlistAdminPage`** · line 140 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`fetchEntries`** · line 154 — _No comment in the code._ (inside `WaitlistAdminPage`)\n- **`handleInvite`** · line 175 — _No comment in the code._ (inside `WaitlistAdminPage`)\n- **`handleRejectClick`** · line 197 — _No comment in the code._ (inside `WaitlistAdminPage`)\n- **`handleRejectConfirm`** · line 202 — _No comment in the code._ (inside `WaitlistAdminPage`)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/billing/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/billing/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/billing/page.tsx`** — 6 functions.\n\n- **`formatTokens`** · line 37 — _No comment in the code._\n- **`UsageCard`** · line 43 — _No comment in the code._ (React component; no other file mentions it)\n- **`BillingContent`** · line 112 — _No comment in the code._ (React component; no other file mentions it)\n- **`fetchUsage`** · line 129 — _No comment in the code._ (inside `BillingContent`)\n- **`BillingLoadingSkeleton`** · line 246 — _No comment in the code._ (React component; no other file mentions it)\n- **`BillingPage`** · line 268 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat-history/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/chat-history/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/chat-history/page.tsx`** — 10 functions.\n\n- **`stripMarkdown`** · line 44 — _No comment in the code._ (no other file mentions it)\n- **`formatRelativeDate`** · line 59 — _No comment in the code._\n- **`ChatHistoryPage`** · line 71 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`fetchChats`** · line 84 — Fetch chat sessions from API (inside `ChatHistoryPage`)\n- **`handleKeyDown`** · line 111 — _No comment in the code._ (inside `ChatHistoryPage`)\n- **`handleSelect`** · line 128 — Selection handlers (inside `ChatHistoryPage`)\n- **`clearSelection`** · line 165 — _No comment in the code._ (inside `ChatHistoryPage`)\n- **`handleDelete`** · line 170 — _No comment in the code._ (inside `ChatHistoryPage`)\n- **`handleBulkDelete`** · line 187 — _No comment in the code._ (inside `ChatHistoryPage`)\n- **`handleExport`** · line 211 — _No comment in the code._ (inside `ChatHistoryPage`)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/[id]/chat-session-client.tsx",
+      "line": 1,
+      "title": "app/(authenticated)/chat/[id]/chat-session-client.tsx",
+      "description": "**`frontend/src/app/(authenticated)/chat/[id]/chat-session-client.tsx`** — 2 functions.\n\n- **`ChatSessionClient`** · line 41 — _No comment in the code._ (React component; used in `app/(authenticated)/chat/[id]/page.tsx`)\n- **`fetchData`** · line 48 — _No comment in the code._ (inside `ChatSessionClient`)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/[id]/loading.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/chat/[id]/loading.tsx",
+      "description": "**`frontend/src/app/(authenticated)/chat/[id]/loading.tsx`** — 1 function.\n\n- **`ChatSessionLoading`** · line 3 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/[id]/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/chat/[id]/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/chat/[id]/page.tsx`** — 3 functions.\n\n- **`LoadingFallback`** · line 6 — Loading fallback component (React component; no other file mentions it)\n- **`ChatSessionContent`** · line 15 — Async inner component that handles the dynamic params (React component; no other file mentions it)\n- **`ChatSessionPage`** · line 25 — Non-async page that wraps the async content in Suspense (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/loading.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/chat/loading.tsx",
+      "description": "**`frontend/src/app/(authenticated)/chat/loading.tsx`** — 1 function.\n\n- **`ChatLoading`** · line 3 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/chat/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/chat/page.tsx`** — 2 functions.\n\n- **`ChatPage`** · line 20 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`fetchProviders`** · line 27 — _No comment in the code._ (inside `ChatPage`)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/chat/template.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/chat/template.tsx",
+      "description": "**`frontend/src/app/(authenticated)/chat/template.tsx`** — 1 function.\n\n- **`ChatTemplate`** · line 1 — _No comment in the code._ (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/dashboard/agents/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/dashboard/agents/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/dashboard/agents/page.tsx`** — 19 functions.\n\n- **`CrewAIConfigPage`** · line 94 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`fetchData`** · line 117 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`getAgentTools`** · line 143 — Helper to get tools for an agent based on service/capability (inside `CrewAIConfigPage`)\n- **`getAgentTasks`** · line 152 — Helper to get tasks for an agent (inside `CrewAIConfigPage`)\n- **`getCoordinatedAgents`** · line 163 — Helper to get coordinated agents (for orchestrators) (inside `CrewAIConfigPage`)\n- **`toggleSection`** · line 175 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`isSectionOpen`** · line 179 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`handleSelectAgent`** · line 184 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`handleCreateAgent`** · line 200 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`handleSaveAgent`** · line 213 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`handleDeleteAgent`** · line 242 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`handleSelectTask`** · line 261 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`handleCreateTask`** · line 271 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`handleSaveTask`** · line 282 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`handleDeleteTask`** · line 311 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`getTaskService`** · line 345 — Group tasks by assigned agent's service (inside `CrewAIConfigPage`)\n- **`renderAgentItem`** · line 356 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`renderTaskItem`** · line 419 — _No comment in the code._ (inside `CrewAIConfigPage`)\n- **`renderCollapsibleSection`** · line 445 — _No comment in the code._ (inside `CrewAIConfigPage`)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/dashboard/loading.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/dashboard/loading.tsx",
+      "description": "**`frontend/src/app/(authenticated)/dashboard/loading.tsx`** — 1 function.\n\n- **`DashboardLoading`** · line 3 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/dashboard/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/dashboard/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/dashboard/page.tsx`** — 2 functions.\n\n- **`formatRelativeDate`** · line 18 — _No comment in the code._\n- **`DashboardPage`** · line 31 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/demo/chat/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/demo/chat/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/demo/chat/page.tsx`** — 2 functions.\n\n- **`DemoModeRequired`** · line 11 — _No comment in the code._ (React component)\n- **`DemoChatPage`** · line 44 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/experiments/[id]/loading.tsx",
+      "line": 1,
+      "title": "app/(authenticated)/experiments/[id]/loading.tsx",
+      "description": "**`frontend/src/app/(authenticated)/experiments/[id]/loading.tsx`** — 1 function.\n\n- **`ExperimentDetailLoading`** · line 3 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/experiments/[id]/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/experiments/[id]/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/experiments/[id]/page.tsx`** — 5 functions.\n\n- **`DemoModeRequired`** · line 16 — _No comment in the code._ (React component)\n- **`NotFound`** · line 44 — _No comment in the code._ (React component; no other file mentions it)\n- **`ExperimentDetailPage`** · line 63 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`handleExecuteClick`** · line 95 — _No comment in the code._ (inside `ExperimentDetailPage`)\n- **`handleExecuteConfirm`** · line 100 — _No comment in the code._ (inside `ExperimentDetailPage`)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/experiments/loading.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/experiments/loading.tsx",
+      "description": "**`frontend/src/app/(authenticated)/experiments/loading.tsx`** — 1 function.\n\n- **`ExperimentsLoading`** · line 3 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/experiments/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/experiments/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/experiments/page.tsx`** — 2 functions.\n\n- **`DemoModeRequired`** · line 22 — _No comment in the code._ (React component)\n- **`ExperimentsPage`** · line 55 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/layout-client.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/layout-client.tsx",
+      "description": "**`frontend/src/app/(authenticated)/layout-client.tsx`** — 1 function.\n\n- **`AuthenticatedLayoutClient`** · line 14 — _No comment in the code._ (React component; used in `app/(authenticated)/layout.tsx`)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/layout.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/layout.tsx",
+      "description": "**`frontend/src/app/(authenticated)/layout.tsx`** — 2 functions.\n\n- **`AuthLayoutFallback`** · line 6 — Loading fallback for Suspense boundary (React component; no other file mentions it)\n- **`AuthenticatedLayout`** · line 14 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/providers/[type]/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/providers/[type]/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/providers/[type]/page.tsx`** — 5 functions.\n\n- **`ProviderDetailContent`** · line 41 — _No comment in the code._ (React component; no other file mentions it)\n- **`handleAdSourceConnectClick`** · line 89 — Handle clicking connect on an ad source (inside `ProviderDetailContent`)\n- **`handleDisconnectClick`** · line 103 — Handle disconnect with navigation back to providers list (inside `ProviderDetailContent`)\n- **`ProviderDetailLoadingSkeleton`** · line 242 — _No comment in the code._ (React component; no other file mentions it)\n- **`ProviderDetailPage`** · line 258 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/providers/loading.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/providers/loading.tsx",
+      "description": "**`frontend/src/app/(authenticated)/providers/loading.tsx`** — 1 function.\n\n- **`ProvidersLoading`** · line 3 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/providers/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/providers/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/providers/page.tsx`** — 6 functions.\n\n- **`ProviderCard`** · line 32 — _No comment in the code._ (React component; no other file mentions it)\n- **`handleToggleClick`** · line 33 — _No comment in the code._ (inside `ProviderCard`)\n- **`ProvidersContent`** · line 79 — _No comment in the code._ (React component; no other file mentions it)\n- **`handleProviderClick`** · line 98 — Navigate to provider detail page (inside `ProvidersContent`)\n- **`ProvidersLoadingSkeleton`** · line 183 — _No comment in the code._ (React component; no other file mentions it)\n- **`ProvidersPage`** · line 210 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/settings/loading.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/settings/loading.tsx",
+      "description": "**`frontend/src/app/(authenticated)/settings/loading.tsx`** — 2 functions.\n\n- **`SettingsSectionSkeleton`** · line 3 — _No comment in the code._ (React component; no other file mentions it)\n- **`SettingsLoading`** · line 24 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/settings/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/settings/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/settings/page.tsx`** — 1 function.\n\n- **`SettingsPage`** · line 16 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(authenticated)/support/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(authenticated)/support/page.tsx",
+      "description": "**`frontend/src/app/(authenticated)/support/page.tsx`** — 3 functions.\n\n- **`FAQItem`** · line 40 — _No comment in the code._ (React component; no other file mentions it)\n- **`SupportPage`** · line 63 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`handleSubmit`** · line 66 — _No comment in the code._ (inside `SupportPage`)"
+    },
+    {
+      "file": "frontend/src/app/(public)/access-denied/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/access-denied/page.tsx",
+      "description": "**`frontend/src/app/(public)/access-denied/page.tsx`** — 2 functions.\n\n- **`AccessDeniedPage`** · line 9 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`getContent`** · line 12 — _No comment in the code._ (inside `AccessDeniedPage`)"
+    },
+    {
+      "file": "frontend/src/app/(public)/auth/callback/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/auth/callback/page.tsx",
+      "description": "**`frontend/src/app/(public)/auth/callback/page.tsx`** — 4 functions.\n\n- **`CallbackContent`** · line 10 — _No comment in the code._ (React component; no other file mentions it)\n- **`CallbackSkeleton`** · line 87 — _No comment in the code._ (React component; no other file mentions it)\n- **`AuthCallbackPage`** · line 96 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`getErrorMessage`** · line 112 — _No comment in the code._ (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/app/(public)/blog/[slug]/blog-post-content.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/blog/[slug]/blog-post-content.tsx",
+      "description": "**`frontend/src/app/(public)/blog/[slug]/blog-post-content.tsx`** — 14 functions.\n\n- **`normal`** · line 34 — _No comment in the code._ (used in `scripts/validate-contrast.ts`, `app/(authenticated)/admin/waitlist/page.tsx`, `app/(public)/blog/blog-content.tsx` and 15 more)\n- **`h2`** · line 37 — _No comment in the code._\n- **`h3`** · line 42 — _No comment in the code._\n- **`h4`** · line 47 — _No comment in the code._\n- **`blockquote`** · line 52 — _No comment in the code._ (used in `components/atoms/markdown.tsx`, `components/chat/assistant-message.tsx`, `studio-sanity/schemaTypes/post.ts`)\n- **`strong`** · line 59 — _No comment in the code._ (used in `app/(public)/join/[token]/join-client.tsx`, `app/(public)/privacy/page.tsx`, `app/(public)/terms/page.tsx` and 8 more)\n- **`em`** · line 62 — _No comment in the code._\n- **`code`** · line 65 — _No comment in the code._ (used in `chat/adapters/schema.py`, `chat/approval/schema_extractor.py`, `chat/graph/nodes/synthesizer.py` and 36 more)\n- **`link`** · line 70 — _No comment in the code._ (used in `app/(authenticated)/admin/page.tsx`, `app/(authenticated)/billing/page.tsx`, `app/(authenticated)/chat-history/page.tsx` and 31 more)\n- **`bullet`** · line 80 — _No comment in the code._\n- **`number`** · line 85 — _No comment in the code._\n- **`bullet`** · line 92 — _No comment in the code._\n- **`number`** · line 95 — _No comment in the code._\n- **`BlogContent`** · line 101 — _No comment in the code._ (React component)"
+    },
+    {
+      "file": "frontend/src/app/(public)/blog/[slug]/copy-link-button.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/blog/[slug]/copy-link-button.tsx",
+      "description": "**`frontend/src/app/(public)/blog/[slug]/copy-link-button.tsx`** — 2 functions.\n\n- **`CopyLinkButton`** · line 5 — _No comment in the code._ (React component; no other file mentions it)\n- **`handleCopy`** · line 8 — _No comment in the code._ (inside `CopyLinkButton`)"
+    },
+    {
+      "file": "frontend/src/app/(public)/blog/[slug]/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/blog/[slug]/page.tsx",
+      "description": "**`frontend/src/app/(public)/blog/[slug]/page.tsx`** — 3 functions.\n\n- **`generateMetadata`** · line 12 — _No comment in the code._ (Next.js loads this file itself)\n- **`formatDate`** · line 27 — _No comment in the code._\n- **`BlogPostPage`** · line 36 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/blog/blog-content.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/blog/blog-content.tsx",
+      "description": "**`frontend/src/app/(public)/blog/blog-content.tsx`** — 4 functions.\n\n- **`formatDate`** · line 15 — _No comment in the code._\n- **`FeaturedPostCard`** · line 25 — Featured post card - Linear style with large image (React component; no other file mentions it)\n- **`PostCard`** · line 66 — Regular post card - Linear list style (React component; no other file mentions it)\n- **`BlogContent`** · line 88 — _No comment in the code._ (React component)"
+    },
+    {
+      "file": "frontend/src/app/(public)/blog/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/blog/page.tsx",
+      "description": "**`frontend/src/app/(public)/blog/page.tsx`** — 1 function.\n\n- **`BlogPage`** · line 11 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/join/[token]/join-client.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/join/[token]/join-client.tsx",
+      "description": "**`frontend/src/app/(public)/join/[token]/join-client.tsx`** — 4 functions.\n\n- **`JoinClient`** · line 35 — _No comment in the code._ (React component; used in `app/(public)/join/[token]/page.tsx`)\n- **`fetchInviteInfo`** · line 44 — _No comment in the code._ (inside `JoinClient`)\n- **`handleSignIn`** · line 75 — Handle sign in with Google (redirect back to this page after) (inside `JoinClient`)\n- **`handleJoin`** · line 90 — Handle joining the organization (inside `JoinClient`)"
+    },
+    {
+      "file": "frontend/src/app/(public)/join/[token]/loading.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/join/[token]/loading.tsx",
+      "description": "**`frontend/src/app/(public)/join/[token]/loading.tsx`** — 1 function.\n\n- **`JoinPageLoading`** · line 3 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/join/[token]/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/join/[token]/page.tsx",
+      "description": "**`frontend/src/app/(public)/join/[token]/page.tsx`** — 2 functions.\n\n- **`JoinFallback`** · line 9 — _No comment in the code._ (React component; no other file mentions it)\n- **`JoinPage`** · line 20 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/layout-client.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/layout-client.tsx",
+      "description": "**`frontend/src/app/(public)/layout-client.tsx`** — 1 function.\n\n- **`PublicLayoutClient`** · line 23 — _No comment in the code._ (React component; used in `app/(public)/layout.tsx`)"
+    },
+    {
+      "file": "frontend/src/app/(public)/layout.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/layout.tsx",
+      "description": "**`frontend/src/app/(public)/layout.tsx`** — 2 functions.\n\n- **`PublicLayoutFallback`** · line 5 — _No comment in the code._ (React component; no other file mentions it)\n- **`PublicLayout`** · line 13 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/login/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/login/page.tsx",
+      "description": "**`frontend/src/app/(public)/login/page.tsx`** — 2 functions.\n\n- **`LoginPage`** · line 9 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`handleGoogleSignIn`** · line 13 — _No comment in the code._ (inside `LoginPage`)"
+    },
+    {
+      "file": "frontend/src/app/(public)/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/page.tsx",
+      "description": "**`frontend/src/app/(public)/page.tsx`** — 1 function.\n\n- **`LandingPage`** · line 13 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/platforms/[platform]/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/platforms/[platform]/page.tsx",
+      "description": "**`frontend/src/app/(public)/platforms/[platform]/page.tsx`** — 3 functions.\n\n- **`ThemeAwareLogo`** · line 33 — Theme-aware logo component (React component)\n- **`NetworkCard`** · line 231 — List-style card for detail page - same as main page (React component; no other file mentions it)\n- **`PlatformDetailPage`** · line 282 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/platforms/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/platforms/page.tsx",
+      "description": "**`frontend/src/app/(public)/platforms/page.tsx`** — 5 functions.\n\n- **`ThemeAwareLogo`** · line 34 — Theme-aware logo component using CSS (no hydration issues) (React component)\n- **`IntegrationCard`** · line 244 — Linear-style integration card (React component; no other file mentions it)\n- **`PlatformSection`** · line 297 — Platform section component - Linear style (React component; no other file mentions it)\n- **`PlatformsPage`** · line 334 — _No comment in the code._ (React component; Next.js loads this file itself)\n- **`scrollToPlatform`** · line 337 — _No comment in the code._ (inside `PlatformsPage`)"
+    },
+    {
+      "file": "frontend/src/app/(public)/pricing/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/pricing/page.tsx",
+      "description": "**`frontend/src/app/(public)/pricing/page.tsx`** — 1 function.\n\n- **`PricingPage`** · line 69 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/privacy/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/privacy/page.tsx",
+      "description": "**`frontend/src/app/(public)/privacy/page.tsx`** — 1 function.\n\n- **`PrivacyPage`** · line 9 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/(public)/terms/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/(public)/terms/page.tsx",
+      "description": "**`frontend/src/app/(public)/terms/page.tsx`** — 1 function.\n\n- **`TermsPage`** · line 9 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/auth/[path]/loading.tsx",
+      "line": 1,
+      "title": "frontend/src/app/auth/[path]/loading.tsx",
+      "description": "**`frontend/src/app/auth/[path]/loading.tsx`** — 1 function.\n\n- **`AuthLoading`** · line 3 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/auth/[path]/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/auth/[path]/page.tsx",
+      "description": "**`frontend/src/app/auth/[path]/page.tsx`** — 2 functions.\n\n- **`generateStaticParams`** · line 3 — _No comment in the code._ (Next.js loads this file itself)\n- **`AuthPage`** · line 13 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/auth/waitlist-callback/page.tsx",
+      "line": 1,
+      "title": "frontend/src/app/auth/waitlist-callback/page.tsx",
+      "description": "**`frontend/src/app/auth/waitlist-callback/page.tsx`** — 2 functions.\n\n- **`CallbackHandler`** · line 7 — _No comment in the code._ (React component; no other file mentions it)\n- **`WaitlistCallbackPage`** · line 40 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/error.tsx",
+      "line": 1,
+      "title": "frontend/src/app/error.tsx",
+      "description": "**`frontend/src/app/error.tsx`** — 1 function.\n\n- **`Error`** · line 7 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/global-error.tsx",
+      "line": 1,
+      "title": "frontend/src/app/global-error.tsx",
+      "description": "**`frontend/src/app/global-error.tsx`** — 1 function.\n\n- **`GlobalError`** · line 5 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "file": "frontend/src/app/layout.tsx",
+      "line": 1,
+      "title": "frontend/src/app/layout.tsx",
+      "description": "**`frontend/src/app/layout.tsx`** — 1 function.\n\n- **`RootLayout`** · line 33 — _No comment in the code._ (React component; Next.js loads this file itself)"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists all **161** functions in its area, **0** of them with a hand-written note (✎)."
+    }
+  ]
+}

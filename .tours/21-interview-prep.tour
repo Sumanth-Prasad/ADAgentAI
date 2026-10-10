@@ -1,0 +1,209 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "21 - Interview prep",
+  "description": "Likely interview questions with short answers, each tied to the code.",
+  "steps": [
+    {
+      "file": "README.md",
+      "line": 1,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 1,
+          "character": 12
+        }
+      },
+      "title": "How to use this tour",
+      "description": "### Interview prep\n\nEach step is a question you're likely to get, with a short answer you can say, and the code that backs it up. Read the answer, then glance at the highlighted code to anchor it.\n\nThese are short on purpose. The tours behind them have the detail."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 168,
+      "selection": {
+        "start": {
+          "line": 168,
+          "character": 1
+        },
+        "end": {
+          "line": 168,
+          "character": 26
+        }
+      },
+      "title": "What does ADAgentAI do?",
+      "description": "**Q: What is ADAgentAI, in one minute?**\n\n**A:** A chat assistant for app publishers' ad accounts. You ask in plain English — *how much did I earn this week?* or *set up a mediation group* — and a LangGraph agent picks the right ad network and task, loads your real accounts, calls tools generated from Google's API descriptions over MCP, and streams the answer back. Anything that changes your account pauses for your approval first.\n\n**If they push:** Stack: Next.js 16 with a Hono API inside, Neon Postgres and Neon Auth, a FastAPI + LangGraph agent, MCP tool servers per network."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 157,
+      "selection": {
+        "start": {
+          "line": 157,
+          "character": 1
+        },
+        "end": {
+          "line": 157,
+          "character": 35
+        }
+      },
+      "title": "Why LangGraph?",
+      "description": "**Q: Why did you move from CrewAI to LangGraph?**\n\n**A:** What the code shows: explicit control of the flow (four nodes, conditional edges), state saved after every node so a run can pause for approval and resume, and fine-grained streaming of updates and custom events. Put your own reasons in your own words.\n\n**If they push:** The move happened on Jan 12, 2026, together with token tracking."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 320,
+      "selection": {
+        "start": {
+          "line": 320,
+          "character": 1
+        },
+        "end": {
+          "line": 320,
+          "character": 66
+        }
+      },
+      "title": "Stopping made-up IDs",
+      "description": "**Q: How do you stop the model inventing account or ad unit IDs?**\n\n**A:** Entity grounding: real accounts, apps and ad units are loaded before the model runs and written into its prompt with *never invent IDs*. Tool inputs are then checked against them, and mediation groups get a strict check before and after approval.\n\n**If they push:** Default mode is soft, so other tools only log a warning on a bad id. The API then rejects it and the model gets an actionable error to fix."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 472,
+      "selection": {
+        "start": {
+          "line": 472,
+          "character": 1
+        },
+        "end": {
+          "line": 472,
+          "character": 43
+        }
+      },
+      "title": "Human in the loop",
+      "description": "**Q: How does approval work?**\n\n**A:** Tools that write are detected by name and description. The tool executor validates the ids, then calls LangGraph's `interrupt()`, which pauses the run with its state saved in Postgres. The browser shows an editable form; on Allow, the run resumes with `Command(resume=...)`, re-validates any edits, and runs the tool.\n\n**If they push:** Own the gaps: the approve endpoint has no login check, resume doesn't check the run is yours, and a reload loses the stream id. Fixes: authenticate both, store the owner with the thread, keep the stream id server-side."
+    },
+    {
+      "file": "frontend/src/server/routes/providers.ts",
+      "line": 1226,
+      "selection": {
+        "start": {
+          "line": 1226,
+          "character": 1
+        },
+        "end": {
+          "line": 1226,
+          "character": 49
+        }
+      },
+      "title": "Credentials",
+      "description": "**Q: How does the agent use a user's Google account safely?**\n\n**A:** Tokens come from Google OAuth with offline access, are encrypted (JWE) at rest, and are never stored by the agent. Per request, the agent fetches a fresh token from an internal API endpoint protected by a shared secret, and passes it only to that user's tool process.\n\n**If they push:** Known weaknesses: the OAuth state isn't signed or stored (the waitlist's OAuth shows the fix), this endpoint's key check fails open if the secret is missing, and the agent caches tokens for an hour regardless of expiry."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 295,
+      "selection": {
+        "start": {
+          "line": 295,
+          "character": 1
+        },
+        "end": {
+          "line": 295,
+          "character": 34
+        }
+      },
+      "title": "MCP",
+      "description": "**Q: What is MCP and why use it here?**\n\n**A:** Model Context Protocol: a standard way to offer tools to a model. Each ad network gets its own MCP server, generated from that network's API description, run as a child process over stdio with the user's token in its environment. The agent stays generic; adding an endpoint means updating a spec, not writing a tool.\n\n**If they push:** Honest status: only AdMob and Ad Manager get credentials today; the other seven have tools but no login. The master server in `server.py` isn't used by the agent."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 164,
+      "selection": {
+        "start": {
+          "line": 164,
+          "character": 1
+        },
+        "end": {
+          "line": 164,
+          "character": 63
+        }
+      },
+      "title": "Streaming",
+      "description": "**Q: How does the answer stream?**\n\n**A:** Server-Sent Events. The graph runs as a background task; text chunks and events go into two asyncio queues and out through one ordered SSE stream. The browser reads it with `fetch` and a stream reader, because `EventSource` can't POST or send a token."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 66,
+      "selection": {
+        "start": {
+          "line": 66,
+          "character": 1
+        },
+        "end": {
+          "line": 66,
+          "character": 18
+        }
+      },
+      "title": "Cost and models",
+      "description": "**Q: How do you control cost?**\n\n**A:** A cheap model at temperature 0 routes; the router also picks a path, and simple questions get the cheaper model. Tool lists are filtered by network and capability, then cut to the top 5 if more than 15 remain. Tokens and estimated cost are saved per message.\n\n**If they push:** The default provider is OpenRouter with Gemini 2.5 Flash for both roles; Claude is used only when `LLM_PROVIDER=anthropic`. Check what production ran before you claim a model."
+    },
+    {
+      "file": "backend/chat/streaming/state.py",
+      "line": 14,
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 14,
+          "character": 65
+        }
+      },
+      "title": "Scaling",
+      "description": "**Q: How would you scale it?**\n\n**A:** Graph state already lives in Postgres. The blockers are approvals and stream state in temp files and memory, and per-instance caches. I'd move those to Postgres or Redis, check thread ownership on resume, reuse one checkpointer connection pool instead of opening one per message, cache tokens by their real expiry, and let runs finish in the background if the browser disconnects."
+    },
+    {
+      "file": ".github/workflows/ci.yml",
+      "line": 1,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 1,
+          "character": 9
+        }
+      },
+      "title": "Testing",
+      "description": "**Q: How do you know it works?**\n\n**A:** Playwright end-to-end tests cover sign-in, streaming, entity resolution and the approval flow, with a test-only endpoint to seed approvals. There are 23 Python tests for the approval logic. LangSmith traces every run, Sentry catches errors, and run summaries track tokens and cost.\n\n**If they push:** Gaps to own: CI runs the leftover API copy's tests, the E2E workflow is manual, and the Python tests aren't in CI."
+    },
+    {
+      "file": ".planning/codebase/CONCERNS.md",
+      "line": 1,
+      "title": "What would you change?",
+      "description": "**Q: What would you improve?**\n\n**A:** 1. Authenticate approve and resume, and check run ownership. 2. Sign and store the OAuth state. 3. One internal-key header with a fail-closed check. 4. Pass credentials to the other seven networks, or drop them. 5. Wire up or delete the unused nodes and the backflow flags. 6. Delete `backend/api` and point CI at the live API. 7. Update the README.\n\n**If they push:** This file is the project's own list of concerns. Read its headings before an interview."
+    },
+    {
+      "file": "README.md",
+      "line": 13,
+      "selection": {
+        "start": {
+          "line": 13,
+          "character": 1
+        },
+        "end": {
+          "line": 13,
+          "character": 16
+        }
+      },
+      "title": "Your part in it",
+      "description": "**Q: What did you build yourself?**\n\n**A:** The git history shows 199 of the 233 commits (Jan 3 to Feb 11, 2026) under your name, with two other contributors. Be specific about which parts you designed and which were AI-assisted, and know that the README is out of date in places (tour 01)."
+    },
+    {
+      "title": "Before an interview",
+      "description": "### Before an interview\n\n- Say the read path and the write path out loud (tours 19 and 20).\n- Re-read the *Watch out* notes in tours 10 and 11.\n- Know the honest answers: which networks work, which model ran, and which security gaps exist.\n\nGood luck."
+    }
+  ]
+}

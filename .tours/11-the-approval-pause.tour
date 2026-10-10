@@ -1,0 +1,268 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "11 - The approval pause",
+  "description": "Human-in-the-loop: validation, interrupt(), the approval card, Allow with Changes, and resuming the paused run.",
+  "nextTour": "12 - The answer on screen",
+  "steps": [
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 404,
+      "selection": {
+        "start": {
+          "line": 392,
+          "character": 1
+        },
+        "end": {
+          "line": 404,
+          "character": 49
+        }
+      },
+      "title": "One tool at a time",
+      "description": "**How it works:** the tool executor takes only the **first** waiting call, then checks whether it's dangerous (tour 10).\n\n**Why it matters:** with approvals, order matters. You approve one change, it runs, and the specialist sees the result before anything else happens.\n\n**Watch out:** if the model asked for three tools at once, they run one per pass through the graph. Each pass counts towards the 25-step limit."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 457,
+      "selection": {
+        "start": {
+          "line": 435,
+          "character": 1
+        },
+        "end": {
+          "line": 457,
+          "character": 1
+        }
+      },
+      "title": "Checking before asking you",
+      "description": "**How it works:** for mediation-group tools, every ad source and ad unit id is checked against your real account **before** you see anything. If one is wrong, the error goes back to the model as the tool's result, and it tries again.\n\n**Why it matters:** you never get an approval form full of made-up ids.\n\n**Watch out:** this strict check only exists for mediation groups. Other tools rely on the soft check from tour 08."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 478,
+      "selection": {
+        "start": {
+          "line": 459,
+          "character": 1
+        },
+        "end": {
+          "line": 478,
+          "character": 15
+        }
+      },
+      "title": "Pausing: interrupt()",
+      "description": "**New idea — interrupt():** a LangGraph call that **pauses the whole run**. The checkpointer has already saved the state. The value passed in comes out of the stream as an `__interrupt__` event.\n\n**How it works:** the approval request is prepared (two steps on), the call is marked `pending`, and `interrupt({...})` sends the tool's name, its arguments in form format, and a form schema.\n\n**Why it matters:** this is human-in-the-loop with nothing left waiting in memory. The run is just saved state until you answer.\n\n**Watch out:** when the run resumes, this node starts **again from its top**, and `interrupt()` returns your answer instead of pausing. So the code before it runs twice: the validation repeats and a second approval record is created, which is never used."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 215,
+      "selection": {
+        "start": {
+          "line": 191,
+          "character": 1
+        },
+        "end": {
+          "line": 215,
+          "character": 29
+        }
+      },
+      "title": "The pause reaches the browser",
+      "description": "**How it works:** the stream sees `__interrupt__`, pulls out the approval data, and sends a `tool_approval_required` event: approval id, tool name, arguments and form schema.\n\n**Why it matters:** this one event is what makes the approval card appear.\n\n**Watch out:** after this, the graph's stream ends, so the SSE response finishes with `done`. The run is paused, not running."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 362,
+      "selection": {
+        "start": {
+          "line": 321,
+          "character": 1
+        },
+        "end": {
+          "line": 362,
+          "character": 13
+        }
+      },
+      "title": "Preparing the card",
+      "description": "**How it works:** the arguments are reshaped into the form's layout (for example, mediation lines split into *bidding* and *waterfall*), readable names are added for ids, and the approval is saved with a new id. The form's JSON Schema is attached so the browser can draw editable fields.\n\n**Why it matters:** you approve something you can read and edit, not raw API JSON.\n\n**Watch out:** the original arguments are kept too (`original_tool_args`), but the form version is what you see."
+    },
+    {
+      "file": "backend/chat/approval/handlers.py",
+      "line": 75,
+      "selection": {
+        "start": {
+          "line": 59,
+          "character": 1
+        },
+        "end": {
+          "line": 75,
+          "character": 23
+        }
+      },
+      "title": "Where approvals are kept",
+      "description": "**How it works:** the id is the first 8 characters of a UUID. The approval goes into a JSON file in the server's temp folder, marked pending (`approved: None`).\n\n**Why it matters:** the approve endpoint (later) looks it up here.\n\n**Watch out:** temp files mean one server only, and nothing removes old approvals except a restart (tour 06)."
+    },
+    {
+      "file": "frontend/src/components/chat/steps-timeline.tsx",
+      "line": 202,
+      "selection": {
+        "start": {
+          "line": 174,
+          "character": 1
+        },
+        "end": {
+          "line": 202,
+          "character": 25
+        }
+      },
+      "title": "The card reads the arguments",
+      "description": "**How it works:** the card parses the tool input. It unwraps a `params` wrapper, and for Google tools it unpacks `body_json` so its fields show up as form fields.\n\n**Why it matters:** the model's suggested values become the form's starting values.\n\n**Watch out:** if the input isn't valid JSON, the form starts empty instead of crashing."
+    },
+    {
+      "file": "frontend/src/components/chat/steps-timeline.tsx",
+      "line": 223,
+      "selection": {
+        "start": {
+          "line": 215,
+          "character": 1
+        },
+        "end": {
+          "line": 223,
+          "character": 4
+        }
+      },
+      "title": "Allow, Deny, or Allow with Changes",
+      "description": "**How it works:** Deny sends `false`. Allow sends `true`. If you edited the form, Allow sends your edited values too.\n\n**Why it matters:** you can fix the model's choice, like a price floor, without starting over.\n\n**Watch out:** unchanged forms send no values, so the server runs the model's original arguments."
+    },
+    {
+      "file": "frontend/src/components/chat/steps-timeline.tsx",
+      "line": 290,
+      "selection": {
+        "start": {
+          "line": 256,
+          "character": 1
+        },
+        "end": {
+          "line": 290,
+          "character": 13
+        }
+      },
+      "title": "The buttons",
+      "description": "**How it works:** the buttons only show while the approval is pending. *Allow* is disabled if the form has errors, and its label changes to *Allow with Changes* once you edit something. The form itself is drawn by `RJSFParameterForm` from the schema.\n\n**New idea — schema-driven forms:** RJSF draws a form from a JSON Schema. Custom widgets (in `components/chat/rjsf/widgets`) add dropdowns for apps, ad units and ad sources, filled from your real account via the agent's `/chat/field-options`.\n\n**Why it matters:** no hand-built form per tool. Any tool with a schema gets an editable card.\n\n**Watch out:** the click handlers call `stopPropagation()` so clicking a button doesn't also open or close the step around it."
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatApprovals.ts",
+      "line": 90,
+      "selection": {
+        "start": {
+          "line": 60,
+          "character": 1
+        },
+        "end": {
+          "line": 90,
+          "character": 58
+        }
+      },
+      "title": "Clicking Allow",
+      "description": "**How it works:** the card updates straight away (optimistic UI, tour 04). Then `approveTool` tells the agent your decision. If that fails, the card goes back to pending; if the approval expired, you get an alert.\n\n**Why it matters:** quick feedback, and an honest undo when the server says no.\n\n**Watch out:** the alert uses the browser's built-in `alert()`, which looks out of place in this UI."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 227,
+      "selection": {
+        "start": {
+          "line": 211,
+          "character": 1
+        },
+        "end": {
+          "line": 227,
+          "character": 6
+        }
+      },
+      "title": "Recording your decision",
+      "description": "**How it works:** it marks the approval in the temp file as approved or denied, with any edited values. Unknown ids give a 404.\n\n**Why it matters:** it confirms the approval exists before the browser resumes the run.\n\n**Watch out:** this endpoint has **no login check**. Anyone with an approval id could mark it. Also, the run doesn't actually read this record (two steps on): it's mostly bookkeeping."
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatApprovals.ts",
+      "line": 124,
+      "selection": {
+        "start": {
+          "line": 90,
+          "character": 1
+        },
+        "end": {
+          "line": 124,
+          "character": 28
+        }
+      },
+      "title": "Resuming",
+      "description": "**How it works:** it collects the message's existing events, finds the tool name for this approval, and calls `resumeStream` with the stream id, your decision and any edits. The new events are added to the same reply.\n\n**Why it matters:** the answer continues in the same bubble, as if it never stopped.\n\n**Watch out:** it needs `currentStreamIdRef`, which only lives in memory. After a page reload, the ref is empty: your approval is recorded, but the run is **never resumed**. The code also reads the latest messages through a `setMessages` call that changes nothing, a trick to get fresh state inside an async function."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 262,
+      "selection": {
+        "start": {
+          "line": 230,
+          "character": 1
+        },
+        "end": {
+          "line": 262,
+          "character": 6
+        }
+      },
+      "title": "The resume endpoint",
+      "description": "**How it works:** it checks you're logged in, then streams `stream_resume_response` with the stream id, your decision and your edits.\n\n**Why it matters:** this is the request that actually restarts the paused run.\n\n**Watch out:** it checks that you're logged in, but **not** that the paused run is yours. And it trusts the decision and edits in *this* request, not the record from the approve endpoint. Together with the short ids, that's a real gap to own if asked about security."
+    },
+    {
+      "file": "backend/chat/streaming/processor.py",
+      "line": 585,
+      "selection": {
+        "start": {
+          "line": 571,
+          "character": 1
+        },
+        "end": {
+          "line": 585,
+          "character": 45
+        }
+      },
+      "title": "Feeding the answer back in",
+      "description": "**How it works:** if approved, a `tool_executing` event goes out at once so the card shows a spinner. Then `resume_graph` (tour 07) sends `Command(resume={approved, modified_params})` into the saved thread.\n\n**Why it matters:** inside the tool executor, `interrupt()` now returns this dictionary instead of pausing.\n\n**Watch out:** the resumed stream uses `updates` only, not `custom`, so progress events sent by nodes during a resume aren't forwarded."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 510,
+      "selection": {
+        "start": {
+          "line": 480,
+          "character": 1
+        },
+        "end": {
+          "line": 510,
+          "character": 62
+        }
+      },
+      "title": "After you decide",
+      "description": "**How it works:**\n- approved: your edited values (if any) replace the arguments, and the ids are checked **again** in case your edits broke them\n- denied: the result becomes *DENIED by user. Do NOT retry*, and the model is told to ask what you'd like instead\n\n**Why it matters:** your edits are validated too, and a denial can't be quietly retried by the model.\n\n**Watch out:** after this, the normal path runs: the soft check, then `_execute_tool` with retries (tour 10)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 1349,
+      "selection": {
+        "start": {
+          "line": 1332,
+          "character": 1
+        },
+        "end": {
+          "line": 1349,
+          "character": 16
+        }
+      },
+      "title": "Form back to API",
+      "description": "**How it works:** before running, the form's *bidding* and *waterfall* lists are merged back into the single list AdMob expects. Bidding lines use `cpm_mode: LIVE`; fixed-price waterfall lines use `MANUAL`, with euros converted to micros.\n\n**Why it matters:** the form is built for people, the API for machines. This is the translation back.\n\n**Watch out:** money is in micros: €1.50 is 1,500,000. A missed conversion would be off by a factor of a million."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Walk through an approval end to end: dangerous check → validation → interrupt → event → card → approve → resume → validation again → run.\n- Explain why nothing waits in memory while paused.\n- Explain *Allow with Changes*, and how edits are checked.\n- Name the weak spots: no login on approve, no ownership check on resume, reloads lose the resume.\n\n**Next:** *12 - The answer on screen*. How all those events become what you see."
+    }
+  ]
+}

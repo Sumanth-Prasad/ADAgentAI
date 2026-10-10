@@ -1,0 +1,257 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "10 - Tools and MCP",
+  "description": "Where the tools come from (Discovery and OpenAPI files), how tool servers start, caching, danger rules, and running a tool.",
+  "nextTour": "11 - The approval pause",
+  "steps": [
+    {
+      "directory": "backend/mcp_servers",
+      "title": "What MCP is",
+      "description": "**New idea — MCP (Model Context Protocol):** a standard way to offer tools to an AI. Each tool has a name, a description and an argument schema. An MCP *server* hosts the tools; an MCP *client* lists them and calls them.\n\n**How it works here:**\n- `providers/`: one MCP server per ad network\n- `utils.py`: builds servers from OpenAPI files\n- `curated_schemas.py`: hand-written, simpler arguments for some Google tools\n- `annotations.py`: tags and read/write labels for tools\n- `server.py`: a \"master\" server the agent doesn't use (last steps)\n\n**Why it matters:** the agent doesn't know AdMob's API. It only knows *there's a tool called X that does Y*. MCP is that contract.\n\n**Watch out:** `dependencies.py` has credential helpers that nothing calls (step 9)."
+    },
+    {
+      "file": "backend/mcp_servers/providers/admob.py",
+      "line": 7,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      },
+      "title": "AdMob in one line",
+      "description": "**How it works:** the whole AdMob tool server is one call: build it from Google's Discovery file for the AdMob API (`admob_v1beta_discovery.json`).\n\n**Why it matters:** every AdMob operation Google publishes becomes a tool, without writing them one by one.\n\n**Watch out:** the factory lives in `admanager.py`, because Ad Manager was built first. AdMob reuses it."
+    },
+    {
+      "file": "backend/mcp_servers/providers/admanager.py",
+      "line": 59,
+      "selection": {
+        "start": {
+          "line": 17,
+          "character": 1
+        },
+        "end": {
+          "line": 59,
+          "character": 1
+        }
+      },
+      "title": "Discovery file → tools",
+      "description": "**New idea — Discovery file:** Google describes each API in a JSON file: resources (like `accounts.mediationGroups`), and methods on them (`list`, `create`, `patch`), with their paths and parameters.\n\n**How it works:** `process_resources` walks that tree. Each method becomes a tool named after its id, with dots changed to underscores: `accounts_mediationGroups_create`. If `curated_schemas.py` has a friendlier argument list for that tool, it's used; otherwise the tool takes a raw JSON body (`body_json`).\n\n**Why it matters:** this is how the agent gets every Google endpoint, and how tool names like the ones in tour 11 are made.\n\n**Watch out:** the folder nesting is only used to find methods; the tool name comes from the method id."
+    },
+    {
+      "file": "backend/mcp_servers/providers/admanager.py",
+      "line": 195,
+      "selection": {
+        "start": {
+          "line": 142,
+          "character": 1
+        },
+        "end": {
+          "line": 195,
+          "character": 4
+        }
+      },
+      "title": "Writing Python code as text",
+      "description": "**How it works:** for each tool, the code writes a whole Python function **as a string**: proper parameters, the URL path, the headers, and an HTTP call. The token comes from the `AUTH_TOKEN` environment variable and is sent as `Authorization: Bearer …`.\n\n**Why it matters:** MCP needs real functions with real parameters to describe each tool. Writing them as text is how a file full of endpoints becomes hundreds of proper functions.\n\n**Watch out:** two consequences:\n- the generated code isn't in the repo, so you can't read a tool's code directly\n- errors are **returned** as data (`{\"error\": …}`), not raised. Google's errors reach the model as a normal result, so the retry logic in step 14 never sees them"
+    },
+    {
+      "file": "backend/mcp_servers/providers/admanager.py",
+      "line": 212,
+      "selection": {
+        "start": {
+          "line": 210,
+          "character": 1
+        },
+        "end": {
+          "line": 212,
+          "character": 90
+        }
+      },
+      "title": "Turning text into a tool",
+      "description": "**New idea — exec:** `exec` runs a string as Python code. Here it defines the function, which is then registered as an MCP tool with `mcp_instance.tool(...)`.\n\n**How it works:** the shared HTTP client and helpers are passed in through `local_namespace`, so the generated code can use them.\n\n**Why it matters:** `exec` is usually avoided, but the input here is Google's own trusted file, not user text.\n\n**Watch out:** if one tool fails to build, it's just printed and skipped. A missing tool won't stop the server."
+    },
+    {
+      "file": "backend/mcp_servers/utils.py",
+      "line": 103,
+      "selection": {
+        "start": {
+          "line": 62,
+          "character": 1
+        },
+        "end": {
+          "line": 103,
+          "character": 15
+        }
+      },
+      "title": "The other seven networks",
+      "description": "**How it works:** AppLovin, Unity, Mintegral, Liftoff, InMobi, Pangle and DT Exchange each have an OpenAPI file in `backend/api_specs/`. `FastMCP.from_openapi` turns every endpoint into a tool, using an HTTP client with the network's base URL.\n\n**Why it matters:** each of those provider files is just two lines (look at `providers/applovin.py`).\n\n**Watch out:** the token is read **once**, when the server starts, and only from `AUTH_TOKEN` (next step)."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 44,
+      "selection": {
+        "start": {
+          "line": 41,
+          "character": 1
+        },
+        "end": {
+          "line": 44,
+          "character": 2
+        }
+      },
+      "title": "Who gets a credential",
+      "description": "**How it works:** the loader fetches an OAuth token only for the networks in this map: AdMob (`admob`) and Ad Manager (`gam`). That token becomes the tool server's `AUTH_TOKEN`.\n\n**Why it matters:** only these two networks can act on a user's account.\n\n**Watch out:** the other seven tool servers start **without any credential**. `dependencies.py` has helpers to fetch their API keys, but nothing calls them. Their tools exist, but they can't log in. If asked how many networks fully work, the honest answer is two."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 297,
+      "selection": {
+        "start": {
+          "line": 261,
+          "character": 1
+        },
+        "end": {
+          "line": 297,
+          "character": 24
+        }
+      },
+      "title": "Starting a tool server",
+      "description": "**How it works:** for each network, the config says: run `python -m mcp_servers.providers.<network>` from the backend folder, talk over `stdio`, and pass an environment with your user id, the right import path, the virtual environment, and your token.\n\n**New idea — stdio:** the agent and the tool server talk through the child process's standard input and output. No ports, no network.\n\n**Why it matters:** each network runs in its own process, with only that user's token in it.\n\n**Watch out:** the venv and `PYTHONPATH` lines exist because the child process doesn't inherit the parent's import tweaks. Missing them gives *module not found* errors."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 219,
+      "selection": {
+        "start": {
+          "line": 161,
+          "character": 1
+        },
+        "end": {
+          "line": 219,
+          "character": 16
+        }
+      },
+      "title": "Getting your token",
+      "description": "**How it works:** first check an in-memory cache. If it's not there, POST to the API's `/api/providers/internal/token` (tour 05) with the shared secret, and cache the answer.\n\n**Why it matters:** the agent never stores your Google tokens. It asks the API, which decrypts and refreshes them.\n\n**Watch out:** the cache keeps a token for a full hour, but the API may hand over a token with only a few minutes left (it refreshes when under 5 minutes remain). So the agent can keep using an expired token for a while, and Google answers with an auth error."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 63,
+      "selection": {
+        "start": {
+          "line": 48,
+          "character": 1
+        },
+        "end": {
+          "line": 63,
+          "character": 76
+        }
+      },
+      "title": "Two caches",
+      "description": "**How it works:**\n- tokens: cached for 1 hour per user, provider and team\n- MCP clients and their tool lists: cached for 5 minutes per user, team and service\n\nThe key includes the user, so one user's tools (with their token inside) are never reused for another.\n\n**Why it matters:** starting tool servers is slow. The cache means your next message within 5 minutes reuses them.\n\n**Watch out:** both caches live in the agent's memory, so they're per server and empty after a restart."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 403,
+      "selection": {
+        "start": {
+          "line": 357,
+          "character": 1
+        },
+        "end": {
+          "line": 403,
+          "character": 80
+        }
+      },
+      "title": "Loading the tool list",
+      "description": "**How it works:** use the cache if it's fresh. Otherwise build the config, create a `MultiServerMCPClient`, ask the servers for their tools, and cache the result. The tools are also added to the tool registry (next step).\n\n**Why it matters:** this is what the specialist calls in tour 09 to get its tools.\n\n**Watch out:** these tool objects are used twice: to describe tools to the model, and to run them in step 13."
+    },
+    {
+      "file": "backend/chat/tools/registry.py",
+      "line": 49,
+      "selection": {
+        "start": {
+          "line": 30,
+          "character": 1
+        },
+        "end": {
+          "line": 49,
+          "character": 2
+        }
+      },
+      "title": "What counts as dangerous",
+      "description": "**How it works:** a tool name matching `create_`, `update_`, `delete_`, `patch_` (at the start or the end) is a write. If the name doesn't match, the first 100 characters of the description are checked for words like *create*, *update*, *delete* or *add*.\n\n**Why it matters:** dangerous tools pause for your approval (tour 11). This list decides which ones.\n\n**Watch out:** the description check looks for substrings, so *add* also matches *address* and *additional*. That errs on the safe side: harmless tools may ask for approval, never the other way round."
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 533,
+      "selection": {
+        "start": {
+          "line": 474,
+          "character": 1
+        },
+        "end": {
+          "line": 533,
+          "character": 43
+        }
+      },
+      "title": "Running a tool",
+      "description": "**How it works:** find the tool by name: in tools passed in, then in the cache, then by starting the servers again, and finally in the *all networks* set. Then `tool.ainvoke(args)` sends the call through MCP to the server process, which calls the real API.\n\n**Why it matters:** this is the last hop before AdMob or Ad Manager.\n\n**Watch out:** if the cache expired between the specialist's choice and this call, the servers are started again. That's slower, but it works."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 1599,
+      "selection": {
+        "start": {
+          "line": 1574,
+          "character": 1
+        },
+        "end": {
+          "line": 1599,
+          "character": 22
+        }
+      },
+      "title": "Retries",
+      "description": "**How it works:** up to 3 tries. Between tries it waits 1 second, then 2. Errors mentioning *timeout*, *connection*, *429* or *5xx* are retried; login, permission and other 4xx errors aren't.\n\n**Why it matters:** brief network hiccups don't fail your request.\n\n**Watch out:** as step 4 showed, the Google tools return HTTP errors as data instead of raising them. So these retries mostly catch problems talking to the tool server itself."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 687,
+      "selection": {
+        "start": {
+          "line": 669,
+          "character": 1
+        },
+        "end": {
+          "line": 687,
+          "character": 58
+        }
+      },
+      "title": "Errors the AI can fix",
+      "description": "**How it works:** a failed tool's error is rewritten as **ISSUE**, **TO FIX** and **ATTEMPTED** sections. For a bad ad unit id, it says to call `accounts_adUnits_list` first; for prices, it reminds the model that 1 USD = 1,000,000 micros.\n\n**Why it matters:** the model reads this as the tool's result and usually corrects itself on the next pass.\n\n**Watch out:** it recognises errors by matching words in the text. A new wording from an API falls through to generic advice."
+    },
+    {
+      "file": "backend/mcp_servers/server.py",
+      "line": 34,
+      "selection": {
+        "start": {
+          "line": 17,
+          "character": 1
+        },
+        "end": {
+          "line": 34,
+          "character": 50
+        }
+      },
+      "title": "The master server, unused",
+      "description": "**What it is:** one server that mounts all nine network servers under prefixes, plus three hand-written tools.\n\n**How it works:** only `backend/run_mcp.py` starts it. It's for testing the tools by hand in an MCP client, like Claude Desktop.\n\n**Why it matters:** your README describes this as *the* tool server, but the agent starts the network servers directly (step 8).\n\n**Watch out:** its three curated tools are placeholders. `full_unity_admob_integration` returns *success* without doing anything. Know this before anyone asks about it."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Explain MCP in one sentence, and how a Discovery or OpenAPI file becomes tools.\n- Describe how a tool server starts: subprocess, stdio, token in the environment.\n- Explain the two caches and what they save.\n- Say honestly which networks fully work, and why.\n\n**Next:** *11 - The approval pause*. What happens when a tool wants to change your account."
+    }
+  ]
+}

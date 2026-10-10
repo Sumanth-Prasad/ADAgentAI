@@ -1,0 +1,161 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "01 - Start here",
+  "description": "The whole system on one page: the three parts, how they talk, and what's out of date. Start here.",
+  "isPrimary": true,
+  "nextTour": "02 - Next.js basics on your app",
+  "steps": [
+    {
+      "file": "README.md",
+      "line": 1,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 1,
+          "character": 12
+        }
+      },
+      "title": "Welcome",
+      "description": "### Welcome to the ADAgentAI tours\n\nThese tours walk through the real code, one step at a time. Each step opens a file and lights up the lines it talks about.\n\n**How to move:** use the Next and Previous buttons on this note, or Ctrl+→ and Ctrl+← (Cmd on a Mac).\n\n**How each note is written:**\n- **What it is** — what you're looking at\n- **How it works** — what the code does\n- **Why it matters** — why it's built this way\n- **Watch out** — the non-obvious part, or what someone could catch you on\n- **New idea** — a concept, explained the first time it shows up\n\n**Version:** written for commit `4f30889` (Feb 11, 2026). If you change a file, its steps may point a few lines off.\n\nHere is the whole system on one page:\n\n![How the parts connect](./.tours/assets/adagentai-map.png)"
+    },
+    {
+      "file": "README.md",
+      "line": 36,
+      "selection": {
+        "start": {
+          "line": 13,
+          "character": 1
+        },
+        "end": {
+          "line": 36,
+          "character": 4
+        }
+      },
+      "title": "The README is out of date",
+      "description": "**What it is:** the architecture picture in your README.\n\n**How it works (today):** the code has moved on since this was drawn:\n- **Feb 9, 2026** — the Hono API moved *inside* the Next.js app. The live API no longer runs as its own server on port 3001.\n- **Jan 12, 2026** — the agent switched from CrewAI to LangGraph. This box still says CrewAI.\n- **Jan 7, 2026** — login moved to Neon Auth. The Tech Stack table below still says Better Auth.\n- The AI model is chosen by `LLM_PROVIDER`. The code's default is Gemini 2.5 Flash through OpenRouter, not Claude (step 9).\n\n**Why it matters:** these tours follow the code, not the README.\n\n**Watch out:** someone who reads your README and then your code will spot these. Know the real version, or update the README."
+    },
+    {
+      "directory": "frontend",
+      "title": "Part 1: the Next.js app",
+      "description": "**What it is:** the web app. It does two jobs now:\n1. **Pages** you see in the browser, built with React, in `frontend/src/app` and `frontend/src/components`.\n2. **The API** (Hono), in `frontend/src/server`. It handles login checks, connected ad accounts, chat history, billing and more.\n\n**How it works:** Next.js sends pages to your browser. When a page needs data, it calls `/api/...` on the same site.\n\n**Why it matters:** one app, one deployment on Vercel. Pages and API share the same address.\n\n**Watch out:** the name `frontend` is misleading now. It holds a backend too."
+    },
+    {
+      "file": "frontend/src/app/api/[[...route]]/route.ts",
+      "line": 10,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 10,
+          "character": 34
+        }
+      },
+      "title": "Where the API plugs into Next.js",
+      "description": "**What it is:** the 10 lines that put the whole Hono API inside Next.js.\n\n**How it works:** the folder name `[[...route]]` means *catch every address under /api*. Each exported function handles one HTTP method (GET, POST, …). `handle(app)` passes the request to the Hono app from `frontend/src/server/index.ts`.\n\n**Why it matters:** this is the Feb 9 change. It's why one Vercel deployment runs both pages and API. `maxDuration = 30` gives each API call up to 30 seconds on Vercel.\n\n**Watch out:** login addresses under `/api/auth/...` don't come here. Next.js picks the more specific route, `api/auth/[...path]`, which belongs to Neon Auth."
+    },
+    {
+      "directory": "frontend/src/server",
+      "title": "The API's code",
+      "description": "**What it is:** the Hono API.\n- `index.ts` creates the app, adds shared middleware (logging, security headers, CORS) and mounts every route under `/api`.\n- `routes/` has one file per feature: `chat.ts`, `providers.ts`, `billing.ts`, `internal.ts`, …\n- `middleware/auth.ts` checks your login token on protected routes.\n- `db/` describes the database tables (Drizzle) in Neon Postgres.\n- `lib/` holds helpers: token checks, encryption, email, analytics.\n\n**Why it matters:** the agent calls this API too, to check your login and fetch your accounts and Google tokens. Those calls use `/internal/` routes, protected by a shared secret key (`X-Internal-Key`) instead of a login.\n\n**Watch out:** the same code also sits in `backend/api` (step 11). This folder is the live one."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 178,
+      "selection": {
+        "start": {
+          "line": 168,
+          "character": 1
+        },
+        "end": {
+          "line": 178,
+          "character": 10
+        }
+      },
+      "title": "Part 2: the agent server",
+      "description": "**What it is:** the Python service that answers chat messages. It's a separate server, built with FastAPI and hosted on Render.\n\n**How it works:** your browser sends the chat message **straight here**, not through Next.js. This endpoint first checks your login by asking the Next.js API, then starts the LangGraph run and **streams** the answer back piece by piece.\n\n**Why it matters:** an answer can take many seconds and several tool calls. Streaming lets you watch progress instead of waiting.\n\n**Watch out:** this is the one call that skips `/api`. It needs its own address (`NEXT_PUBLIC_AGENT_URL`) and its own CORS list (`ALLOWED_ORIGINS` in this file)."
+    },
+    {
+      "directory": "backend/chat/graph",
+      "title": "The agent's brain: LangGraph",
+      "description": "**What it is:** the decision-making part of the agent, built with LangGraph.\n\n**How it works:** a message moves through four steps, called *nodes*:\n1. **router** works out the ad network and the kind of task (for example, AdMob reporting).\n2. **entity loader** loads your real accounts, apps and ad units.\n3. **specialist** is the AI model. It writes the answer or decides to call tools.\n4. **tool executor** runs the tools, then hands the results back to the specialist.\n\n**Why it matters:** each step stays simple, and the graph can loop (specialist ⇄ tools) until the answer is ready.\n\n**Watch out:** `nodes/` also has `verifier.py`, `synthesizer.py` and `tool_retriever.py`. The graph doesn't use those as nodes. Only the four above are wired up in `builder.py`. (The specialist does borrow one search helper from `tool_retriever.py`.)"
+    },
+    {
+      "file": "backend/chat/tools/loader.py",
+      "line": 298,
+      "selection": {
+        "start": {
+          "line": 284,
+          "character": 1
+        },
+        "end": {
+          "line": 298,
+          "character": 10
+        }
+      },
+      "title": "Part 3: the tools",
+      "description": "**What it is:** how the agent starts its tools.\n\n**How it works:** each ad network has its own small **MCP server**, in `backend/mcp_servers/providers/`. The agent starts the one it needs as a helper program (`python -m mcp_servers.providers.<network>`) and talks to it through standard input and output (`stdio`). Your Google access token goes in as `AUTH_TOKEN`, so the tools act on *your* account.\n\n**Why it matters:** the tools aren't written by hand. Each server is built from the network's own API description: Google's Discovery files for AdMob and Ad Manager, and OpenAPI files for the other seven.\n\n**Watch out:** `backend/mcp_servers/server.py`, the \"master\" server with 9 networks and 3 curated tools, is **not** what the agent uses. Only `run_mcp.py` starts it, for testing. Its curated tools are placeholders."
+    },
+    {
+      "file": "backend/chat/graph/nodes/llm.py",
+      "line": 30,
+      "selection": {
+        "start": {
+          "line": 19,
+          "character": 1
+        },
+        "end": {
+          "line": 30,
+          "character": 51
+        }
+      },
+      "title": "Which AI model?",
+      "description": "**What it is:** the switch that picks the AI model.\n\n**How it works:** `LLM_PROVIDER` decides. The default is `openrouter`, and both roles map to **Gemini 2.5 Flash**: `haiku`, meant for fast jobs like routing, and `sonnet`, meant for harder ones. Setting `LLM_PROVIDER=anthropic` uses Claude directly.\n\n**Why it matters:** the names `haiku` and `sonnet` are only labels for *fast* and *strong*. They don't mean Claude is running.\n\n**Watch out:** your README says *Anthropic Claude*. What production really used depends on the environment variables on Render. Check before you say it in an interview."
+    },
+    {
+      "file": "frontend/package.json",
+      "line": 10,
+      "selection": {
+        "start": {
+          "line": 6,
+          "character": 1
+        },
+        "end": {
+          "line": 10,
+          "character": 49
+        }
+      },
+      "title": "How it all starts on your laptop",
+      "description": "**What it is:** the scripts you run with `bun run …` inside `frontend`.\n\n**How it works:** `dev` frees the ports, then runs two things side by side with `concurrently`:\n- `next dev`: the Next.js app with the API inside it (port 3000).\n- `start-agent.cjs`: the Python agent (port 5001, set by that script).\n\nBoth read their secrets from `backend/.env`.\n\n**Why it matters:** one command starts everything you need to chat locally.\n\n**Watch out:** `dev:backend` still starts the old standalone API from `backend/api`. The normal `dev` command doesn't use it any more."
+    },
+    {
+      "directory": "backend/api",
+      "title": "A leftover copy",
+      "description": "**What it is:** the old standalone API (Hono running on Bun, port 3001).\n\n**How it works:** on Feb 9 this code moved into `frontend/src/server`, and this copy was left behind. Most files are identical. For example, `routes/chat.ts`, `routes/providers.ts`, `middleware/auth.ts` and `db/schema.ts` match line for line.\n\n**Why it matters:** you can skip this folder while learning.\n\n**Watch out:** two copies means a fix in one isn't in the other. If someone asks why it's here, the honest answer is that it was left behind after the move."
+    },
+    {
+      "file": "backend/chat_server.py",
+      "line": 545,
+      "selection": {
+        "start": {
+          "line": 539,
+          "character": 1
+        },
+        "end": {
+          "line": 545,
+          "character": 79
+        }
+      },
+      "title": "Where it runs",
+      "description": "**What it is:** the agent's health check, a tiny endpoint that only says *ok*.\n\n**How it works:** Render, which hosts the agent, calls `/` or `/health` regularly to check the service is alive. That's why it answers on both paths, for GET and HEAD requests.\n\n**Why it matters:** the full production picture is: Next.js app (pages + API) on **Vercel**, Python agent on **Render**, database on **Neon Postgres**. Tour 13 goes deeper.\n\n**Watch out:** your README mentions a `render.yaml`, but it isn't in the repo. The Render settings aren't stored in this code."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Name the three parts: the **Next.js app** (pages + API), the **agent** (Python, LangGraph), and the **tool servers** (MCP, one per network).\n- Say in one sentence how a question travels: browser → agent → router → entity loader → specialist ⇄ tools → answer streams back.\n- Point out what's out of date in the README.\n\n**Next:** *02 - Next.js basics on your app*. It explains how the pages are organised, using your own files."
+    }
+  ]
+}

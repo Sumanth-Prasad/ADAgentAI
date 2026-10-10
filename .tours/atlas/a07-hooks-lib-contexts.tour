@@ -1,0 +1,280 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A07 - Atlas: hooks, lib and contexts",
+  "description": "Every function in its area (302), one file per step.",
+  "steps": [
+    {
+      "directory": "frontend/src/hooks",
+      "title": "How to use this atlas",
+      "description": "### A07 - Atlas: hooks, lib and contexts\n\n**302 functions in 44 files.** Each step opens one file and lists every function in it, in order. Press Ctrl+G and type a line number to jump to one.\n\n**How to read an entry:**\n- ✎ marks a note I wrote after reading the code.\n- Other entries quote the function's own comment from the code. If it has none, it says so.\n- In brackets: facts a script checked, such as *React component*, the API route, or which other files mention it.\n\n*No other file mentions it* is a plain text search. It's a strong hint that a function is unused, but not proof."
+    },
+    {
+      "file": "frontend/src/contexts/demo-experiments-context.tsx",
+      "line": 1,
+      "title": "frontend/src/contexts/demo-experiments-context.tsx",
+      "description": "**`frontend/src/contexts/demo-experiments-context.tsx`** — 9 functions.\n\n- **`loadStoredExperiments`** · line 28 — Load experiments from localStorage (no other file mentions it)\n- **`saveExperiments`** · line 36 — Save experiments to localStorage (no other file mentions it)\n- **`DemoExperimentsProvider`** · line 41 — _No comment in the code._ (React component; used in `components/providers/index.tsx`)\n- **`addExperiment`** · line 60 — _No comment in the code._ (inside `DemoExperimentsProvider`)\n- **`updateExperiment`** · line 70 — _No comment in the code._ (inside `DemoExperimentsProvider`)\n- **`removeExperiment`** · line 80 — _No comment in the code._ (inside `DemoExperimentsProvider`)\n- **`clearExperiments`** · line 84 — _No comment in the code._ (inside `DemoExperimentsProvider`)\n- **`useDemoExperiments`** · line 103 — _No comment in the code._ (custom hook; used in `components/demo-chat/demo-chat-container.tsx`, `components/experiments/hooks/useExperimentData.ts`)\n- **`useAllDemoExperiments`** · line 114 — Utility hook that returns both static and chat-created experiments merged (custom hook; used in `components/demo-chat/demo-chat-container.tsx`)"
+    },
+    {
+      "file": "frontend/src/contexts/demo-mode-context.tsx",
+      "line": 1,
+      "title": "frontend/src/contexts/demo-mode-context.tsx",
+      "description": "**`frontend/src/contexts/demo-mode-context.tsx`** — 13 functions.\n\n- **`getStoredDemoMode`** · line 23 — Check if demo mode is enabled from localStorage (no other file mentions it)\n- **`getDemoModeFromUrl`** · line 33 — Check if demo mode is enabled from URL parameter (no other file mentions it)\n- **`useDemoModeStore`** · line 40 — Custom hook to sync demo mode with localStorage using useSyncExternalStore (custom hook; no other file mentions it)\n- **`subscribe`** · line 41 — _No comment in the code._ (inside `useDemoModeStore`)\n- **`getSnapshot`** · line 51 — _No comment in the code._ (inside `useDemoModeStore`)\n- **`getServerSnapshot`** · line 55 — _No comment in the code._ (inside `useDemoModeStore`)\n- **`DemoModeProvider`** · line 60 — _No comment in the code._ (React component; used in `components/providers/index.tsx`, `contexts/user-context.tsx`)\n- **`updateUrl`** · line 80 — Update URL when demo mode changes (inside `DemoModeProvider`)\n- **`enableDemoMode`** · line 91 — _No comment in the code._ (inside `DemoModeProvider`)\n- **`disableDemoMode`** · line 97 — _No comment in the code._ (inside `DemoModeProvider`)\n- **`toggleDemoMode`** · line 103 — _No comment in the code._ (inside `DemoModeProvider`)\n- **`useDemo`** · line 125 — _No comment in the code._ (custom hook; used in `app/(authenticated)/demo/chat/page.tsx`, `app/(authenticated)/experiments/[id]/page.tsx`, `app/(authenticated)/experiments/page.tsx` and 9 more)\n- **`isDemoModeEnabled`** · line 137 — Utility function to check demo mode outside of React components (e.g., in initialization functions) (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/contexts/entity-data-context.tsx",
+      "line": 1,
+      "title": "frontend/src/contexts/entity-data-context.tsx",
+      "description": "**`frontend/src/contexts/entity-data-context.tsx`** — 16 functions.\n\n- **`getStoredCache`** · line 17 — Get cached data from sessionStorage (no other file mentions it)\n- **`saveStoredCache`** · line 36 — Save cache to sessionStorage (no other file mentions it)\n- **`EntityDataProvider`** · line 107 — _No comment in the code._ (React component; used in `components/providers/index.tsx`)\n- **`getCacheKey`** · line 120 — Generate cache key for loading/error states (includes filter params for uniqueness) (inside `EntityDataProvider`)\n- **`isCacheFresh`** · line 128 — Check if cache entry is fresh (inside `EntityDataProvider`)\n- **`getCachedEntities`** · line 134 — Get cached entities (inside `EntityDataProvider`)\n- **`toEntityItems`** · line 149 — Convert FieldOption to EntityItem (inside `EntityDataProvider`)\n- **`fetchEntities`** · line 159 — Fetch entities with caching (inside `EntityDataProvider`)\n- **`isLoading`** · line 261 — Check loading state (inside `EntityDataProvider`)\n- **`getError`** · line 270 — Get error state (inside `EntityDataProvider`)\n- **`getDisplayName`** · line 279 — Get display name for a single ID (inside `EntityDataProvider`)\n- **`getDisplayNames`** · line 289 — Get display names for multiple IDs (inside `EntityDataProvider`)\n- **`clearCache`** · line 299 — Clear all cache (inside `EntityDataProvider`)\n- **`clearEntityCache`** · line 308 — Clear cache for specific entity type (inside `EntityDataProvider`)\n- **`prefetchDependentEntities`** · line 321 — Phase 3 optimization: Prefetch all dependent entities in parallel This fetches apps, ad_units, mediation_groups, and ad_sources simultaneously when an account is selected, reducing total form load time by ~100ms (inside `EntityDataProvider`)\n- **`useEntityData`** · line 376 — _No comment in the code._ (custom hook; used in `components/chat/rjsf/widgets/ad-source-toggle-widget.tsx`, `components/chat/rjsf/widgets/ad-source-widget.tsx`, `components/chat/rjsf/widgets/entity-select-widget.tsx` and 1 more)"
+    },
+    {
+      "file": "frontend/src/contexts/user-context.tsx",
+      "line": 1,
+      "title": "frontend/src/contexts/user-context.tsx",
+      "description": "**`frontend/src/contexts/user-context.tsx`** — 20 functions.\n\n- **`getInitialOrgId`** · line 65 — Initialize selected org from localStorage (runs only once) (no other file mentions it)\n- **`isE2ETestMode`** · line 72 — E2E Test Mode Detection When running Playwright tests, we bypass Neon Auth SDK validation and use the test user stored in localStorage by global.setup.ts (no other file mentions it)\n- **`getE2ETestUser`** · line 76 — _No comment in the code._ (no other file mentions it)\n- **`getE2ESessionToken`** · line 80 — _No comment in the code._ (no other file mentions it)\n- **`UserProvider`** · line 85 — ✎ The user context: session from Neon Auth, teams, waitlist and terms checks, invitations, and the token helper (tour 03). (React component; used in `components/providers/index.tsx`)\n- **`refetchOrgs`** · line 125 — Fetch organizations only when authenticated (skip for demo mode) (inside `UserProvider`)\n- **`refreshProviders`** · line 149 — Fetch providers for instant account dropdown (inside `UserProvider`)\n- **`recheckWaitlistAccess`** · line 277 — Reusable function to check waitlist access (inside `UserProvider`)\n- **`checkTosStatus`** · line 336 — _No comment in the code._ (inside `UserProvider`)\n- **`signOut`** · line 415 — ✎ Signs out through Neon Auth and clears auth cookies, including old Better Auth ones. (inside `UserProvider`)\n- **`onSuccess`** · line 459 — _No comment in the code._ (inside `signOut`)\n- **`onError`** · line 463 — _No comment in the code._ (inside `signOut`)\n- **`getAccessToken`** · line 480 — ✎ Returns the token from the Neon Auth session (or a demo or test token) for API calls. (inside `UserProvider`)\n- **`selectOrganization`** · line 517 — ✎ Switches the active team in Neon Auth and remembers it in `localStorage`. (inside `UserProvider`)\n- **`createOrganization`** · line 543 — Create a new organization using Neon Auth's organization plugin (inside `UserProvider`)\n- **`acceptTos`** · line 574 — Accept Terms of Service (inside `UserProvider`)\n- **`fetchReceivedInvitations`** · line 611 — Fetch invitations received by the current user (inside `UserProvider`)\n- **`acceptInvitation`** · line 662 — Accept an invitation (inside `UserProvider`)\n- **`rejectInvitation`** · line 676 — Reject an invitation (inside `UserProvider`)\n- **`useUser`** · line 745 — ✎ Reads the user context; throws if used outside `UserProvider`. (custom hook; used in `app/(authenticated)/admin/layout.tsx`, `app/(authenticated)/admin/page.tsx`, `app/(authenticated)/billing/page.tsx` and 29 more)"
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatApprovals.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/chat/useChatApprovals.ts",
+      "description": "**`frontend/src/hooks/chat/useChatApprovals.ts`** — 12 functions.\n\n- **`extractPendingApprovals`** · line 10 — ✎ Rebuilds the approval states from saved messages after a reload. (used in `components/chat/chat-container.tsx`, `hooks/chat/index.ts`)\n- **`useChatApprovals`** · line 50 — ✎ Tracks approvals and runs the Allow or Deny round-trip (tour 11). (custom hook; used in `components/chat/chat-container.tsx`, `hooks/chat/index.ts`)\n- **`handleToolApproval`** · line 60 — ✎ Updates the card at once, records the decision, then resumes the run. Needs the stream id held in memory (tour 11). (inside `useChatApprovals`)\n- **`onToolExecuting`** · line 128 — _No comment in the code._ (inside `handleToolApproval`)\n- **`onThinking`** · line 137 — _No comment in the code._ (inside `handleToolApproval`)\n- **`onToolCall`** · line 145 — _No comment in the code._ (inside `handleToolApproval`)\n- **`onToolResult`** · line 161 — _No comment in the code._ (inside `handleToolApproval`)\n- **`onContent`** · line 181 — _No comment in the code._ (inside `handleToolApproval`)\n- **`onResult`** · line 192 — _No comment in the code._ (inside `handleToolApproval`)\n- **`onError`** · line 204 — _No comment in the code._ (inside `handleToolApproval`)\n- **`onDone`** · line 212 — _No comment in the code._ (inside `handleToolApproval`)\n- **`onToolApprovalRequired`** · line 215 — _No comment in the code._ (inside `handleToolApproval`)"
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatPersistence.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/chat/useChatPersistence.ts",
+      "description": "**`frontend/src/hooks/chat/useChatPersistence.ts`** — 4 functions.\n\n- **`loadChatState`** · line 15 — ✎ Reads the open chat back from `localStorage`. (used in `hooks/chat/index.ts`)\n- **`saveChatState`** · line 24 — ✎ Saves the open chat to `localStorage`. (used in `components/chat/chat-container.tsx`, `hooks/chat/index.ts`)\n- **`clearChatState`** · line 33 — Clear chat state from localStorage (used in `components/chat/chat-container.tsx`, `hooks/chat/index.ts`)\n- **`useChatPersistence`** · line 43 — _No comment in the code._ (custom hook; used in `components/chat/chat-container.tsx`, `hooks/chat/index.ts`)"
+    },
+    {
+      "file": "frontend/src/hooks/chat/useChatSession.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/chat/useChatSession.ts",
+      "description": "**`frontend/src/hooks/chat/useChatSession.ts`** — 3 functions.\n\n- **`useChatSession`** · line 12 — _No comment in the code._ (custom hook; used in `components/chat/chat-container.tsx`, `hooks/chat/index.ts`)\n- **`createSession`** · line 14 — ✎ POSTs to `/api/chat/session` and returns the new chat id (tour 04). (inside `useChatSession`)\n- **`saveMessage`** · line 40 — ✎ Saves one message (and metadata) to the chat in the database. (inside `useChatSession`)"
+    },
+    {
+      "file": "frontend/src/hooks/settings/useAccountOperations.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/settings/useAccountOperations.ts",
+      "description": "**`frontend/src/hooks/settings/useAccountOperations.ts`** — 5 functions.\n\n- **`useAccountOperations`** · line 12 — _No comment in the code._ (custom hook; used in `components/settings/AccountSection.tsx`, `hooks/settings/index.ts`)\n- **`exportData`** · line 30 — Data export handler (GDPR Article 20: Right to Data Portability) (inside `useAccountOperations`)\n- **`deleteChatHistory`** · line 59 — Chat history deletion handler (inside `useAccountOperations`)\n- **`deleteAccount`** · line 85 — Delete account handler (inside `useAccountOperations`)\n- **`resetDeleteAccountDialog`** · line 116 — _No comment in the code._ (inside `useAccountOperations`)"
+    },
+    {
+      "file": "frontend/src/hooks/settings/useInvitationManagement.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/settings/useInvitationManagement.ts",
+      "description": "**`frontend/src/hooks/settings/useInvitationManagement.ts`** — 8 functions.\n\n- **`isDemoOrg`** · line 8 — Demo mode check - skip API calls for demo organization\n- **`useInvitationManagement`** · line 25 — _No comment in the code._ (custom hook; used in `components/settings/OrganizationSection.tsx`, `hooks/settings/index.ts`)\n- **`fetchPendingInvites`** · line 50 — Fetch pending invitations (inside `useInvitationManagement`)\n- **`sendInvite`** · line 79 — _No comment in the code._ (inside `useInvitationManagement`)\n- **`cancelInvite`** · line 105 — _No comment in the code._ (inside `useInvitationManagement`)\n- **`resendInvite`** · line 117 — _No comment in the code._ (inside `useInvitationManagement`)\n- **`copyInviteMessage`** · line 133 — _No comment in the code._ (inside `useInvitationManagement`)\n- **`closeInviteMessageModal`** · line 145 — _No comment in the code._ (inside `useInvitationManagement`)"
+    },
+    {
+      "file": "frontend/src/hooks/settings/useInviteLinkManagement.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/settings/useInviteLinkManagement.ts",
+      "description": "**`frontend/src/hooks/settings/useInviteLinkManagement.ts`** — 4 functions.\n\n- **`useInviteLinkManagement`** · line 13 — _No comment in the code._ (custom hook; used in `components/settings/OrganizationSection.tsx`, `hooks/settings/index.ts`)\n- **`fetchInviteLink`** · line 24 — Fetch invite link (inside `useInviteLinkManagement`)\n- **`createOrRegenerateLink`** · line 52 — Create or regenerate invite link (inside `useInviteLinkManagement`)\n- **`copyInviteLink`** · line 74 — Copy invite link to clipboard (inside `useInviteLinkManagement`)"
+    },
+    {
+      "file": "frontend/src/hooks/settings/useMemberManagement.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/settings/useMemberManagement.ts",
+      "description": "**`frontend/src/hooks/settings/useMemberManagement.ts`** — 7 functions.\n\n- **`isDemoOrg`** · line 14 — Demo mode check - skip API calls for demo organization\n- **`useMemberManagement`** · line 16 — _No comment in the code._ (custom hook; used in `components/settings/OrganizationSection.tsx`, `hooks/settings/index.ts`)\n- **`fetchMembers`** · line 23 — _No comment in the code._ (inside `useMemberManagement`)\n- **`removeMember`** · line 67 — _No comment in the code._ (inside `useMemberManagement`)\n- **`startEditRole`** · line 78 — _No comment in the code._ (inside `useMemberManagement`)\n- **`cancelEditRole`** · line 83 — _No comment in the code._ (inside `useMemberManagement`)\n- **`saveRole`** · line 88 — _No comment in the code._ (inside `useMemberManagement`)"
+    },
+    {
+      "file": "frontend/src/hooks/settings/useOrganizationManagement.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/settings/useOrganizationManagement.ts",
+      "description": "**`frontend/src/hooks/settings/useOrganizationManagement.ts`** — 6 functions.\n\n- **`useOrganizationManagement`** · line 11 — _No comment in the code._ (custom hook; used in `components/settings/OrganizationSection.tsx`, `hooks/settings/index.ts`)\n- **`startEditingOrgName`** · line 32 — _No comment in the code._ (inside `useOrganizationManagement`)\n- **`cancelEditingOrgName`** · line 37 — _No comment in the code._ (inside `useOrganizationManagement`)\n- **`updateOrgName`** · line 43 — _No comment in the code._ (inside `useOrganizationManagement`)\n- **`deleteOrganization`** · line 65 — _No comment in the code._ (inside `useOrganizationManagement`)\n- **`resetDeleteConfirm`** · line 79 — _No comment in the code._ (inside `useOrganizationManagement`)"
+    },
+    {
+      "file": "frontend/src/hooks/use-blog-posts.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/use-blog-posts.ts",
+      "description": "**`frontend/src/hooks/use-blog-posts.ts`** — 9 functions.\n\n- **`transformToMeta`** · line 8 — Transform Sanity post to BlogPostMeta (no other file mentions it)\n- **`transformToBlogPost`** · line 25 — Transform Sanity post to full BlogPost (no other file mentions it)\n- **`useBlogPosts`** · line 43 — _No comment in the code._ (custom hook; no other file mentions it)\n- **`fetchPosts`** · line 49 — _No comment in the code._ (inside `useBlogPosts`)\n- **`deletePost`** · line 77 — _No comment in the code._ (inside `useBlogPosts`)\n- **`useBlogPost`** · line 94 — _No comment in the code._ (custom hook; no other file mentions it)\n- **`fetchPost`** · line 102 — _No comment in the code._ (inside `useBlogPost`)\n- **`useSavePost`** · line 135 — _No comment in the code._ (custom hook; no other file mentions it)\n- **`savePost`** · line 139 — _No comment in the code._ (inside `useSavePost`)"
+    },
+    {
+      "file": "frontend/src/hooks/use-dashboard-data.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/use-dashboard-data.ts",
+      "description": "**`frontend/src/hooks/use-dashboard-data.ts`** — 4 functions.\n\n- **`useDashboardData`** · line 46 — Fetch dashboard data with React Query Provides automatic caching, deduplication, and background refetching (custom hook; used in `app/(authenticated)/dashboard/page.tsx`)\n- **`queryFn`** · line 69 — _No comment in the code._ (inside `useDashboardData`)\n- **`placeholderData`** · line 102 — Keep previous data when query is disabled (e.g., during navigation) Prevents flickering to 0 when isAuthenticated briefly changes (inside `useDashboardData`)\n- **`retryDelay`** · line 112 — Retry faster for token-related failures (inside `useDashboardData`)"
+    },
+    {
+      "file": "frontend/src/hooks/use-mobile.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/use-mobile.ts",
+      "description": "**`frontend/src/hooks/use-mobile.ts`** — 2 functions.\n\n- **`useIsMobile`** · line 5 — _No comment in the code._ (custom hook; used in `components/organisms/sidebar.tsx`)\n- **`onChange`** · line 10 — _No comment in the code._ (inside `useIsMobile`)"
+    },
+    {
+      "file": "frontend/src/hooks/use-touch-primary.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/use-touch-primary.ts",
+      "description": "**`frontend/src/hooks/use-touch-primary.ts`** — 2 functions.\n\n- **`useTouchPrimary`** · line 3 — _No comment in the code._ (custom hook; used in `components/molecules/scroll-area.tsx`)\n- **`handleTouch`** · line 12 — _No comment in the code._ (inside `useTouchPrimary`)"
+    },
+    {
+      "file": "frontend/src/hooks/useAdSourceManagement.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/useAdSourceManagement.ts",
+      "description": "**`frontend/src/hooks/useAdSourceManagement.ts`** — 9 functions.\n\n- **`useAdSourceManagement`** · line 20 — _No comment in the code._ (custom hook; used in `app/(authenticated)/providers/[type]/page.tsx`, `hooks/useNetworkManagement.ts`)\n- **`fetchConfigs`** · line 49 — Fetch ad source configurations (field schemas) (inside `useAdSourceManagement`)\n- **`fetchAdSources`** · line 71 — Fetch connected ad sources (inside `useAdSourceManagement`)\n- **`handleConnect`** · line 123 — Connect an ad source with credentials (inside `useAdSourceManagement`)\n- **`handleDisconnect`** · line 180 — Disconnect an ad source (inside `useAdSourceManagement`)\n- **`handleToggle`** · line 207 — Toggle ad source enabled/disabled (inside `useAdSourceManagement`)\n- **`handleVerify`** · line 242 — Verify credentials before connecting (inside `useAdSourceManagement`)\n- **`isConnected`** · line 271 — Check if an ad source is connected (inside `useAdSourceManagement`)\n- **`getAdSource`** · line 276 — Get connected ad source by name (inside `useAdSourceManagement`)"
+    },
+    {
+      "file": "frontend/src/hooks/useAuthenticatedWaitlistForm.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/useAuthenticatedWaitlistForm.ts",
+      "description": "**`frontend/src/hooks/useAuthenticatedWaitlistForm.ts`** — 6 functions.\n\n- **`useAuthenticatedWaitlistForm`** · line 23 — _No comment in the code._ (custom hook; used in `components/authenticated-waitlist-dialog.tsx`)\n- **`setRole`** · line 35 — _No comment in the code._ (inside `useAuthenticatedWaitlistForm`)\n- **`setUseCase`** · line 36 — _No comment in the code._ (inside `useAuthenticatedWaitlistForm`)\n- **`handleSubmit`** · line 38 — _No comment in the code._ (inside `useAuthenticatedWaitlistForm`)\n- **`copyReferralLink`** · line 86 — _No comment in the code._ (inside `useAuthenticatedWaitlistForm`)\n- **`resetForm`** · line 93 — _No comment in the code._ (inside `useAuthenticatedWaitlistForm`)"
+    },
+    {
+      "file": "frontend/src/hooks/useBilling.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/useBilling.ts",
+      "description": "**`frontend/src/hooks/useBilling.ts`** — 5 functions.\n\n- **`useBilling`** · line 17 — _No comment in the code._ (custom hook; used in `app/(authenticated)/billing/page.tsx`)\n- **`fetchBillingData`** · line 32 — Fetch billing data (inside `useBilling`)\n- **`handleUpgrade`** · line 84 — _No comment in the code._ (inside `useBilling`)\n- **`handleManageSubscription`** · line 113 — _No comment in the code._ (inside `useBilling`)\n- **`retry`** · line 132 — _No comment in the code._ (inside `useBilling`)"
+    },
+    {
+      "file": "frontend/src/hooks/useBrand.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/useBrand.ts",
+      "description": "**`frontend/src/hooks/useBrand.ts`** — 3 functions.\n\n- **`getInitialBrand`** · line 11 — _No comment in the code._ (no other file mentions it)\n- **`useBrand`** · line 22 — _No comment in the code._ (custom hook; no other file mentions it)\n- **`setBrand`** · line 25 — _No comment in the code._ (inside `useBrand`)"
+    },
+    {
+      "file": "frontend/src/hooks/useProviderDetail.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/useProviderDetail.ts",
+      "description": "**`frontend/src/hooks/useProviderDetail.ts`** — 4 functions.\n\n- **`useProviderDetail`** · line 26 — _No comment in the code._ (custom hook; used in `app/(authenticated)/providers/[type]/page.tsx`)\n- **`fetchProvider`** · line 53 — Fetch provider details (inside `useProviderDetail`)\n- **`handleToggleEnabled`** · line 110 — Toggle provider enabled/disabled (inside `useProviderDetail`)\n- **`handleDisconnect`** · line 145 — Disconnect provider (inside `useProviderDetail`)"
+    },
+    {
+      "file": "frontend/src/hooks/useProviderManagement.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/useProviderManagement.ts",
+      "description": "**`frontend/src/hooks/useProviderManagement.ts`** — 7 functions.\n\n- **`useProviderManagement`** · line 18 — _No comment in the code._ (custom hook; used in `app/(authenticated)/providers/[type]/page.tsx`, `app/(authenticated)/providers/page.tsx`, `components/providers/ProviderListItem.tsx`)\n- **`fetchProviders`** · line 53 — Fetch providers (inside `useProviderManagement`)\n- **`handleConnect`** · line 136 — _No comment in the code._ (inside `useProviderManagement`)\n- **`handleAccountSelected`** · line 163 — _No comment in the code._ (inside `useProviderManagement`)\n- **`handleAccountSelectionCancel`** · line 177 — _No comment in the code._ (inside `useProviderManagement`)\n- **`handleDisconnect`** · line 182 — _No comment in the code._ (inside `useProviderManagement`)\n- **`handleToggleEnabled`** · line 208 — _No comment in the code._ (inside `useProviderManagement`)"
+    },
+    {
+      "file": "frontend/src/hooks/useTosAcceptance.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/useTosAcceptance.ts",
+      "description": "**`frontend/src/hooks/useTosAcceptance.ts`** — 8 functions.\n\n- **`useTosAcceptance`** · line 17 — _No comment in the code._ (custom hook; used in `components/tos-modal.tsx`)\n- **`setAgreedToTerms`** · line 26 — _No comment in the code._ (inside `useTosAcceptance`)\n- **`setAgreedToPrivacy`** · line 29 — _No comment in the code._ (inside `useTosAcceptance`)\n- **`setMarketingOptIn`** · line 32 — _No comment in the code._ (inside `useTosAcceptance`)\n- **`toggleTerms`** · line 35 — _No comment in the code._ (inside `useTosAcceptance`)\n- **`togglePrivacy`** · line 36 — _No comment in the code._ (inside `useTosAcceptance`)\n- **`toggleMarketing`** · line 37 — _No comment in the code._ (inside `useTosAcceptance`)\n- **`handleAccept`** · line 41 — _No comment in the code._ (inside `useTosAcceptance`)"
+    },
+    {
+      "file": "frontend/src/hooks/useWaitlistFlow.ts",
+      "line": 1,
+      "title": "frontend/src/hooks/useWaitlistFlow.ts",
+      "description": "**`frontend/src/hooks/useWaitlistFlow.ts`** — 10 functions.\n\n- **`useWaitlistFlow`** · line 35 — _No comment in the code._ (custom hook; used in `components/waitlist-dialog.tsx`)\n- **`setStep`** · line 51 — _No comment in the code._ (inside `useWaitlistFlow`)\n- **`setRole`** · line 52 — _No comment in the code._ (inside `useWaitlistFlow`)\n- **`setUseCase`** · line 53 — _No comment in the code._ (inside `useWaitlistFlow`)\n- **`handleGoogleAuth`** · line 56 — Handle Google OAuth - redirect flow (inside `useWaitlistFlow`)\n- **`checkOAuthCallback`** · line 84 — Check for OAuth callback data on mount (inside `useWaitlistFlow`)\n- **`handleSubmit`** · line 112 — Handle final submission (inside `useWaitlistFlow`)\n- **`copyReferralLink`** · line 173 — _No comment in the code._ (inside `useWaitlistFlow`)\n- **`resetForm`** · line 180 — _No comment in the code._ (inside `useWaitlistFlow`)\n- **`goToEmailStep`** · line 197 — _No comment in the code._ (inside `useWaitlistFlow`)"
+    },
+    {
+      "file": "frontend/src/lib/api.ts",
+      "line": 1,
+      "title": "frontend/src/lib/api.ts",
+      "description": "**`frontend/src/lib/api.ts`** — 10 functions.\n\n- **`isDemoOrgId`** · line 13 — Demo org ID is not a valid UUID - skip sending to backend (used in `contexts/user-context.tsx`)\n- **`createAuthHeaders`** · line 18 — ✎ Builds the JSON, `Authorization` and `x-organization-id` headers. (no other file mentions it)\n- **`authFetch`** · line 39 — ✎ `fetch` with your token and team id added; same-site `/api` by default. (used in `app/(authenticated)/admin/page.tsx`, `app/(authenticated)/billing/page.tsx`, `app/(authenticated)/chat-history/page.tsx` and 14 more)\n- **`streamChat`** · line 131 — ✎ POSTs your message to the agent's `/chat/stream` and reads the SSE stream by hand (tour 04). (used in `components/chat/chat-container.tsx`)\n- **`handleEvent`** · line 234 — ✎ Sends each SSE event to the matching callback, like `onContent` or `onToolCall`. (no other file mentions it)\n- **`fetchFieldOptions`** · line 342 — ✎ Loads dropdown options for the approval form from `/chat/field-options`. (used in `contexts/entity-data-context.tsx`)\n- **`approveTool`** · line 406 — ✎ POSTs Allow or Deny (and edits) to `/chat/approve-tool`. Sends no token (tour 11). (used in `hooks/chat/useChatApprovals.ts`)\n- **`fetchStreamResult`** · line 454 — ✎ Asks the agent for a stream's kept result, for reconnecting after leaving the page. (no other file mentions it)\n- **`pollForStreamResult`** · line 477 — ✎ Polls `fetchStreamResult` until the result is ready or time runs out. (no other file mentions it)\n- **`resumeStream`** · line 504 — ✎ POSTs to `/chat/resume` and reads the resumed run's SSE stream (tour 11). (used in `hooks/chat/useChatApprovals.ts`, `tests/e2e/helpers/mock-sse.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/billing/formatters.ts",
+      "line": 1,
+      "title": "frontend/src/lib/billing/formatters.ts",
+      "description": "**`frontend/src/lib/billing/formatters.ts`** — 2 functions.\n\n- **`formatDate`** · line 1 — _No comment in the code._\n- **`formatCurrency`** · line 9 — _No comment in the code._"
+    },
+    {
+      "file": "frontend/src/lib/blog.ts",
+      "line": 1,
+      "title": "frontend/src/lib/blog.ts",
+      "description": "**`frontend/src/lib/blog.ts`** — 10 functions.\n\n- **`isSanityConfigured`** · line 148 — _No comment in the code._\n- **`sanityFetch`** · line 152 — _No comment in the code._ (no other file mentions it)\n- **`sanityImageUrl`** · line 177 — Build Sanity image URL from asset reference (no @sanity/image-url needed) (no other file mentions it)\n- **`calculateReadTime`** · line 185 — Calculate reading time from content (handles both string and Portable Text) (no other file mentions it)\n- **`transformPost`** · line 205 — Transform Sanity post to blog format (no other file mentions it)\n- **`toMeta`** · line 233 — _No comment in the code._ (no other file mentions it)\n- **`getAllPosts`** · line 248 — Server-side: Get all published posts (used in `app/(public)/blog/[slug]/page.tsx`, `app/(public)/blog/page.tsx`)\n- **`getPostBySlug`** · line 266 — Server-side: Get single post by slug (used in `app/(public)/blog/[slug]/page.tsx`)\n- **`getRelatedPosts`** · line 284 — Server-side: Get related posts (no other file mentions it)\n- **`getAllSlugs`** · line 302 — Get all slugs for static generation (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/lib/chat-settings.ts",
+      "line": 1,
+      "title": "frontend/src/lib/chat-settings.ts",
+      "description": "**`frontend/src/lib/chat-settings.ts`** — 11 functions.\n\n- **`setDisplayMode`** · line 59 — _No comment in the code._ (used in `components/chat/context-settings/index.tsx`, `components/settings/ChatSettingsSection.tsx`)\n- **`setSelectedModel`** · line 60 — _No comment in the code._ (no other file mentions it)\n- **`setResponseStyle`** · line 61 — _No comment in the code._ (used in `components/chat/context-settings/index.tsx`)\n- **`setContextMode`** · line 62 — _No comment in the code._ (used in `components/chat/context-settings/index.tsx`)\n- **`setJsonViewMode`** · line 63 — _No comment in the code._ (no other file mentions it)\n- **`setSafeMode`** · line 64 — _No comment in the code._ (used in `components/chat/context-settings/index.tsx`, `components/settings/ChatSettingsSection.tsx`)\n- **`setEnabledProviderIds`** · line 65 — _No comment in the code._ (used in `components/chat/context-settings/index.tsx`)\n- **`toggleProvider`** · line 66 — _No comment in the code._ (used in `components/chat/chat-input.tsx`, `components/chat/command-palette/use-command-palette.ts`, `components/chat/context-settings/index.tsx`)\n- **`setEnabledAppIds`** · line 74 — _No comment in the code._ (used in `components/chat/context-settings/hooks/use-provider-apps.ts`, `components/chat/context-settings/index.tsx`)\n- **`toggleApp`** · line 78 — _No comment in the code._ (used in `components/chat/chat-input.tsx`, `components/chat/command-palette/use-command-palette.ts`, `components/chat/context-settings/index.tsx`)\n- **`setAutoIncludeContext`** · line 99 — _No comment in the code._ (used in `components/chat/context-settings/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/lib/demo-chat/intent-matcher.ts",
+      "line": 1,
+      "title": "frontend/src/lib/demo-chat/intent-matcher.ts",
+      "description": "**`frontend/src/lib/demo-chat/intent-matcher.ts`** — 4 functions.\n\n- **`extractEntities`** · line 61 — Extract potential entities from user input (no other file mentions it)\n- **`calculateIntentScore`** · line 97 — Calculate intent score based on keyword matches (no other file mentions it)\n- **`matchIntent`** · line 117 — Match user input to an intent with confidence score (used in `components/demo-chat/demo-chat-container.tsx`, `lib/demo-chat/index.ts`)\n- **`quickMatchIntent`** · line 168 — Quick check for specific high-priority intents Used as a fast-path before full matching (used in `components/demo-chat/demo-chat-container.tsx`, `lib/demo-chat/index.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/demo-chat/scenarios/create-experiment.ts",
+      "line": 1,
+      "title": "frontend/src/lib/demo-chat/scenarios/create-experiment.ts",
+      "description": "**`frontend/src/lib/demo-chat/scenarios/create-experiment.ts`** — 5 functions.\n\n- **`generateExperimentId`** · line 14 — Generate a unique experiment ID (no other file mentions it)\n- **`generateExperimentName`** · line 23 — Generate experiment name from parsed allocation (no other file mentions it)\n- **`formatDate`** · line 41 — Format ISO date string\n- **`handleCreateExperiment`** · line 48 — Handle create experiment intent (used in `lib/demo-chat/scenarios/index.ts`)\n- **`buildResultMessage`** · line 150 — Build the final result message (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/lib/demo-chat/scenarios/execute-recommendation.ts",
+      "line": 1,
+      "title": "lib/demo-chat/scenarios/execute-recommendation.ts",
+      "description": "**`frontend/src/lib/demo-chat/scenarios/execute-recommendation.ts`** — 4 functions.\n\n- **`findExperimentWithRecommendation`** · line 14 — Find experiment with a pending recommendation (no other file mentions it)\n- **`formatCurrency`** · line 58 — Format currency\n- **`handleExecuteRecommendation`** · line 70 — Handle execute recommendation intent (used in `lib/demo-chat/scenarios/index.ts`)\n- **`buildExecutionMessage`** · line 159 — Build the execution result message (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/lib/demo-chat/scenarios/fallback.ts",
+      "line": 1,
+      "title": "frontend/src/lib/demo-chat/scenarios/fallback.ts",
+      "description": "**`frontend/src/lib/demo-chat/scenarios/fallback.ts`** — 4 functions.\n\n- **`handleHelp`** · line 11 — Handle help intent (used in `lib/demo-chat/scenarios/index.ts`)\n- **`handleListExperiments`** · line 30 — Handle list experiments intent (used in `lib/demo-chat/scenarios/index.ts`)\n- **`handleRollback`** · line 119 — Handle rollback intent (used in `lib/demo-chat/scenarios/index.ts`)\n- **`handleUnknown`** · line 202 — Handle unknown/unmatched intent (used in `lib/demo-chat/scenarios/index.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/demo-chat/scenarios/get-insights.ts",
+      "line": 1,
+      "title": "frontend/src/lib/demo-chat/scenarios/get-insights.ts",
+      "description": "**`frontend/src/lib/demo-chat/scenarios/get-insights.ts`** — 5 functions.\n\n- **`findRelevantExperiment`** · line 14 — Find the most relevant experiment for the query\n- **`formatCurrency`** · line 45 — Format currency\n- **`formatNumber`** · line 57 — Format number with suffix (K, M)\n- **`handleGetInsights`** · line 70 — Handle get insights intent (used in `lib/demo-chat/scenarios/index.ts`)\n- **`buildInsightsMessage`** · line 157 — Build the insights result message (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/lib/demo-chat/scenarios/index.ts",
+      "line": 1,
+      "title": "frontend/src/lib/demo-chat/scenarios/index.ts",
+      "description": "**`frontend/src/lib/demo-chat/scenarios/index.ts`** — 2 functions.\n\n- **`getScenarioHandler`** · line 21 — Get the appropriate scenario handler for an intent (used in `lib/demo-chat/index.ts`)\n- **`executeScenario`** · line 46 — Execute a scenario and return the result (used in `components/demo-chat/demo-chat-container.tsx`, `lib/demo-chat/index.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/demo-chat/scenarios/simulate-whatif.ts",
+      "line": 1,
+      "title": "frontend/src/lib/demo-chat/scenarios/simulate-whatif.ts",
+      "description": "**`frontend/src/lib/demo-chat/scenarios/simulate-whatif.ts`** — 5 functions.\n\n- **`findRelevantExperiment`** · line 14 — Find the most relevant experiment for simulation\n- **`parseWhatIfScenario`** · line 41 — Parse what-if scenario from user input (no other file mentions it)\n- **`formatCurrency`** · line 77 — Format currency\n- **`handleSimulateWhatIf`** · line 89 — Handle simulate what-if intent (used in `lib/demo-chat/scenarios/index.ts`)\n- **`buildSimulationMessage`** · line 209 — Build the simulation result message (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/lib/demo-chat/streaming-simulator.ts",
+      "line": 1,
+      "title": "frontend/src/lib/demo-chat/streaming-simulator.ts",
+      "description": "**`frontend/src/lib/demo-chat/streaming-simulator.ts`** — 7 functions.\n\n- **`sleep`** · line 35 — Sleep for a specified duration (used in `chat/approval/handlers.py`, `chat/graph/nodes/tool_executor.py`)\n- **`getEventDelay`** · line 42 — Calculate delay for a specific event type (no other file mentions it)\n- **`simulateStream`** · line 51 — Simulate streaming events with realistic delays (used in `components/demo-chat/demo-chat-container.tsx`, `lib/demo-chat/index.ts`)\n- **`createCancellableStream`** · line 80 — Create a stream that can be cancelled (used in `lib/demo-chat/index.ts`)\n- **`start`** · line 88 — _No comment in the code._ (inside `createCancellableStream`)\n- **`cancel`** · line 114 — _No comment in the code._ (inside `createCancellableStream`)\n- **`simulateTypingContent`** · line 125 — Simulate typing effect for content Breaks content into chunks and streams them progressively (used in `lib/demo-chat/index.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/demo-user.ts",
+      "line": 1,
+      "title": "frontend/src/lib/demo-user.ts",
+      "description": "**`frontend/src/lib/demo-user.ts`** — 3 functions.\n\n- **`getDemoUser`** · line 58 — Get the demo user object (used in `contexts/user-context.tsx`)\n- **`getDemoOrganization`** · line 65 — Get the demo organization (used in `contexts/user-context.tsx`)\n- **`getDemoProviders`** · line 72 — Get demo providers (used in `contexts/user-context.tsx`, `hooks/useProviderManagement.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/entity-config.ts",
+      "line": 1,
+      "title": "frontend/src/lib/entity-config.ts",
+      "description": "**`frontend/src/lib/entity-config.ts`** — 6 functions.\n\n- **`getParentField`** · line 112 — Get the parent field name for a given entity type getParentField(\"ad_units\") // returns \"account_id\" getParentField(\"accounts\") // returns null (root entity) getParentField(\"placements\") // returns \"network_code\" (used in `components/chat/rjsf/widgets/ad-source-toggle-widget.tsx`, `components/chat/rjsf/widgets/ad-source-widget.tsx`, `components/chat/rjsf/widgets/entity-select-widget.tsx` and 1 more)\n- **`getDisplayField`** · line 129 — Get the display field for a given entity type (no other file mentions it)\n- **`isRootEntity`** · line 137 — Check if an entity type is a root entity (no parent) (no other file mentions it)\n- **`getDependentEntities`** · line 145 — Get all entity types that depend on a given parent type (no other file mentions it)\n- **`validateEntityId`** · line 154 — Validate an ID against the expected pattern for an entity type (no other file mentions it)\n- **`getParamDisplayName`** · line 218 — Get friendly display name for a parameter Falls back to formatted snake_case if no mapping exists (used in `components/chat/rjsf/rjsf-parameter-form/templates/array-field-template.tsx`, `components/chat/rjsf/rjsf-parameter-form/templates/field-template.tsx`, `components/chat/rjsf/widgets/ad-source-toggle-widget.tsx` and 3 more)"
+    },
+    {
+      "file": "frontend/src/lib/experiments/demo-data.ts",
+      "line": 1,
+      "title": "frontend/src/lib/experiments/demo-data.ts",
+      "description": "**`frontend/src/lib/experiments/demo-data.ts`** — 9 functions.\n\n- **`seededRandom`** · line 17 — Seeded random number generator for reproducibility (no other file mentions it)\n- **`randomInRange`** · line 25 — Generate a random number in range using seeded random (no other file mentions it)\n- **`formatDate`** · line 34 — Format date to ISO string\n- **`getRelativeDate`** · line 39 — Generate dates relative to today (no other file mentions it)\n- **`getDemoExperiments`** · line 48 — Get demo experiments - returns 2-3 sample experiments (used in `components/demo-chat/demo-chat-container.tsx`, `components/experiments/hooks/useExperimentData.ts`, `lib/experiments/index.ts`)\n- **`getDemoExperiment`** · line 173 — Get a single experiment by ID (used in `lib/experiments/index.ts`)\n- **`generateExperimentMetrics`** · line 180 — Generate experiment metrics with realistic variance (used in `components/experiments/hooks/useExperimentData.ts`, `lib/demo-chat/scenarios/execute-recommendation.ts`, `lib/demo-chat/scenarios/get-insights.ts` and 2 more)\n- **`generateRecommendations`** · line 315 — Generate recommendations based on experiment results (used in `components/experiments/hooks/useExperimentData.ts`, `lib/demo-chat/scenarios/execute-recommendation.ts`, `lib/demo-chat/scenarios/get-insights.ts` and 1 more)\n- **`getDemoExperimentWithData`** · line 395 — Get demo experiment with metrics and recommendations (used in `components/experiments/hooks/useExperimentData.ts`, `lib/experiments/index.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/experiments/prompt-parser.ts",
+      "line": 1,
+      "title": "frontend/src/lib/experiments/prompt-parser.ts",
+      "description": "**`frontend/src/lib/experiments/prompt-parser.ts`** — 5 functions.\n\n- **`normalizeNetwork`** · line 36 — Normalize network name to our enum (no other file mentions it)\n- **`normalizeFormat`** · line 46 — Normalize ad format (no other file mentions it)\n- **`getCountriesFromTier`** · line 57 — Get countries from tier (no other file mentions it)\n- **`parseTrafficPrompt`** · line 64 — Parse a natural language prompt into structured traffic allocation (used in `components/experiments/hooks/useExperimentWizard.ts`, `components/experiments/hooks/usePromptParser.ts`, `lib/demo-chat/scenarios/create-experiment.ts` and 1 more)\n- **`summarizeParsedAllocation`** · line 221 — Generate a summary of the parsed allocation (used in `components/experiments/hooks/usePromptParser.ts`, `lib/experiments/index.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/sanity.ts",
+      "line": 1,
+      "title": "frontend/src/lib/sanity.ts",
+      "description": "**`frontend/src/lib/sanity.ts`** — 5 functions.\n\n- **`getSanityClient`** · line 15 — _No comment in the code._ (no other file mentions it)\n- **`get`** · line 32 — _No comment in the code._ (method)\n- **`get`** · line 45 — _No comment in the code._ (method)\n- **`urlFor`** · line 68 — _No comment in the code._ (no other file mentions it)\n- **`isSanityConfigured`** · line 222 — Helper to check if Sanity is configured"
+    },
+    {
+      "file": "frontend/src/lib/step-utils.ts",
+      "line": 1,
+      "title": "frontend/src/lib/step-utils.ts",
+      "description": "**`frontend/src/lib/step-utils.ts`** — 10 functions.\n\n- **`extractEntity`** · line 46 — Extract entity name from tool name e.g., \"admob_list_accounts\" → \"accounts\" e.g., \"admob_create_ad_unit\" → \"ad unit\" (no other file mentions it)\n- **`getProvider`** · line 75 — Get provider name from tool name (no other file mentions it)\n- **`getStepCategory`** · line 84 — Determine step category from tool name (no other file mentions it)\n- **`getCategoryIcon`** · line 100 — Get Lucide icon name for step category (no other file mentions it)\n- **`extractShortPhrase`** · line 124 — Extract a short descriptive phrase from content (like Claude/ChatGPT status). (no other file mentions it)\n- **`getStepInfo`** · line 204 — Convert a stream event to step display info (used in `components/chat/steps-timeline.tsx`)\n- **`formatResultSummary`** · line 338 — Format result summary for display in timeline (no other file mentions it)\n- **`isTimelineStep`** · line 367 — Check if an event should be included in the steps timeline (no other file mentions it)\n- **`isFinalResult`** · line 376 — Check if event is the final result (to be rendered prominently) (no other file mentions it)\n- **`extractMcpContent`** · line 389 — Extract actual content from MCP/LangChain content blocks. (used in `components/chat/chat-container.tsx`, `components/chat/steps-timeline.tsx`, `hooks/chat/useChatApprovals.ts`)"
+    },
+    {
+      "file": "frontend/src/lib/storage.ts",
+      "line": 1,
+      "title": "frontend/src/lib/storage.ts",
+      "description": "**`frontend/src/lib/storage.ts`** — 18 functions.\n\n- **`isClient`** · line 31 — _No comment in the code._ (no other file mentions it)\n- **`getStorage`** · line 35 — _No comment in the code._ (no other file mentions it)\n- **`get`** · line 43 — Get a value from storage with type safety and error handling\n- **`set`** · line 76 — Set a value in storage with automatic JSON serialization\n- **`remove`** · line 98 — Remove a value from storage\n- **`has`** · line 119 — Check if a key exists in storage\n- **`clear`** · line 133 — Clear all items from storage (use with caution)\n- **`clearCache`** · line 155 — Clear the in-memory cache (useful for testing or logout)\n- **`get`** · line 161 — _No comment in the code._\n- **`set`** · line 162 — _No comment in the code._\n- **`remove`** · line 163 — _No comment in the code._\n- **`has`** · line 164 — _No comment in the code._\n- **`clear`** · line 165 — _No comment in the code._\n- **`get`** · line 170 — _No comment in the code._\n- **`set`** · line 171 — _No comment in the code._\n- **`remove`** · line 172 — _No comment in the code._\n- **`has`** · line 173 — _No comment in the code._\n- **`clear`** · line 174 — _No comment in the code._"
+    },
+    {
+      "file": "frontend/src/lib/utils.ts",
+      "line": 1,
+      "title": "frontend/src/lib/utils.ts",
+      "description": "**`frontend/src/lib/utils.ts`** — 1 function.\n\n- **`cn`** · line 4 — _No comment in the code._"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists all **302** functions in its area, **21** of them with a hand-written note (✎)."
+    }
+  ]
+}

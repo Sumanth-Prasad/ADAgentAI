@@ -1,0 +1,370 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A09 - Atlas: feature components",
+  "description": "Every function in its area (131), one file per step.",
+  "steps": [
+    {
+      "directory": "frontend/src/components",
+      "title": "How to use this atlas",
+      "description": "### A09 - Atlas: feature components\n\n**131 functions in 59 files.** Each step opens one file and lists every function in it, in order. Press Ctrl+G and type a line number to jump to one.\n\n**How to read an entry:**\n- ✎ marks a note I wrote after reading the code.\n- Other entries quote the function's own comment from the code. If it has none, it says so.\n- In brackets: facts a script checked, such as *React component*, the API route, or which other files mention it.\n\n*No other file mentions it* is a plain text search. It's a strong hint that a function is unused, but not proof."
+    },
+    {
+      "file": "frontend/src/components/authenticated-waitlist-dialog.tsx",
+      "line": 1,
+      "title": "frontend/src/components/authenticated-waitlist-dialog.tsx",
+      "description": "**`frontend/src/components/authenticated-waitlist-dialog.tsx`** — 1 function.\n\n- **`AuthenticatedWaitlistDialog`** · line 35 — _No comment in the code._ (React component; used in `app/(public)/access-denied/page.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/billing/PlanSelector.tsx",
+      "line": 1,
+      "title": "frontend/src/components/billing/PlanSelector.tsx",
+      "description": "**`frontend/src/components/billing/PlanSelector.tsx`** — 4 functions.\n\n- **`getButtonText`** · line 27 — Get button text based on plan state. (no other file mentions it)\n- **`getButtonVariant`** · line 48 — Get button variant based on plan state. (no other file mentions it)\n- **`PlanCard`** · line 60 — Individual plan card component. (React component; no other file mentions it)\n- **`PlanCards`** · line 149 — Linear-style two-column plan cards. (React component; used in `app/(authenticated)/billing/page.tsx`, `components/billing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/billing/RecentInvoicesCard.tsx",
+      "line": 1,
+      "title": "frontend/src/components/billing/RecentInvoicesCard.tsx",
+      "description": "**`frontend/src/components/billing/RecentInvoicesCard.tsx`** — 1 function.\n\n- **`RecentInvoicesCard`** · line 12 — Linear-style recent invoices card (React component; used in `app/(authenticated)/billing/page.tsx`, `components/billing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/demo-banner.tsx",
+      "line": 1,
+      "title": "frontend/src/components/demo-banner.tsx",
+      "description": "**`frontend/src/components/demo-banner.tsx`** — 1 function.\n\n- **`DemoBanner`** · line 15 — Banner displayed at the top of the viewport when demo mode is active. (React component; used in `app/(authenticated)/layout-client.tsx`, `app/(public)/layout-client.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/demo-chat/demo-chat-container.tsx",
+      "line": 1,
+      "title": "frontend/src/components/demo-chat/demo-chat-container.tsx",
+      "description": "**`frontend/src/components/demo-chat/demo-chat-container.tsx`** — 6 functions.\n\n- **`generateMessageId`** · line 38 — Generate a unique message ID (no other file mentions it)\n- **`getCurrentTimestamp`** · line 45 — Get current ISO timestamp (no other file mentions it)\n- **`DemoChatContainer`** · line 49 — _No comment in the code._ (React component; used in `app/(authenticated)/demo/chat/page.tsx`, `components/demo-chat/index.ts`)\n- **`handleSend`** · line 76 — Handle sending a message (inside `DemoChatContainer`)\n- **`handleStop`** · line 150 — Handle stopping the current stream (inside `DemoChatContainer`)\n- **`handleSelectExample`** · line 172 — Handle example prompt selection (inside `DemoChatContainer`)"
+    },
+    {
+      "file": "frontend/src/components/demo-chat/demo-example-prompts.tsx",
+      "line": 1,
+      "title": "frontend/src/components/demo-chat/demo-example-prompts.tsx",
+      "description": "**`frontend/src/components/demo-chat/demo-example-prompts.tsx`** — 2 functions.\n\n- **`DemoExamplePrompts`** · line 57 — _No comment in the code._ (React component; used in `components/demo-chat/demo-chat-container.tsx`, `components/demo-chat/index.ts`)\n- **`handleBack`** · line 66 — _No comment in the code._ (inside `DemoExamplePrompts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/ExperimentCard.tsx",
+      "line": 1,
+      "title": "frontend/src/components/experiments/ExperimentCard.tsx",
+      "description": "**`frontend/src/components/experiments/ExperimentCard.tsx`** — 2 functions.\n\n- **`formatDate`** · line 21 — _No comment in the code._\n- **`ExperimentCard`** · line 29 — _No comment in the code._ (React component; used in `app/(authenticated)/experiments/page.tsx`, `components/experiments/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/execution/ExecutionModal.tsx",
+      "line": 1,
+      "title": "components/experiments/execution/ExecutionModal.tsx",
+      "description": "**`frontend/src/components/experiments/execution/ExecutionModal.tsx`** — 4 functions.\n\n- **`ExecutionModal`** · line 26 — _No comment in the code._ (React component; used in `app/(authenticated)/experiments/[id]/page.tsx`, `components/experiments/execution/index.ts`)\n- **`handleOpenChange`** · line 40 — Reset state when modal opens (inside `ExecutionModal`)\n- **`handleExecute`** · line 52 — _No comment in the code._ (inside `ExecutionModal`)\n- **`handleDone`** · line 64 — _No comment in the code._ (inside `ExecutionModal`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/execution/ScopeSelector.tsx",
+      "line": 1,
+      "title": "components/experiments/execution/ScopeSelector.tsx",
+      "description": "**`frontend/src/components/experiments/execution/ScopeSelector.tsx`** — 3 functions.\n\n- **`ScopeSelector`** · line 25 — _No comment in the code._ (React component; used in `components/experiments/execution/ExecutionModal.tsx`, `components/experiments/execution/index.ts`)\n- **`toggleFormat`** · line 26 — _No comment in the code._ (inside `ScopeSelector`)\n- **`toggleCountry`** · line 34 — _No comment in the code._ (inside `ScopeSelector`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/hooks/useExperimentData.ts",
+      "line": 1,
+      "title": "components/experiments/hooks/useExperimentData.ts",
+      "description": "**`frontend/src/components/experiments/hooks/useExperimentData.ts`** — 3 functions.\n\n- **`useExperimentData`** · line 26 — Hook to fetch all experiments (demo data when in demo mode) Merges static demo experiments with chat-created experiments (custom hook; used in `app/(authenticated)/experiments/page.tsx`, `components/experiments/hooks/index.ts`)\n- **`useExperimentDetail`** · line 62 — Hook to fetch a single experiment with metrics and recommendations Supports both static demo experiments and chat-created experiments (custom hook; used in `app/(authenticated)/experiments/[id]/page.tsx`, `components/experiments/hooks/index.ts`)\n- **`filterExperimentsByStatus`** · line 101 — Filter experiments by status (used in `app/(authenticated)/experiments/page.tsx`, `components/experiments/hooks/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/hooks/useExperimentWizard.ts",
+      "line": 1,
+      "title": "components/experiments/hooks/useExperimentWizard.ts",
+      "description": "**`frontend/src/components/experiments/hooks/useExperimentWizard.ts`** — 11 functions.\n\n- **`useExperimentWizard`** · line 35 — _No comment in the code._ (custom hook; used in `components/experiments/hooks/index.ts`, `components/experiments/wizard/ExperimentWizard.tsx`)\n- **`nextStep`** · line 41 — Step navigation (inside `useExperimentWizard`)\n- **`prevStep`** · line 45 — _No comment in the code._ (inside `useExperimentWizard`)\n- **`goToStep`** · line 49 — _No comment in the code._ (inside `useExperimentWizard`)\n- **`updateBasicInfo`** · line 54 — Update basic info (inside `useExperimentWizard`)\n- **`updateArmSetup`** · line 62 — Update arm setup (inside `useExperimentWizard`)\n- **`updatePrompt`** · line 73 — Parse prompt and update traffic allocation (inside `useExperimentWizard`)\n- **`updateParsedAllocation`** · line 101 — Update parsed allocation directly (from sliders) (inside `useExperimentWizard`)\n- **`canProceed`** · line 109 — Validation for each step (inside `useExperimentWizard`)\n- **`reset`** · line 130 — _No comment in the code._ (inside `useExperimentWizard`)\n- **`createExperiment`** · line 137 — Create experiment (demo mode just returns a mock ID) (inside `useExperimentWizard`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/hooks/usePromptParser.ts",
+      "line": 1,
+      "title": "frontend/src/components/experiments/hooks/usePromptParser.ts",
+      "description": "**`frontend/src/components/experiments/hooks/usePromptParser.ts`** — 4 functions.\n\n- **`usePromptParser`** · line 21 — Hook for parsing traffic allocation prompts with debounce (custom hook; used in `components/experiments/hooks/index.ts`)\n- **`parseWithDebounce`** · line 31 — Parse with debounce (inside `usePromptParser`)\n- **`setPrompt`** · line 53 — Update prompt and trigger parse (inside `usePromptParser`)\n- **`clear`** · line 62 — Clear everything (inside `usePromptParser`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/recommendations/ImpactPreview.tsx",
+      "line": 1,
+      "title": "components/experiments/recommendations/ImpactPreview.tsx",
+      "description": "**`frontend/src/components/experiments/recommendations/ImpactPreview.tsx`** — 2 functions.\n\n- **`formatCurrency`** · line 30 — _No comment in the code._\n- **`ImpactPreview`** · line 38 — _No comment in the code._ (React component; used in `components/experiments/recommendations/RecommendationCard.tsx`, `components/experiments/recommendations/index.ts`, `lib/experiments/types.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/recommendations/RecommendationCard.tsx",
+      "line": 1,
+      "title": "components/experiments/recommendations/RecommendationCard.tsx",
+      "description": "**`frontend/src/components/experiments/recommendations/RecommendationCard.tsx`** — 2 functions.\n\n- **`RecommendationCard`** · line 22 — _No comment in the code._ (React component; used in `components/experiments/recommendations/RecommendationList.tsx`, `components/experiments/recommendations/index.ts`)\n- **`handleExecute`** · line 30 — _No comment in the code._ (inside `RecommendationCard`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/recommendations/RecommendationList.tsx",
+      "line": 1,
+      "title": "components/experiments/recommendations/RecommendationList.tsx",
+      "description": "**`frontend/src/components/experiments/recommendations/RecommendationList.tsx`** — 1 function.\n\n- **`RecommendationList`** · line 13 — _No comment in the code._ (React component; used in `app/(authenticated)/experiments/[id]/page.tsx`, `components/experiments/recommendations/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/reports/MetricCard.tsx",
+      "line": 1,
+      "title": "frontend/src/components/experiments/reports/MetricCard.tsx",
+      "description": "**`frontend/src/components/experiments/reports/MetricCard.tsx`** — 1 function.\n\n- **`MetricCard`** · line 15 — _No comment in the code._ (React component; used in `components/experiments/reports/SideBySideReport.tsx`, `components/experiments/reports/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/reports/NetworkBreakdown.tsx",
+      "line": 1,
+      "title": "components/experiments/reports/NetworkBreakdown.tsx",
+      "description": "**`frontend/src/components/experiments/reports/NetworkBreakdown.tsx`** — 3 functions.\n\n- **`formatCurrency`** · line 18 — _No comment in the code._\n- **`formatNumber`** · line 26 — _No comment in the code._\n- **`NetworkBreakdown`** · line 30 — _No comment in the code._ (React component; used in `components/experiments/reports/SideBySideReport.tsx`, `components/experiments/reports/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/reports/ReportCharts.tsx",
+      "line": 1,
+      "title": "frontend/src/components/experiments/reports/ReportCharts.tsx",
+      "description": "**`frontend/src/components/experiments/reports/ReportCharts.tsx`** — 3 functions.\n\n- **`formatDate`** · line 22 — _No comment in the code._\n- **`formatMetricValue`** · line 29 — _No comment in the code._ (no other file mentions it)\n- **`ReportCharts`** · line 42 — _No comment in the code._ (React component; used in `components/experiments/reports/SideBySideReport.tsx`, `components/experiments/reports/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/reports/SideBySideReport.tsx",
+      "line": 1,
+      "title": "components/experiments/reports/SideBySideReport.tsx",
+      "description": "**`frontend/src/components/experiments/reports/SideBySideReport.tsx`** — 4 functions.\n\n- **`formatDate`** · line 22 — _No comment in the code._\n- **`formatCurrency`** · line 30 — _No comment in the code._\n- **`ArmColumn`** · line 38 — _No comment in the code._ (React component; no other file mentions it)\n- **`SideBySideReport`** · line 110 — _No comment in the code._ (React component; used in `app/(authenticated)/experiments/[id]/page.tsx`, `components/experiments/reports/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/reports/WinnerIndicator.tsx",
+      "line": 1,
+      "title": "components/experiments/reports/WinnerIndicator.tsx",
+      "description": "**`frontend/src/components/experiments/reports/WinnerIndicator.tsx`** — 1 function.\n\n- **`WinnerIndicator`** · line 11 — _No comment in the code._ (React component; used in `components/experiments/reports/SideBySideReport.tsx`, `components/experiments/reports/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/wizard/ExperimentWizard.tsx",
+      "line": 1,
+      "title": "components/experiments/wizard/ExperimentWizard.tsx",
+      "description": "**`frontend/src/components/experiments/wizard/ExperimentWizard.tsx`** — 4 functions.\n\n- **`WizardProgress`** · line 26 — _No comment in the code._ (React component; no other file mentions it)\n- **`ExperimentWizard`** · line 78 — _No comment in the code._ (React component; used in `app/(authenticated)/experiments/page.tsx`, `components/experiments/wizard/index.ts`)\n- **`handleSubmit`** · line 82 — _No comment in the code._ (inside `ExperimentWizard`)\n- **`renderStep`** · line 87 — _No comment in the code._ (inside `ExperimentWizard`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/wizard/StepArmSetup.tsx",
+      "line": 1,
+      "title": "frontend/src/components/experiments/wizard/StepArmSetup.tsx",
+      "description": "**`frontend/src/components/experiments/wizard/StepArmSetup.tsx`** — 2 functions.\n\n- **`ArmCard`** · line 19 — _No comment in the code._ (React component; no other file mentions it)\n- **`StepArmSetup`** · line 84 — _No comment in the code._ (React component; used in `components/experiments/wizard/ExperimentWizard.tsx`, `components/experiments/wizard/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/wizard/StepBasicInfo.tsx",
+      "line": 1,
+      "title": "frontend/src/components/experiments/wizard/StepBasicInfo.tsx",
+      "description": "**`frontend/src/components/experiments/wizard/StepBasicInfo.tsx`** — 1 function.\n\n- **`StepBasicInfo`** · line 19 — _No comment in the code._ (React component; used in `components/experiments/wizard/ExperimentWizard.tsx`, `components/experiments/wizard/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/wizard/StepReview.tsx",
+      "line": 1,
+      "title": "frontend/src/components/experiments/wizard/StepReview.tsx",
+      "description": "**`frontend/src/components/experiments/wizard/StepReview.tsx`** — 2 functions.\n\n- **`ReviewSection`** · line 16 — _No comment in the code._ (React component; no other file mentions it)\n- **`StepReview`** · line 33 — _No comment in the code._ (React component; used in `components/experiments/wizard/ExperimentWizard.tsx`, `components/experiments/wizard/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/experiments/wizard/StepTrafficAllocation.tsx",
+      "line": 1,
+      "title": "components/experiments/wizard/StepTrafficAllocation.tsx",
+      "description": "**`frontend/src/components/experiments/wizard/StepTrafficAllocation.tsx`** — 4 functions.\n\n- **`TrafficSlider`** · line 23 — _No comment in the code._ (React component; no other file mentions it)\n- **`ChipGroup`** · line 87 — _No comment in the code._ (React component; no other file mentions it)\n- **`StepTrafficAllocation`** · line 112 — _No comment in the code._ (React component; used in `components/experiments/wizard/ExperimentWizard.tsx`, `components/experiments/wizard/index.ts`)\n- **`handleSliderChange`** · line 123 — _No comment in the code._ (inside `StepTrafficAllocation`)"
+    },
+    {
+      "file": "frontend/src/components/invitations/invitation-banner.tsx",
+      "line": 1,
+      "title": "frontend/src/components/invitations/invitation-banner.tsx",
+      "description": "**`frontend/src/components/invitations/invitation-banner.tsx`** — 3 functions.\n\n- **`InvitationBanner`** · line 17 — _No comment in the code._ (React component; used in `app/(authenticated)/layout-client.tsx`, `components/invitations/index.ts`)\n- **`handleAccept`** · line 34 — _No comment in the code._ (inside `InvitationBanner`)\n- **`handleReject`** · line 42 — _No comment in the code._ (inside `InvitationBanner`)"
+    },
+    {
+      "file": "frontend/src/components/invitations/invitation-card.tsx",
+      "line": 1,
+      "title": "frontend/src/components/invitations/invitation-card.tsx",
+      "description": "**`frontend/src/components/invitations/invitation-card.tsx`** — 5 functions.\n\n- **`formatRelativeTime`** · line 17 — Helper to format relative time (no other file mentions it)\n- **`formatExpiry`** · line 31 — Helper to format expiry (no other file mentions it)\n- **`InvitationCard`** · line 52 — _No comment in the code._ (React component; used in `components/invitations/index.ts`, `components/invitations/invitation-banner.tsx`, `components/invitations/my-invitations-section.tsx`)\n- **`handleAccept`** · line 64 — _No comment in the code._ (inside `InvitationCard`)\n- **`handleReject`** · line 73 — _No comment in the code._ (inside `InvitationCard`)"
+    },
+    {
+      "file": "frontend/src/components/invitations/my-invitations-section.tsx",
+      "line": 1,
+      "title": "components/invitations/my-invitations-section.tsx",
+      "description": "**`frontend/src/components/invitations/my-invitations-section.tsx`** — 3 functions.\n\n- **`MyInvitationsSection`** · line 9 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/page.tsx`, `components/invitations/index.ts`)\n- **`handleAccept`** · line 19 — _No comment in the code._ (inside `MyInvitationsSection`)\n- **`handleReject`** · line 27 — _No comment in the code._ (inside `MyInvitationsSection`)"
+    },
+    {
+      "file": "frontend/src/components/landing/example-queries.tsx",
+      "line": 1,
+      "title": "frontend/src/components/landing/example-queries.tsx",
+      "description": "**`frontend/src/components/landing/example-queries.tsx`** — 1 function.\n\n- **`ExampleQueriesSection`** · line 53 — _No comment in the code._ (React component; used in `app/(public)/page.tsx`, `components/landing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/landing/faq-section.tsx",
+      "line": 1,
+      "title": "frontend/src/components/landing/faq-section.tsx",
+      "description": "**`frontend/src/components/landing/faq-section.tsx`** — 1 function.\n\n- **`FAQSection`** · line 45 — _No comment in the code._ (React component; used in `app/(public)/page.tsx`, `components/landing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/landing/features-section.tsx",
+      "line": 1,
+      "title": "frontend/src/components/landing/features-section.tsx",
+      "description": "**`frontend/src/components/landing/features-section.tsx`** — 1 function.\n\n- **`FeaturesSection`** · line 38 — _No comment in the code._ (React component; used in `app/(public)/page.tsx`, `components/landing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/landing/hero-section.tsx",
+      "line": 1,
+      "title": "frontend/src/components/landing/hero-section.tsx",
+      "description": "**`frontend/src/components/landing/hero-section.tsx`** — 1 function.\n\n- **`HeroSection`** · line 9 — _No comment in the code._ (React component; used in `app/(public)/page.tsx`, `components/landing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/landing/how-it-works.tsx",
+      "line": 1,
+      "title": "frontend/src/components/landing/how-it-works.tsx",
+      "description": "**`frontend/src/components/landing/how-it-works.tsx`** — 1 function.\n\n- **`HowItWorksSection`** · line 26 — _No comment in the code._ (React component; used in `app/(public)/page.tsx`, `components/landing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/landing/platforms-section.tsx",
+      "line": 1,
+      "title": "frontend/src/components/landing/platforms-section.tsx",
+      "description": "**`frontend/src/components/landing/platforms-section.tsx`** — 1 function.\n\n- **`PlatformsSection`** · line 9 — _No comment in the code._ (React component; used in `app/(public)/page.tsx`, `components/landing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/landing/security-section.tsx",
+      "line": 1,
+      "title": "frontend/src/components/landing/security-section.tsx",
+      "description": "**`frontend/src/components/landing/security-section.tsx`** — 1 function.\n\n- **`SecuritySection`** · line 28 — _No comment in the code._ (React component; used in `app/(public)/page.tsx`, `components/landing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/landing/team-section.tsx",
+      "line": 1,
+      "title": "frontend/src/components/landing/team-section.tsx",
+      "description": "**`frontend/src/components/landing/team-section.tsx`** — 1 function.\n\n- **`TeamSection`** · line 5 — _No comment in the code._ (React component; used in `app/(public)/page.tsx`, `components/landing/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/layout/OrganizationSwitcher.tsx",
+      "line": 1,
+      "title": "frontend/src/components/layout/OrganizationSwitcher.tsx",
+      "description": "**`frontend/src/components/layout/OrganizationSwitcher.tsx`** — 2 functions.\n\n- **`OrganizationSwitcher`** · line 21 — _No comment in the code._ (React component; used in `components/layout/app-sidebar.tsx`)\n- **`handleCreateOrganization`** · line 31 — _No comment in the code._ (inside `OrganizationSwitcher`)"
+    },
+    {
+      "file": "frontend/src/components/layout/UserMenu.tsx",
+      "line": 1,
+      "title": "frontend/src/components/layout/UserMenu.tsx",
+      "description": "**`frontend/src/components/layout/UserMenu.tsx`** — 1 function.\n\n- **`UserMenu`** · line 24 — _No comment in the code._ (React component; used in `components/layout/app-sidebar.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/layout/app-sidebar.tsx",
+      "line": 1,
+      "title": "frontend/src/components/layout/app-sidebar.tsx",
+      "description": "**`frontend/src/components/layout/app-sidebar.tsx`** — 3 functions.\n\n- **`AppSidebar`** · line 35 — _No comment in the code._ (React component; used in `app/(authenticated)/layout-client.tsx`)\n- **`handleNewChat`** · line 48 — Handle New Chat click - forces fresh navigation even when already on /chat or /chat/[id] (inside `AppSidebar`)\n- **`handleDemoChat`** · line 59 — Handle Demo Chat click - forces fresh navigation when already on demo chat (inside `AppSidebar`)"
+    },
+    {
+      "file": "frontend/src/components/providers/AdSourceCredentialDialog.tsx",
+      "line": 1,
+      "title": "components/providers/AdSourceCredentialDialog.tsx",
+      "description": "**`frontend/src/components/providers/AdSourceCredentialDialog.tsx`** — 5 functions.\n\n- **`AdSourceCredentialDialog`** · line 29 — _No comment in the code._ (React component; used in `app/(authenticated)/providers/[type]/page.tsx`, `components/providers/NetworkCredentialDialog.tsx`, `components/providers/index.tsx`)\n- **`handleFieldChange`** · line 54 — _No comment in the code._ (inside `AdSourceCredentialDialog`)\n- **`togglePasswordVisibility`** · line 66 — _No comment in the code._ (inside `AdSourceCredentialDialog`)\n- **`validate`** · line 70 — _No comment in the code._ (inside `AdSourceCredentialDialog`)\n- **`handleSubmit`** · line 85 — _No comment in the code._ (inside `AdSourceCredentialDialog`)"
+    },
+    {
+      "file": "frontend/src/components/providers/AdSourceListItem.tsx",
+      "line": 1,
+      "title": "frontend/src/components/providers/AdSourceListItem.tsx",
+      "description": "**`frontend/src/components/providers/AdSourceListItem.tsx`** — 1 function.\n\n- **`AdSourceListItem`** · line 18 — _No comment in the code._ (React component; used in `app/(authenticated)/providers/[type]/page.tsx`, `components/providers/NetworkListItem.tsx`, `components/providers/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/providers/ConnectProviderDropdown.tsx",
+      "line": 1,
+      "title": "components/providers/ConnectProviderDropdown.tsx",
+      "description": "**`frontend/src/components/providers/ConnectProviderDropdown.tsx`** — 1 function.\n\n- **`ConnectProviderDropdown`** · line 21 — _No comment in the code._ (React component; used in `components/providers/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/providers/ProviderListItem.tsx",
+      "line": 1,
+      "title": "frontend/src/components/providers/ProviderListItem.tsx",
+      "description": "**`frontend/src/components/providers/ProviderListItem.tsx`** — 1 function.\n\n- **`ProviderListItem`** · line 29 — _No comment in the code._ (React component; used in `components/providers/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/providers/SupportedPlatformsCard.tsx",
+      "line": 1,
+      "title": "frontend/src/components/providers/SupportedPlatformsCard.tsx",
+      "description": "**`frontend/src/components/providers/SupportedPlatformsCard.tsx`** — 4 functions.\n\n- **`SupportedPlatformsContent`** · line 93 — Simple display version (no interactivity) (React component; used in `components/providers/index.tsx`)\n- **`AllPlatformsGrid`** · line 123 — Interactive version with connection buttons (React component; used in `app/(authenticated)/providers/[type]/page.tsx`, `app/(authenticated)/providers/page.tsx`, `components/providers/index.tsx`)\n- **`isConnected`** · line 132 — _No comment in the code._ (inside `AllPlatformsGrid`)\n- **`handleConnect`** · line 142 — _No comment in the code._ (inside `AllPlatformsGrid`)"
+    },
+    {
+      "file": "frontend/src/components/providers/account-selection-modal.tsx",
+      "line": 1,
+      "title": "components/providers/account-selection-modal.tsx",
+      "description": "**`frontend/src/components/providers/account-selection-modal.tsx`** — 3 functions.\n\n- **`AccountSelectionModal`** · line 28 — _No comment in the code._ (React component; used in `app/(authenticated)/providers/page.tsx`, `components/providers/index.tsx`)\n- **`handleConfirm`** · line 45 — _No comment in the code._ (inside `AccountSelectionModal`)\n- **`handleCancel`** · line 52 — _No comment in the code._ (inside `AccountSelectionModal`)"
+    },
+    {
+      "file": "frontend/src/components/providers/index.tsx",
+      "line": 1,
+      "title": "frontend/src/components/providers/index.tsx",
+      "description": "**`frontend/src/components/providers/index.tsx`** — 2 functions.\n\n- **`Providers`** · line 27 — _No comment in the code._ (React component; used in `chat/graph/nodes/entity_loader.py`, `mcp_servers/visibility.py`, `app/(authenticated)/admin/page.tsx` and 11 more)\n- **`handleSessionChange`** · line 32 — Use targeted cache invalidation instead of router.refresh() This prevents the \"numbers zeroing\" issue caused by full cache invalidation (inside `Providers`)"
+    },
+    {
+      "file": "frontend/src/components/providers/posthog-provider.tsx",
+      "line": 1,
+      "title": "frontend/src/components/providers/posthog-provider.tsx",
+      "description": "**`frontend/src/components/providers/posthog-provider.tsx`** — 1 function.\n\n- **`PostHogProvider`** · line 7 — _No comment in the code._ (React component; used in `components/providers/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/providers/query-provider.tsx",
+      "line": 1,
+      "title": "frontend/src/components/providers/query-provider.tsx",
+      "description": "**`frontend/src/components/providers/query-provider.tsx`** — 3 functions.\n\n- **`makeQueryClient`** · line 6 — _No comment in the code._ (no other file mentions it)\n- **`getQueryClient`** · line 18 — _No comment in the code._ (used in `components/providers/index.tsx`)\n- **`QueryProvider`** · line 27 — _No comment in the code._ (React component; used in `components/providers/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/providers/theme-provider.tsx",
+      "line": 1,
+      "title": "frontend/src/components/providers/theme-provider.tsx",
+      "description": "**`frontend/src/components/providers/theme-provider.tsx`** — 1 function.\n\n- **`ThemeProvider`** · line 6 — _No comment in the code._ (React component; used in `components/providers/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/settings/AccountSection.tsx",
+      "line": 1,
+      "title": "frontend/src/components/settings/AccountSection.tsx",
+      "description": "**`frontend/src/components/settings/AccountSection.tsx`** — 1 function.\n\n- **`AccountSection`** · line 24 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/page.tsx`, `components/settings/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/settings/AppearanceSection.tsx",
+      "line": 1,
+      "title": "frontend/src/components/settings/AppearanceSection.tsx",
+      "description": "**`frontend/src/components/settings/AppearanceSection.tsx`** — 1 function.\n\n- **`AppearanceSection`** · line 8 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/page.tsx`, `components/settings/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/settings/ChatSettingsSection.tsx",
+      "line": 1,
+      "title": "frontend/src/components/settings/ChatSettingsSection.tsx",
+      "description": "**`frontend/src/components/settings/ChatSettingsSection.tsx`** — 1 function.\n\n- **`ChatSettingsSection`** · line 7 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/page.tsx`, `components/settings/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/settings/DemoModeSection.tsx",
+      "line": 1,
+      "title": "frontend/src/components/settings/DemoModeSection.tsx",
+      "description": "**`frontend/src/components/settings/DemoModeSection.tsx`** — 1 function.\n\n- **`DemoModeSection`** · line 7 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/page.tsx`, `components/settings/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/settings/NotificationsSection.tsx",
+      "line": 1,
+      "title": "frontend/src/components/settings/NotificationsSection.tsx",
+      "description": "**`frontend/src/components/settings/NotificationsSection.tsx`** — 1 function.\n\n- **`NotificationsSection`** · line 6 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/page.tsx`, `components/settings/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/settings/OrganizationSection.tsx",
+      "line": 1,
+      "title": "frontend/src/components/settings/OrganizationSection.tsx",
+      "description": "**`frontend/src/components/settings/OrganizationSection.tsx`** — 3 functions.\n\n- **`getRoleIcon`** · line 34 — _No comment in the code._ (no other file mentions it)\n- **`OrganizationSection`** · line 42 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/page.tsx`, `components/settings/index.ts`)\n- **`handleInvite`** · line 68 — _No comment in the code._ (inside `OrganizationSection`)"
+    },
+    {
+      "file": "frontend/src/components/settings/PrivacySection.tsx",
+      "line": 1,
+      "title": "frontend/src/components/settings/PrivacySection.tsx",
+      "description": "**`frontend/src/components/settings/PrivacySection.tsx`** — 1 function.\n\n- **`PrivacySection`** · line 6 — _No comment in the code._ (React component; used in `app/(authenticated)/settings/page.tsx`, `components/settings/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/tos-modal.tsx",
+      "line": 1,
+      "title": "frontend/src/components/tos-modal.tsx",
+      "description": "**`frontend/src/components/tos-modal.tsx`** — 1 function.\n\n- **`TosModal`** · line 22 — _No comment in the code._ (React component; used in `app/(authenticated)/layout-client.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/waitlist-dialog.tsx",
+      "line": 1,
+      "title": "frontend/src/components/waitlist-dialog.tsx",
+      "description": "**`frontend/src/components/waitlist-dialog.tsx`** — 1 function.\n\n- **`WaitlistDialog`** · line 31 — _No comment in the code._ (React component; used in `components/landing/hero-section.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/web-vitals.tsx",
+      "line": 1,
+      "title": "frontend/src/components/web-vitals.tsx",
+      "description": "**`frontend/src/components/web-vitals.tsx`** — 1 function.\n\n- **`WebVitals`** · line 12 — Web Vitals monitoring component Captures Core Web Vitals (LCP, FID, CLS, FCP, TTFB, INP) and sends them to PostHog Include this component once in your app, typically in layout.tsx (React component; used in `app/layout.tsx`)"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists all **131** functions in its area, **0** of them with a hand-written note (✎)."
+    }
+  ]
+}

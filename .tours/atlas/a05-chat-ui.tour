@@ -1,0 +1,358 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A05 - Atlas: chat UI",
+  "description": "Every function in its area (209), one file per step.",
+  "steps": [
+    {
+      "directory": "frontend/src/components/chat",
+      "title": "How to use this atlas",
+      "description": "### A05 - Atlas: chat UI\n\n**209 functions in 57 files.** Each step opens one file and lists every function in it, in order. Press Ctrl+G and type a line number to jump to one.\n\n**How to read an entry:**\n- ✎ marks a note I wrote after reading the code.\n- Other entries quote the function's own comment from the code. If it has none, it says so.\n- In brackets: facts a script checked, such as *React component*, the API route, or which other files mention it.\n\n*No other file mentions it* is a plain text search. It's a strong hint that a function is unused, but not proof."
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/assistant-message.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message.tsx`** — 8 functions.\n\n- **`AgentResponseBlock`** · line 66 — _No comment in the code._ (React component; no other file mentions it)\n- **`ToolApprovalBlock`** · line 152 — _No comment in the code._ (React component; used in `tests/e2e/tool-approval-hybrid.spec.ts`)\n- **`handleParamChange`** · line 197 — _No comment in the code._ (inside `ToolApprovalBlock`)\n- **`handleApproval`** · line 203 — _No comment in the code._ (inside `ToolApprovalBlock`)\n- **`MCPToolBlock`** · line 302 — _No comment in the code._ (React component; no other file mentions it)\n- **`getEventsFromMessage`** · line 410 — Event Processing (no other file mentions it)\n- **`AssistantMessage`** · line 428 — ✎ Splits a reply's events into the timeline, special blocks and the final answer (tour 12). (React component; used in `components/chat/chat-messages.tsx`)\n- **`AssistantMessageLegacy`** · line 546 — Legacy Component (kept for backward compatibility) (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/action-required-block.tsx",
+      "line": 1,
+      "title": "components/chat/assistant-message/action-required-block.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message/action-required-block.tsx`** — 2 functions.\n\n- **`getActionConfig`** · line 29 — _No comment in the code._ (no other file mentions it)\n- **`ActionRequiredBlock`** · line 89 — ActionRequiredBlock - Prompts user to take action (connect provider, reauthenticate, etc.) (React component; used in `components/chat/assistant-message.tsx`, `components/chat/assistant-message/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/activity-summary-block.tsx",
+      "line": 1,
+      "title": "components/chat/assistant-message/activity-summary-block.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message/activity-summary-block.tsx`** — 1 function.\n\n- **`ActivitySummaryBlock`** · line 23 — ActivitySummaryBlock - Collapsible summary of tool activity (React component; used in `components/chat/assistant-message.tsx`, `components/chat/assistant-message/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/icon-box.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/assistant-message/icon-box.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message/icon-box.tsx`** — 1 function.\n\n- **`IconBox`** · line 24 — IconBox - Colored square background for icons (higher contrast) (React component; used in `components/chat/assistant-message.tsx`, `components/chat/assistant-message/action-required-block.tsx`, `components/chat/assistant-message/activity-summary-block.tsx` and 4 more)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/json-display.tsx",
+      "line": 1,
+      "title": "components/chat/assistant-message/json-display.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message/json-display.tsx`** — 1 function.\n\n- **`JsonDisplay`** · line 27 — JsonDisplay - Displays JSON data with toggle between tree and raw JSON views (React component; used in `components/chat/assistant-message.tsx`, `components/chat/assistant-message/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/message-actions.tsx",
+      "line": 1,
+      "title": "components/chat/assistant-message/message-actions.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message/message-actions.tsx`** — 4 functions.\n\n- **`MessageActions`** · line 22 — MessageActions - Copy, like, dislike actions for messages (React component)\n- **`handleCopy`** · line 27 — _No comment in the code._ (inside `MessageActions`)\n- **`handleLike`** · line 37 — _No comment in the code._ (inside `MessageActions`)\n- **`handleDislike`** · line 42 — _No comment in the code._ (inside `MessageActions`)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/routing-block.tsx",
+      "line": 1,
+      "title": "components/chat/assistant-message/routing-block.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message/routing-block.tsx`** — 1 function.\n\n- **`RoutingBlock`** · line 25 — RoutingBlock - Displays query routing information with optional reasoning (React component; used in `components/chat/assistant-message.tsx`, `components/chat/assistant-message/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/thinking-block.tsx",
+      "line": 1,
+      "title": "components/chat/assistant-message/thinking-block.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message/thinking-block.tsx`** — 1 function.\n\n- **`ThinkingBlock`** · line 21 — ThinkingBlock - Displays agent thinking/reasoning (collapsed by default) (React component; used in `components/chat/assistant-message.tsx`, `components/chat/assistant-message/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/tool-denied-block.tsx",
+      "line": 1,
+      "title": "components/chat/assistant-message/tool-denied-block.tsx",
+      "description": "**`frontend/src/components/chat/assistant-message/tool-denied-block.tsx`** — 1 function.\n\n- **`ToolDeniedBlock`** · line 18 — ToolDeniedBlock - Displays a denied tool call (always collapsed/compact) (React component; used in `components/chat/assistant-message.tsx`, `components/chat/assistant-message/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/assistant-message/utils.ts",
+      "line": 1,
+      "title": "frontend/src/components/chat/assistant-message/utils.ts",
+      "description": "**`frontend/src/components/chat/assistant-message/utils.ts`** — 8 functions.\n\n- **`getShortToolName`** · line 38 — Extract short tool name from full MCP tool path\n- **`getToolMetadata`** · line 43 — _No comment in the code._ (used in `components/chat/assistant-message.tsx`)\n- **`isWriteOperation`** · line 123 — Check if a tool requires approval (write operation) - dynamic detection (used in `components/chat/assistant-message.tsx`)\n- **`getToolIcon`** · line 134 — Get appropriate icon for tool based on operation type (used in `components/chat/assistant-message.tsx`)\n- **`highlightJSON`** · line 155 — Syntax highlighting for JSON (used in `components/chat/assistant-message/json-display.tsx`)\n- **`parseJsonContent`** · line 166 — Parse content - handles JSON strings, objects, and primitives (used in `components/chat/assistant-message/json-display.tsx`)\n- **`unwrapForTreeView`** · line 182 — Unwrap common wrapper keys for cleaner tree view display e.g., { params: { page_size: 20 } } → { page_size: 20 } Also handles message arrays: [{ type: 'text', text: '...' }] → extracts and parses text (used in `components/chat/assistant-message/json-display.tsx`)\n- **`formatModelName`** · line 221 — Format model name for display (e.g., \"claude-sonnet-4-20250514\" -> \"Sonnet 4\") (used in `components/chat/assistant-message/routing-block.tsx`, `components/chat/steps-timeline.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/badges/context-badges.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/badges/context-badges.tsx",
+      "description": "**`frontend/src/components/chat/badges/context-badges.tsx`** — 3 functions.\n\n- **`getContextIcon`** · line 17 — _No comment in the code._ (no other file mentions it)\n- **`getContextVariant`** · line 27 — _No comment in the code._ (no other file mentions it)\n- **`ContextBadges`** · line 33 — _No comment in the code._ (React component; used in `components/chat/badges/index.ts`, `components/chat/chat-input.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/badges/inline-provider-badges.tsx",
+      "line": 1,
+      "title": "components/chat/badges/inline-provider-badges.tsx",
+      "description": "**`frontend/src/components/chat/badges/inline-provider-badges.tsx`** — 2 functions.\n\n- **`getProviderLogo`** · line 16 — _No comment in the code._ (used in `components/chat/command-palette/chat-command-palette.tsx`)\n- **`InlineProviderBadges`** · line 26 — Inline provider toggle badges - Perplexity style Shows provider icons as small toggles below the input (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/badges/status-badges.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/badges/status-badges.tsx",
+      "description": "**`frontend/src/components/chat/badges/status-badges.tsx`** — 1 function.\n\n- **`StatusBadges`** · line 13 — _No comment in the code._ (React component; used in `components/chat/badges/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/chat-container.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/chat-container.tsx",
+      "description": "**`frontend/src/components/chat/chat-container.tsx`** — 18 functions.\n\n- **`ChatContainer`** · line 32 — ✎ The chat screen's brain: owns the messages, sends them, and handles every streamed event (tours 03, 04, 12). (React component; used in `app/(authenticated)/chat/[id]/chat-session-client.tsx`, `app/(authenticated)/chat/page.tsx`, `tests/e2e/fixtures.ts`)\n- **`onRestore`** · line 76 — _No comment in the code._ (inside `ChatContainer`)\n- **`handleSendMessage`** · line 191 — ✎ Sends one message: cancels stale approvals, creates the chat, shows it at once, and streams the answer (tour 04). (inside `ChatContainer`)\n- **`onStreamId`** · line 292 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onRouting`** · line 295 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onAgent`** · line 305 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onThinking`** · line 312 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onToolCall`** · line 329 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onToolResult`** · line 352 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onToolApprovalRequired`** · line 373 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onToolDenied`** · line 392 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onActionRequired`** · line 400 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onContent`** · line 415 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onResult`** · line 429 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onError`** · line 439 — _No comment in the code._ (inside `handleSendMessage`)\n- **`onDone`** · line 447 — _No comment in the code._ (inside `handleSendMessage`)\n- **`handlePromptClick`** · line 475 — ✎ Sends an example prompt as if you typed it. (inside `ChatContainer`)\n- **`handleStop`** · line 479 — ✎ The Stop button: aborts the running request. (inside `ChatContainer`)"
+    },
+    {
+      "file": "frontend/src/components/chat/chat-header.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/chat-header.tsx",
+      "description": "**`frontend/src/components/chat/chat-header.tsx`** — 1 function.\n\n- **`ChatHeader`** · line 4 — _No comment in the code._ (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/chat-input.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/chat-input.tsx",
+      "description": "**`frontend/src/components/chat/chat-input.tsx`** — 13 functions.\n\n- **`ProviderContext`** · line 32 — Provider context indicator with tooltip showing what LLM has loaded (React component; no other file mentions it)\n- **`ChatInput`** · line 103 — ✎ The message box: an editable div with `@` mentions for accounts and apps (tour 03). (React component; used in `components/chat/chat-container.tsx`, `components/demo-chat/demo-chat-container.tsx`)\n- **`getProviderName`** · line 125 — Get provider name by ID (inside `ChatInput`)\n- **`getEditorText`** · line 131 — Get the plain text content from the editor (excludes badge markup) (inside `ChatInput`)\n- **`handleInsertMention`** · line 154 — Handle inserting inline mention (keyboard \"@\" mode) - insert badge directly into editor (inside `ChatInput`)\n- **`fetchApps`** · line 252 — Fetch apps for a provider (inside `ChatInput`)\n- **`handleClickOutside`** · line 287 — _No comment in the code._ (inside `ChatInput`)\n- **`handleSubmit`** · line 298 — ✎ Reads the text, calls `onSend`, and clears the box (tour 04). (inside `ChatInput`)\n- **`handleEditorKeyDown`** · line 310 — ✎ Enter sends, Shift+Enter adds a line, `@` opens the mention palette (tour 04). (inside `ChatInput`)\n- **`handleEditorInput`** · line 332 — Handle editor input to sync value state (inside `ChatInput`)\n- **`handleEditorPaste`** · line 337 — Handle paste - strip formatting and insert plain text only (inside `ChatInput`)\n- **`handleMentionButtonClick`** · line 381 — Save selection before opening popup via button (inside `ChatInput`)\n- **`renderFormContent`** · line 406 — Render the form input area (inside `ChatInput`)"
+    },
+    {
+      "file": "frontend/src/components/chat/chat-messages.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/chat-messages.tsx",
+      "description": "**`frontend/src/components/chat/chat-messages.tsx`** — 3 functions.\n\n- **`TypingIndicator`** · line 24 — Typing indicator shown while waiting for assistant response. (React component; no other file mentions it)\n- **`ScrollToBottomButton`** · line 39 — Scroll to bottom button shown when user scrolls up. (React component; no other file mentions it)\n- **`ChatMessages`** · line 63 — ✎ Draws every message, marking only the last one as streaming (tour 12). (React component; used in `components/chat/chat-container.tsx`, `components/demo-chat/demo-chat-container.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/chat-settings-panel.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/chat-settings-panel.tsx",
+      "description": "**`frontend/src/components/chat/chat-settings-panel.tsx`** — 1 function.\n\n- **`ChatSettingsPanel`** · line 23 — _No comment in the code._ (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/command-palette/chat-command-palette.tsx",
+      "line": 1,
+      "title": "components/chat/command-palette/chat-command-palette.tsx",
+      "description": "**`frontend/src/components/chat/command-palette/chat-command-palette.tsx`** — 7 functions.\n\n- **`CommandPaletteContent`** · line 34 — _No comment in the code._ (React component; used in `components/chat/chat-input.tsx`)\n- **`toggleExpanded`** · line 62 — _No comment in the code._ (inside `CommandPaletteContent`)\n- **`isProviderSelected`** · line 75 — Check if explicitly selected (empty = nothing selected, no checkmarks) (inside `CommandPaletteContent`)\n- **`isAppSelected`** · line 79 — _No comment in the code._ (inside `CommandPaletteContent`)\n- **`getProviderLogo`** · line 85 — _No comment in the code._ (inside `CommandPaletteContent`)\n- **`getPlatformIcon`** · line 91 — _No comment in the code._ (inside `CommandPaletteContent`)\n- **`getFilteredApps`** · line 111 — Filter apps for a provider based on search (inside `CommandPaletteContent`)"
+    },
+    {
+      "file": "frontend/src/components/chat/command-palette/use-command-palette.ts",
+      "line": 1,
+      "title": "components/chat/command-palette/use-command-palette.ts",
+      "description": "**`frontend/src/components/chat/command-palette/use-command-palette.ts`** — 9 functions.\n\n- **`useCommandPalette`** · line 31 — _No comment in the code._ (custom hook; used in `components/chat/chat-input.tsx`)\n- **`isProviderSelected`** · line 87 — Check if a provider is in the selected context (inside `useCommandPalette`)\n- **`isAppSelected`** · line 96 — Check if an app is in the selected context (inside `useCommandPalette`)\n- **`removeFromContext`** · line 106 — Remove an item from context (for badge dismiss) (inside `useCommandPalette`)\n- **`handleKeyDown`** · line 118 — Handle @ key press to open palette (inline mode) (inside `useCommandPalette`)\n- **`openFromButton`** · line 131 — Open palette via button click (popover mode) (inside `useCommandPalette`)\n- **`closePalette`** · line 137 — Close palette and reset trigger mode (inside `useCommandPalette`)\n- **`handleOpenChange`** · line 144 — Custom setIsOpen that handles closing (inside `useCommandPalette`)\n- **`selectForInline`** · line 153 — Select item for inline mention (keyboard \"/\" mode) - single select, inserts into text (inside `useCommandPalette`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/footer-controls.tsx",
+      "line": 1,
+      "title": "components/chat/context-settings/footer-controls.tsx",
+      "description": "**`frontend/src/components/chat/context-settings/footer-controls.tsx`** — 2 functions.\n\n- **`ToggleButtonGroup`** · line 24 — Toggle button group for settings like Response Style, Display Mode, etc. (React component; no other file mentions it)\n- **`FooterControls`** · line 60 — Footer controls component with settings toggles and summary. (React component; used in `components/chat/context-settings/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/hooks/use-provider-apps.ts",
+      "line": 1,
+      "title": "components/chat/context-settings/hooks/use-provider-apps.ts",
+      "description": "**`frontend/src/components/chat/context-settings/hooks/use-provider-apps.ts`** — 4 functions.\n\n- **`useProviderApps`** · line 25 — Manages app fetching and caching for providers. (custom hook; used in `components/chat/context-settings/hooks/index.ts`, `components/chat/context-settings/index.tsx`)\n- **`fetchApps`** · line 33 — _No comment in the code._ (inside `useProviderApps`)\n- **`isLoading`** · line 70 — _No comment in the code._ (inside `useProviderApps`)\n- **`getApps`** · line 75 — _No comment in the code._ (inside `useProviderApps`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/hooks/use-provider-expansion.ts",
+      "line": 1,
+      "title": "components/chat/context-settings/hooks/use-provider-expansion.ts",
+      "description": "**`frontend/src/components/chat/context-settings/hooks/use-provider-expansion.ts`** — 5 functions.\n\n- **`useProviderExpansion`** · line 24 — Manages expansion state for sections and providers in ContextSettings. (custom hook; used in `components/chat/context-settings/hooks/index.ts`, `components/chat/context-settings/index.tsx`)\n- **`toggleSection`** · line 54 — _No comment in the code._ (inside `useProviderExpansion`)\n- **`toggleProviderExpanded`** · line 63 — _No comment in the code._ (inside `useProviderExpansion`)\n- **`isSectionExpanded`** · line 82 — _No comment in the code._ (inside `useProviderExpansion`)\n- **`isProviderExpanded`** · line 87 — _No comment in the code._ (inside `useProviderExpansion`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/index.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/context-settings/index.tsx",
+      "description": "**`frontend/src/components/chat/context-settings/index.tsx`** — 6 functions.\n\n- **`ContextSettings`** · line 45 — _No comment in the code._ (React component; used in `components/chat/context-settings/hooks/use-provider-expansion.ts`)\n- **`onExpandProvider`** · line 95 — _No comment in the code._ (inside `ContextSettings`)\n- **`isProviderEnabled`** · line 115 — Helper functions using extracted utils (inside `ContextSettings`)\n- **`isAppEnabled`** · line 120 — _No comment in the code._ (inside `ContextSettings`)\n- **`toggleAllApps`** · line 126 — _No comment in the code._ (inside `ContextSettings`)\n- **`renderProvider`** · line 149 — Render a provider row (inside `ContextSettings`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/platform-icon.tsx",
+      "line": 1,
+      "title": "components/chat/context-settings/platform-icon.tsx",
+      "description": "**`frontend/src/components/chat/context-settings/platform-icon.tsx`** — 1 function.\n\n- **`PlatformIcon`** · line 26 — Platform icon component for Android/iOS. (React component; used in `components/chat/context-settings/provider-row.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/provider-row.tsx",
+      "line": 1,
+      "title": "components/chat/context-settings/provider-row.tsx",
+      "description": "**`frontend/src/components/chat/context-settings/provider-row.tsx`** — 4 functions.\n\n- **`AppRow`** · line 27 — Individual app row within a provider's expanded view. (React component; no other file mentions it)\n- **`AppList`** · line 98 — App list container within a provider's expanded view. (React component; no other file mentions it)\n- **`AppCountPill`** · line 173 — App count pill showing selected/total apps. (React component; no other file mentions it)\n- **`ProviderRow`** · line 201 — Provider row component that renders a single provider with expand/collapse functionality and nested app list. (React component; used in `components/chat/context-settings/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/provider-section.tsx",
+      "line": 1,
+      "title": "components/chat/context-settings/provider-section.tsx",
+      "description": "**`frontend/src/components/chat/context-settings/provider-section.tsx`** — 2 functions.\n\n- **`ProviderSection`** · line 10 — Provider section component (AdMob, GAM, etc.) with expand/collapse. (React component; used in `components/chat/context-settings/index.tsx`)\n- **`PlaceholderSection`** · line 87 — Placeholder section for upcoming features. (React component; used in `components/chat/context-settings/index.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/tree-checkbox.tsx",
+      "line": 1,
+      "title": "components/chat/context-settings/tree-checkbox.tsx",
+      "description": "**`frontend/src/components/chat/context-settings/tree-checkbox.tsx`** — 1 function.\n\n- **`TreeCheckbox`** · line 16 — Custom checkbox with indeterminate state support for tree views. (React component; used in `components/chat/context-settings/provider-row.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/tree-line.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/context-settings/tree-line.tsx",
+      "description": "**`frontend/src/components/chat/context-settings/tree-line.tsx`** — 1 function.\n\n- **`TreeLine`** · line 14 — Tree connector line component for visual hierarchy. (React component; used in `components/chat/context-settings/provider-row.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/context-settings/utils.ts",
+      "line": 1,
+      "title": "frontend/src/components/chat/context-settings/utils.ts",
+      "description": "**`frontend/src/components/chat/context-settings/utils.ts`** — 7 functions.\n\n- **`isProviderEnabled`** · line 7 — Check if a provider is enabled based on enabledProviderIds (used in `components/chat/context-settings/index.tsx`, `components/chat/context-settings/provider-section.tsx`, `components/chat/context-settings/types.ts`)\n- **`isAppEnabled`** · line 18 — Check if an app is enabled based on enabledAppIds (used in `components/chat/context-settings/index.tsx`, `components/chat/context-settings/provider-row.tsx`, `components/chat/context-settings/types.ts`)\n- **`getProviderAppState`** · line 31 — Get the app selection state for a provider: \"all\", \"some\", or \"none\" (used in `components/chat/context-settings/index.tsx`)\n- **`matchesSearch`** · line 49 — Check if text matches the search query (for highlighting) (used in `app/(public)/blog/blog-content.tsx`, `components/chat/context-settings/provider-row.tsx`)\n- **`filterProviders`** · line 58 — Filter providers based on search query Shows providers that match OR have matching apps (used in `components/chat/context-settings/index.tsx`)\n- **`filterApps`** · line 79 — Filter apps based on search query (used in `components/chat/context-settings/index.tsx`)\n- **`getProvidersWithMatchingApps`** · line 88 — Get providers with matching apps for auto-expansion during search (used in `components/chat/context-settings/hooks/use-provider-expansion.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/disclosure-block.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/disclosure-block.tsx",
+      "description": "**`frontend/src/components/chat/disclosure-block.tsx`** — 1 function.\n\n- **`DisclosureBlock`** · line 25 — Collapsible disclosure block with label that changes when expanded. (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/example-prompts.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/example-prompts.tsx",
+      "description": "**`frontend/src/components/chat/example-prompts.tsx`** — 2 functions.\n\n- **`ExamplePrompts`** · line 60 — _No comment in the code._ (React component; used in `components/chat/chat-container.tsx`)\n- **`handleBack`** · line 69 — _No comment in the code._ (inside `ExamplePrompts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/final-answer-block.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/final-answer-block.tsx",
+      "description": "**`frontend/src/components/chat/final-answer-block.tsx`** — 1 function.\n\n- **`FinalAnswerBlock`** · line 19 — _No comment in the code._ (React component; used in `components/chat/assistant-message.tsx`, `lib/step-utils.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/hooks/use-answer-actions.ts",
+      "line": 1,
+      "title": "frontend/src/components/chat/hooks/use-answer-actions.ts",
+      "description": "**`frontend/src/components/chat/hooks/use-answer-actions.ts`** — 5 functions.\n\n- **`useAnswerActions`** · line 27 — useAnswerActions - Manages state and actions for answer feedback buttons. (custom hook; used in `components/chat/final-answer-block.tsx`)\n- **`copy`** · line 32 — _No comment in the code._ (inside `useAnswerActions`)\n- **`toggleLike`** · line 42 — _No comment in the code._ (inside `useAnswerActions`)\n- **`toggleDislike`** · line 48 — _No comment in the code._ (inside `useAnswerActions`)\n- **`share`** · line 54 — _No comment in the code._ (inside `useAnswerActions`)"
+    },
+    {
+      "file": "frontend/src/components/chat/json-tree-view.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/json-tree-view.tsx",
+      "description": "**`frontend/src/components/chat/json-tree-view.tsx`** — 5 functions.\n\n- **`JsonTreeView`** · line 114 — JSON Tree View component using @uiw/react-json-view. (React component; used in `components/chat/assistant-message/json-display.tsx`)\n- **`handleEdit`** · line 138 — Handle edit events (inside `JsonTreeView`)\n- **`handleAdd`** · line 148 — Handle add events (inside `JsonTreeView`)\n- **`handleDelete`** · line 158 — Handle delete events (inside `JsonTreeView`)\n- **`JsonTreeViewCompact`** · line 202 — Compact inline JSON tree view for use in tight spaces (e.g., step details). (React component; used in `components/organisms/tool.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/message.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/message.tsx",
+      "description": "**`frontend/src/components/chat/message.tsx`** — 4 functions.\n\n- **`Message`** · line 34 — Message container - flex wrapper that positions content based on role. (React component; used in `app/(authenticated)/chat/[id]/chat-session-client.tsx`, `app/(authenticated)/support/page.tsx`, `components/chat/assistant-message.tsx` and 11 more)\n- **`MessageAvatar`** · line 63 — Message avatar - displays user or assistant avatar. (React component; no other file mentions it)\n- **`MessageContent`** · line 113 — Message content bubble - contains the message text. (React component; no other file mentions it)\n- **`MessageActions`** · line 146 — Message actions container - wraps action buttons (copy, like, etc.) Typically shown on hover for assistant messages. (React component)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/rjsf-parameter-form/context.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/rjsf-parameter-form/context.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/rjsf-parameter-form/context.tsx`** — 1 function.\n\n- **`useArrayFieldContext`** · line 13 — Hook to access array field context within ArrayFieldItemTemplate. (custom hook; used in `components/chat/rjsf/rjsf-parameter-form/templates/array-field-item-template.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/rjsf-parameter-form/hooks/use-form-state.ts",
+      "line": 1,
+      "title": "components/chat/rjsf/rjsf-parameter-form/hooks/use-form-state.ts",
+      "description": "**`frontend/src/components/chat/rjsf/rjsf-parameter-form/hooks/use-form-state.ts`** — 4 functions.\n\n- **`useFormState`** · line 22 — Hook to manage RJSF form state, change tracking, and array field updates. (custom hook; used in `components/chat/rjsf/rjsf-parameter-form/hooks/index.ts`, `components/chat/rjsf/rjsf-parameter-form/index.tsx`)\n- **`handleChange`** · line 57 — _No comment in the code._ (inside `useFormState`)\n- **`updateArrayItemField`** · line 89 — Callback to update a field in an array item (used by ArrayFieldTemplate header toggle) (inside `useFormState`)\n- **`updateArrayField`** · line 112 — Callback to update an entire array field (used by AdSourceToggleField) (inside `useFormState`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/rjsf-parameter-form/index.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/rjsf-parameter-form/index.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/rjsf-parameter-form/index.tsx`** — 1 function.\n\n- **`RJSFParameterForm`** · line 32 — RJSF Parameter Form - A customized React JSON Schema Form for editing AdMob/GAM entity parameters with dark theme, collapsible sections, and array field management. (React component; used in `components/chat/assistant-message.tsx`, `components/chat/rjsf/index.ts`, `components/chat/steps-timeline.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/array-field-item-template.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/rjsf-parameter-form/templates/array-field-item-template.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/array-field-item-template.tsx`** — 3 functions.\n\n- **`ArrayFieldItemTemplate`** · line 13 — ArrayFieldItemTemplate - handles per-item rendering in v6. (React component; used in `components/chat/rjsf/rjsf-parameter-form/context.tsx`, `components/chat/rjsf/rjsf-parameter-form/index.tsx`, `components/chat/rjsf/rjsf-parameter-form/templates/array-field-template.tsx` and 1 more)\n- **`handleToggleState`** · line 42 — _No comment in the code._ (inside `ArrayFieldItemTemplate`)\n- **`handleDelete`** · line 55 — _No comment in the code._ (inside `ArrayFieldItemTemplate`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/array-field-template.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/rjsf-parameter-form/templates/array-field-template.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/array-field-template.tsx`** — 2 functions.\n\n- **`ArrayFieldTemplate`** · line 14 — Array field template with collapsible section header. (React component; used in `components/chat/rjsf/rjsf-parameter-form/context.tsx`, `components/chat/rjsf/rjsf-parameter-form/hooks/use-form-state.ts`, `components/chat/rjsf/rjsf-parameter-form/index.tsx` and 2 more)\n- **`handleAddClick`** · line 65 — _No comment in the code._ (inside `ArrayFieldTemplate`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/base-input-template.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/rjsf-parameter-form/templates/base-input-template.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/base-input-template.tsx`** — 2 functions.\n\n- **`BaseInputTemplate`** · line 18 — Thin dark themed base input (h-7). (React component; used in `components/chat/rjsf/rjsf-parameter-form/index.tsx`, `components/chat/rjsf/rjsf-parameter-form/templates/index.ts`)\n- **`DescriptionFieldTemplate`** · line 47 — Suppress RJSF description field. (React component; used in `components/chat/rjsf/rjsf-parameter-form/index.tsx`, `components/chat/rjsf/rjsf-parameter-form/templates/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/field-template.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/rjsf-parameter-form/templates/field-template.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/field-template.tsx`** — 2 functions.\n\n- **`FieldTemplate`** · line 13 — Inline field template - label left, input right, compact height. (React component; used in `components/chat/rjsf/rjsf-parameter-form/index.tsx`, `components/chat/rjsf/rjsf-parameter-form/templates/index.ts`)\n- **`getFieldDisplayName`** · line 88 — Extract field name from id and get the friendly display name. (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/object-field-template.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/rjsf-parameter-form/templates/object-field-template.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/object-field-template.tsx`** — 1 function.\n\n- **`ObjectFieldTemplate`** · line 12 — Object field template with optional collapsible support. (React component; used in `components/chat/rjsf/rjsf-parameter-form/index.tsx`, `components/chat/rjsf/rjsf-parameter-form/templates/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/ad-source-toggle-widget.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/widgets/ad-source-toggle-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/ad-source-toggle-widget.tsx`** — 6 functions.\n\n- **`AdSourceToggleField`** · line 31 — _No comment in the code._ (React component; used in `chat/approval/schema_extractor.py`, `components/chat/rjsf/rjsf-parameter-form/hooks/use-form-state.ts`, `components/chat/rjsf/widgets/index.ts`)\n- **`updateField`** · line 129 — Use formContext.updateArrayField if available, fallback to onChange (inside `AdSourceToggleField`)\n- **`handleToggle`** · line 138 — _No comment in the code._ (inside `AdSourceToggleField`)\n- **`handlePricingModeChange`** · line 160 — _No comment in the code._ (inside `AdSourceToggleField`)\n- **`handleCpmChange`** · line 171 — _No comment in the code._ (inside `AdSourceToggleField`)\n- **`AdSourceChip`** · line 269 — _No comment in the code._ (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/ad-source-widget.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/widgets/ad-source-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/ad-source-widget.tsx`** — 3 functions.\n\n- **`parseArrayItemId`** · line 14 — Parse widget ID to extract array context e.g., \"root_bidding_lines_0_ad_source_id\" -> { arrayField: \"bidding_lines\", index: 0 } (no other file mentions it)\n- **`getResolvedEntityData`** · line 24 — Get backend-resolved entity data from the array item (no other file mentions it)\n- **`AdSourceSelectWidget`** · line 51 — Ad source select widget - fetches ad source options from API. (React component; used in `chat/approval/schema_extractor.py`, `components/chat/rjsf/widgets/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/base-dropdown.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/rjsf/widgets/base-dropdown.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/base-dropdown.tsx`** — 6 functions.\n\n- **`BaseDropdown`** · line 32 — Base dropdown component - shared by all select widgets. (React component; used in `components/chat/rjsf/widgets/ad-source-widget.tsx`, `components/chat/rjsf/widgets/entity-select-widget.tsx`, `components/chat/rjsf/widgets/platform-widget.tsx` and 2 more)\n- **`updatePosition`** · line 65 — _No comment in the code._ (inside `BaseDropdown`)\n- **`handleClickOutside`** · line 85 — _No comment in the code._ (inside `BaseDropdown`)\n- **`handleSelect`** · line 101 — Handle selection (inside `BaseDropdown`)\n- **`FallbackInput`** · line 196 — Simple text input fallback - used when no options available (React component; used in `components/chat/rjsf/widgets/ad-source-widget.tsx`, `components/chat/rjsf/widgets/entity-select-widget.tsx`, `components/chat/rjsf/widgets/select-widget.tsx`)\n- **`DependencyMessage`** · line 231 — Dependency message - shown when parent field not selected (React component; used in `components/chat/rjsf/widgets/ad-source-widget.tsx`, `components/chat/rjsf/widgets/entity-select-widget.tsx`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/currency-widget.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/widgets/currency-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/currency-widget.tsx`** — 6 functions.\n\n- **`CurrencyWidget`** · line 24 — Currency input widget for CPM fields. (React component; used in `components/chat/rjsf/widgets/index.ts`)\n- **`microsToDollars`** · line 31 — Convert micros to dollars for display (inside `CurrencyWidget`)\n- **`dollarsToMicros`** · line 42 — Convert dollars to micros for storage (inside `CurrencyWidget`)\n- **`handleChange`** · line 65 — _No comment in the code._ (inside `CurrencyWidget`)\n- **`handleBlur`** · line 84 — _No comment in the code._ (inside `CurrencyWidget`)\n- **`handleStep`** · line 100 — _No comment in the code._ (inside `CurrencyWidget`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/entity-select-widget.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/widgets/entity-select-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/entity-select-widget.tsx`** — 5 functions.\n\n- **`EntitySelectWidget`** · line 25 — Entity select widget for async data fetching. (React component; used in `chat/approval/schema_extractor.py`, `components/chat/rjsf/widgets/index.ts`, `lib/api.ts`)\n- **`normalizeAccountId`** · line 38 — Normalize account IDs: \"accounts/pub-XXX\" -> \"pub-XXX\" The LLM sends full path format, but dropdown options use short IDs (inside `EntitySelectWidget`)\n- **`denormalizeAccountId`** · line 47 — Denormalize for output: \"pub-XXX\" -> \"accounts/pub-XXX\" if original was that format (inside `EntitySelectWidget`)\n- **`handleChange`** · line 108 — Wrap onChange to handle denormalization (must be defined before useEffects that use it) (inside `EntitySelectWidget`)\n- **`handleAccountChange`** · line 188 — Phase 3 optimization: Prefetch dependent entities when account is selected This fetches apps, ad_units, etc. (inside `EntitySelectWidget`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/multi-select-widget.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/widgets/multi-select-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/multi-select-widget.tsx`** — 6 functions.\n\n- **`getResolvedAdUnits`** · line 24 — Get backend-resolved ad units from enrichedFields (passed via formContext) enrichedFields contains underscore-prefixed fields that RJSF would filter out (no other file mentions it)\n- **`MultiSelectWidget`** · line 46 — Multi-select widget for selecting multiple entities. (React component; used in `chat/approval/schema_extractor.py`, `components/chat/rjsf/widgets/index.ts`)\n- **`handleClickOutside`** · line 259 — _No comment in the code._ (inside `MultiSelectWidget`)\n- **`toggleItem`** · line 272 — _No comment in the code._ (inside `MultiSelectWidget`)\n- **`removeItem`** · line 284 — _No comment in the code._ (inside `MultiSelectWidget`)\n- **`renderInput`** · line 293 — Simple text input fallback (inside `MultiSelectWidget`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/platform-widget.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/widgets/platform-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/platform-widget.tsx`** — 1 function.\n\n- **`PlatformWidget`** · line 17 — Platform selector widget - simple dropdown. (React component; used in `chat/approval/schema_extractor.py`, `components/chat/rjsf/widgets/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/radio-widget.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/rjsf/widgets/radio-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/radio-widget.tsx`** — 3 functions.\n\n- **`RadioWidget`** · line 18 — Radio button widget for mutually exclusive options. (React component; used in `components/chat/rjsf/widgets/index.ts`)\n- **`handleChange`** · line 51 — _No comment in the code._ (inside `RadioWidget`)\n- **`formatLabel`** · line 130 — Format enum value to human-readable label \"FIXED\" -> \"Fixed CPM\" \"NETWORK_OPTIMIZED\" -> \"Network Optimized\" (no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/region-codes-widget.tsx",
+      "line": 1,
+      "title": "components/chat/rjsf/widgets/region-codes-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/region-codes-widget.tsx`** — 4 functions.\n\n- **`RegionCodesWidget`** · line 81 — Region codes multi-select widget for targeted/excluded regions. (React component; used in `chat/approval/schema_extractor.py`, `components/chat/rjsf/widgets/index.ts`)\n- **`toggleRegion`** · line 116 — Toggle a region code (inside `RegionCodesWidget`)\n- **`removeCode`** · line 127 — Remove a specific code (inside `RegionCodesWidget`)\n- **`handleClickOutside`** · line 139 — _No comment in the code._ (inside `RegionCodesWidget`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/select-widget.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/rjsf/widgets/select-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/select-widget.tsx`** — 1 function.\n\n- **`SelectWidget`** · line 11 — Compact select widget - h-7, dark theme. (React component; used in `chat/approval/schema_extractor.py`, `components/chat/rjsf/widgets/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/rjsf/widgets/toggle-widget.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/rjsf/widgets/toggle-widget.tsx",
+      "description": "**`frontend/src/components/chat/rjsf/widgets/toggle-widget.tsx`** — 1 function.\n\n- **`ToggleWidget`** · line 14 — Status dropdown widget for ENABLED/DISABLED state fields. (React component; used in `chat/approval/schema_extractor.py`, `components/chat/rjsf/widgets/index.ts`)"
+    },
+    {
+      "file": "frontend/src/components/chat/steps-timeline.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/steps-timeline.tsx",
+      "description": "**`frontend/src/components/chat/steps-timeline.tsx`** — 12 functions.\n\n- **`eventsToSteps`** · line 72 — Convert stream events to timeline steps (no other file mentions it)\n- **`getShortToolName`** · line 131 — Get short tool name from full MCP path\n- **`formatToolName`** · line 139 — Format tool name for display (no other file mentions it)\n- **`ModelBadge`** · line 151 — Small pill badge showing which model handled this step (React component; no other file mentions it)\n- **`ToolApprovalStep`** · line 174 — ✎ The approval card: editable form, Allow, Deny, and *Allow with Changes* (tour 11). (React component; no other file mentions it)\n- **`handleParamChange`** · line 209 — _No comment in the code._ (inside `ToolApprovalStep`)\n- **`handleApproval`** · line 215 — ✎ Sends the decision, with edited values only if you changed something. (inside `ToolApprovalStep`)\n- **`renderIcon`** · line 231 — Render icon based on state - Plus icon for pending approval (inside `ToolApprovalStep`)\n- **`StepsTimeline`** · line 340 — ✎ Draws a reply's steps in order: routing, thinking, text, tools, approvals (tour 12). (React component; used in `components/chat/assistant-message.tsx`)\n- **`handleToggle`** · line 375 — _No comment in the code._ (inside `StepsTimeline`)\n- **`renderIcon`** · line 417 — Helper to render icon with or without ping animation (inside `StepsTimeline`)\n- **`TimelinePausedIndicator`** · line 589 — Paused indicator shown when tool approval is pending (React component; no other file mentions it)"
+    },
+    {
+      "file": "frontend/src/components/chat/user-message.tsx",
+      "line": 1,
+      "title": "frontend/src/components/chat/user-message.tsx",
+      "description": "**`frontend/src/components/chat/user-message.tsx`** — 2 functions.\n\n- **`UserMessage`** · line 11 — _No comment in the code._ (React component; used in `components/chat/chat-messages.tsx`)\n- **`getInitials`** · line 15 — Get initials for fallback avatar (inside `UserMessage`)"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists all **209** functions in its area, **12** of them with a hand-written note (✎)."
+    }
+  ]
+}

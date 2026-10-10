@@ -1,0 +1,252 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "08 - Router and entity loader",
+  "description": "The first two nodes: how a question gets a route, and how your real accounts are loaded so the AI can't invent IDs.",
+  "nextTour": "09 - The specialist",
+  "steps": [
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 16,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 16,
+          "character": 4
+        }
+      },
+      "title": "The router's job",
+      "description": "**What it is:** the first node. It decides *which ad network* and *what kind of task* your question is about.\n\n**How it works:** a fast, cheap model call classifies the question into a route like `admob_reporting` or `admanager_orders`.\n\n**Why it matters:** everything after this depends on the route: which tools load, which instructions the specialist gets, and which model runs.\n\n**Watch out:** nine networks are listed, but how deep each one goes depends on its tools (tour 10)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 55,
+      "selection": {
+        "start": {
+          "line": 31,
+          "character": 1
+        },
+        "end": {
+          "line": 55,
+          "character": 2
+        }
+      },
+      "title": "Networks and what each can do",
+      "description": "**How it works:** `NETWORK_CAPABILITIES` lists what you can ask about for each network: AdMob has inventory, reporting, mediation and experimentation; Ad Manager has inventory, reporting, orders, deals and targeting; the others mostly have inventory and reporting.\n\n**Why it matters:** this table defines every possible route, and later it filters which tools the specialist sees.\n\n**Watch out:** this list lives in Python. The frontend has its own network list (`supported-networks.json`). Keep them in step."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 86,
+      "selection": {
+        "start": {
+          "line": 62,
+          "character": 1
+        },
+        "end": {
+          "line": 86,
+          "character": 31
+        }
+      },
+      "title": "Building every route name",
+      "description": "**How it works:** for each network and each of its capabilities, it makes a route name like `unity_mediation` mapped to `(\"unity\", \"mediation\")`. It adds `general` (no network needed) and two cross-network routes: `orchestration_mediation` and `orchestration_reporting`.\n\n**Why it matters:** the model only has to output a route name. This map turns it into a service and capability the code can use.\n\n**Watch out:** it's built once, when the module loads. Change the table and you must restart the agent."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 176,
+      "selection": {
+        "start": {
+          "line": 147,
+          "character": 1
+        },
+        "end": {
+          "line": 176,
+          "character": 6
+        }
+      },
+      "title": "Preparing the question",
+      "description": "**How it works:** if the run was sent back with a new query (a topic change), that query is used, though nothing triggers that yet (tour 07). Then it gathers recent context and your connected networks, creates the fast model (`haiku` role, temperature 0, max 150 tokens), and builds two messages: the router instructions and your question with context.\n\n**Why it matters:** temperature 0 makes routing consistent. The same question gets the same route.\n\n**Watch out:** `get_router_prompt()` is called **outside** the `try` below. If the prompt can't be fetched (next step), the whole run fails instead of falling back."
+    },
+    {
+      "file": "backend/chat/utils/prompts.py",
+      "line": 118,
+      "selection": {
+        "start": {
+          "line": 110,
+          "character": 1
+        },
+        "end": {
+          "line": 118,
+          "character": 18
+        }
+      },
+      "title": "The prompts live in LangSmith",
+      "description": "**What it is:** where the router's instructions come from.\n\n**How it works:** `pull_prompt(\"adagent-router\")` downloads the prompt from LangSmith's prompt hub (and caches it). The specialist's role, instructions and template are pulled the same way.\n\n**Why it matters:** prompts can be changed in LangSmith without redeploying the agent.\n\n**Watch out:** there's no local fallback. No `LANGSMITH_API_KEY`, or a missing prompt, means the agent can't answer. The prompt text is pushed from `backend/scripts/push_prompts_to_langsmith.py`, so that's where to read it."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 131,
+      "selection": {
+        "start": {
+          "line": 105,
+          "character": 1
+        },
+        "end": {
+          "line": 131,
+          "character": 50
+        }
+      },
+      "title": "Reading the model's answer",
+      "description": "**How it works:** the model must reply in three lines: `THINKING:` (its reasoning), `ROUTE:` (a route name) and `PATH:` (`reactive` or `workflow`). Unknown routes become `general`; unknown paths become `workflow`.\n\n**Why it matters:** plain labelled lines are easy to parse and cheap to generate. No JSON mode needed.\n\n**Watch out:** the default path is `workflow`, the safer and more capable (and more expensive) one. When in doubt, the code spends more to get it right."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 195,
+      "selection": {
+        "start": {
+          "line": 180,
+          "character": 1
+        },
+        "end": {
+          "line": 195,
+          "character": 105
+        }
+      },
+      "title": "Asking the model",
+      "description": "**How it works:** send the two messages, parse the reply, and record token usage for cost tracking. The result goes into `routing` in the state.\n\n**Why it matters:** this one cheap call steers the expensive specialist call that follows.\n\n**Watch out:** `ainvoke` is the async call, so the server can handle other requests while waiting. The comment mentions avoiding blocking on Windows."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 231,
+      "selection": {
+        "start": {
+          "line": 217,
+          "character": 1
+        },
+        "end": {
+          "line": 231,
+          "character": 22
+        }
+      },
+      "title": "When routing fails",
+      "description": "**How it works:** on any error, the route becomes `general` / `assistant` on the `workflow` path, with the error saved as the reasoning. The backflow flags are cleared either way.\n\n**Why it matters:** a routing failure doesn't crash the chat. You get a general answer instead of an error.\n\n**Watch out:** `general` means no ad-network tools. The user may get a polite answer that can't actually fetch their data."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 102,
+      "selection": {
+        "start": {
+          "line": 89,
+          "character": 1
+        },
+        "end": {
+          "line": 102,
+          "character": 36
+        }
+      },
+      "title": "How much history the router sees",
+      "description": "**How it works:** only the last 6 messages, each cut to 200 characters, as plain `role: content` lines.\n\n**Why it matters:** enough to understand follow-ups like *and yesterday?*, while keeping the cheap model call cheap.\n\n**Watch out:** a long message is cut mid-sentence. The router only needs the gist."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 10,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 10,
+          "character": 4
+        }
+      },
+      "title": "The entity loader's job",
+      "description": "**What it is:** the second node. It loads *your real* accounts, apps and ad units before the AI does anything.\n\n**How it works:** the docstring names the idea: *entity grounding*. Pre-load the real IDs, put them in the prompt, and validate tool inputs against them.\n\n**Why it matters:** AI models invent plausible-looking IDs. Giving it the real list is the main defence.\n\n**Watch out:** grounding helps, but the final check is the tool executor's validation (tour 11)."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 61,
+      "selection": {
+        "start": {
+          "line": 39,
+          "character": 1
+        },
+        "end": {
+          "line": 61,
+          "character": 64
+        }
+      },
+      "title": "One call for everything",
+      "description": "**How it works:** one GET to the API's `/api/internal/entities` with the shared secret, returning your AdMob accounts (with apps) and Ad Manager networks. The API caches the answer for 5 minutes.\n\n**Why it matters:** one cached call instead of many keeps every message fast.\n\n**Watch out:** on any error it returns empty lists, so the user sees *no accounts connected* instead of an error message."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 229,
+      "selection": {
+        "start": {
+          "line": 193,
+          "character": 1
+        },
+        "end": {
+          "line": 229,
+          "character": 19
+        }
+      },
+      "title": "Flattening the data",
+      "description": "**How it works:** each AdMob account becomes one entry in `accounts`, its apps go into `apps`, and its ad units go into `ad_units`, each tagged with its account. Ad Manager networks become accounts too.\n\n**Why it matters:** flat lists are easy to search and to check tool inputs against.\n\n**Watch out:** ad units are **not** in the cached call. They're fetched with one extra request per AdMob account, one after another. With many accounts, that adds up."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 296,
+      "selection": {
+        "start": {
+          "line": 267,
+          "character": 1
+        },
+        "end": {
+          "line": 296,
+          "character": 10
+        }
+      },
+      "title": "Stopping when you're not connected",
+      "description": "**How it works:** if the router chose a network you haven't connected, it creates a **blocking** `action_required` with a link to `/providers`. If you have no accounts at all, the same happens, suggesting AdMob.\n\n**Why it matters:** the graph stops here (tour 07), so no tokens are spent, and the UI shows a *Connect* button instead of a vague answer.\n\n**Watch out:** `general` and `orchestration` routes skip this check."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 416,
+      "selection": {
+        "start": {
+          "line": 408,
+          "character": 1
+        },
+        "end": {
+          "line": 416,
+          "character": 4
+        }
+      },
+      "title": "The prompt section it writes",
+      "description": "**How it works:** `build_entity_system_prompt` writes an *Available Entities* section: your networks, each account, up to 10 apps per account, and up to 5 ad units per app. Then the rules: in **strict** mode use only enabled accounts; in **soft** mode prefer them. It ends with *never invent or guess IDs*.\n\n**Why it matters:** this text is pasted into the specialist's system prompt (tour 09). It's what the model sees as your world.\n\n**Watch out:** the 10-app and 5-ad-unit caps keep the prompt short. If you have more, the model only sees *… and N more* and must use a list tool to find the rest."
+    },
+    {
+      "file": "backend/chat/graph/validators.py",
+      "line": 380,
+      "selection": {
+        "start": {
+          "line": 365,
+          "character": 1
+        },
+        "end": {
+          "line": 380,
+          "character": 36
+        }
+      },
+      "title": "Soft mode only warns",
+      "description": "**What it is:** the general ID check every tool call goes through (`validate_entity_references`).\n\n**How it works:** IDs found in the tool's arguments are checked against your loaded entities. In **strict** mode, a bad ID blocks the call with a list of valid options. In **soft** mode, the default, it only logs a warning and lets the call through.\n\n**Why it matters:** soft mode is friendlier when the loaded list is incomplete, for example with more than 10 apps.\n\n**Watch out:** in soft mode, a made-up ID reaches the network's API, which then rejects it. Mediation groups are the exception: they get a strict pre-check of their own (tour 11)."
+    },
+    {
+      "title": "What you can do now",
+      "description": "### What you can do now\n\n- Explain how a question becomes a route, and why the router uses a cheap model at temperature 0.\n- Say where the prompts live and what happens if LangSmith is unreachable.\n- Explain entity grounding, and its limits (caps, soft mode).\n- Explain why the graph can stop before the expensive specialist call.\n\n**Next:** *09 - The specialist*. For every function in these files, see *A01 - Atlas: agent graph*."
+    }
+  ]
+}

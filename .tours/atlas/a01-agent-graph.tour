@@ -1,0 +1,100 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A01 - Atlas: agent graph",
+  "description": "Every function in backend/chat/graph (98), one file per step, with what each one does.",
+  "steps": [
+    {
+      "directory": "backend/chat/graph",
+      "title": "How to use this atlas",
+      "description": "### A01 - Atlas: agent graph\n\nEvery function in `backend/chat/graph`: **98 functions in 14 files**. Each step opens one file and lists all of its functions, in order.\n\n**To jump to a function:** press Ctrl+G (Control+G on a Mac too) and type its line number.\n\n**Not used** means nothing in the current code calls it. Those are leftovers: good to know if someone asks.\n\nFor the story of how these pieces work together, see tours 07 to 11."
+    },
+    {
+      "file": "backend/chat/graph/builder.py",
+      "line": 1,
+      "title": "builder.py",
+      "description": "**`builder.py`** — Wires the graph and runs it. 9 functions.\n\n- **`_should_continue_after_specialist`** · line 32 — After the specialist: back to the router on a topic change, back to the entity loader if something was just created, to the tool executor if tool calls are waiting, otherwise finish. Nothing sets the first two flags yet, so in practice it's tools or finish.\n- **`_should_continue_after_tool_executor`** · line 57 — After the tool executor: finish on an error or a blocking problem (such as an expired Google token); otherwise go back to the specialist.\n- **`_handle_routing_result`** · line 88 — After the router: finish if routing failed or picked no service; otherwise go to the entity loader.\n- **`_should_continue_after_entity_loader`** · line 104 — After the entity loader: finish early if a required network isn't connected (no model call wasted); otherwise go to the specialist.\n- **`build_graph`** · line 120 — Creates the graph: the four nodes, the arrows between them, and two backflow arrows (never taken: nothing sets their flags). Returns it uncompiled.\n- **`get_checkpointer_context`** · line 218 — Opens the Postgres checkpointer (`AsyncPostgresSaver`) that saves state after every node. Raises an error if `DATABASE_URL` is missing.\n- **`_fetch_connected_networks`** · line 233 — A quick call to the API's internal provider list (5-second timeout) to see whether you've connected AdMob and/or Ad Manager. Returns an empty list on any error.\n- **`run_graph`** · line 274 — Runs one chat turn: builds the starting state and the config (thread id, both queues, 25-step limit), compiles the graph with the checkpointer, and yields every update and custom event.\n- **`resume_graph`** · line 402 — Continues a paused run after Allow or Deny by sending `Command(resume=...)` to the same thread."
+    },
+    {
+      "file": "backend/chat/graph/state.py",
+      "line": 1,
+      "title": "state.py",
+      "description": "**`state.py`** — The shared state and its merge rules. 2 functions.\n\n- **`merge_dicts`** · line 12 — Merges two dicts, newer values win. **Not used**: no field in `GraphState` uses it.\n- **`merge_tool_calls`** · line 17 — The merge rule for `tool_calls`: a call with an existing `id` is replaced, new ones are added. Stops duplicates when the tool executor returns a call with its result."
+    },
+    {
+      "file": "backend/chat/graph/__init__.py",
+      "line": 1,
+      "title": "__init__.py",
+      "description": "**`__init__.py`**\n\n**No functions.** Re-exports the state types plus `build_graph`, `run_graph` and `resume_graph`, so other code can write `from chat.graph import run_graph`."
+    },
+    {
+      "file": "backend/chat/graph/studio.py",
+      "line": 1,
+      "title": "studio.py",
+      "description": "**`studio.py`**\n\n**No functions.** Builds and compiles the graph without a checkpointer, for LangGraph Studio (`langgraph dev`, set up in `backend/langgraph.json`)."
+    },
+    {
+      "file": "backend/chat/graph/validators.py",
+      "line": 1,
+      "title": "validators.py",
+      "description": "**`validators.py`** — Checks the IDs in tool calls against your real accounts. 13 functions.\n\n- **`format_account_with_name`** · line 46 — Makes a readable label for an account, like `pub-123… (My AdMob Account)` or `12345 (My GAM Network)`.\n- **`format_app_with_name`** · line 70 — Makes a readable label for an app, like `ca-app-pub-…~111 (Cool Game - ANDROID)`.\n- **`get_formatted_accounts`** · line 86 — Labels for a list of accounts, optionally only AdMob or only Ad Manager.\n- **`get_formatted_apps`** · line 107 — Labels for up to 10 apps.\n- **`extract_entity_ids`** · line 129 — Finds IDs in a tool's arguments, either by the parameter's name or by ID patterns inside text, and returns them as (parameter, type, id).\n- **`scan_value`** · line 140 (inside `extract_entity_ids`) — Inside `extract_entity_ids`: walks strings, dicts and lists recursively, at most 5 levels deep.\n- **`validate_admob_publisher_id`** · line 170 — Checks a `pub-…` id is one of your AdMob accounts, adding the `pub-` prefix if it's missing.\n- **`validate_admob_app_id`** · line 209 — Checks an app id is one of your loaded apps; if not, lists up to 10 valid ones.\n- **`validate_admob_ad_unit_id`** · line 228 — Ad units aren't loaded here, so it only checks the publisher part of the ad unit id matches one of your apps.\n- **`validate_gam_network_code`** · line 261 — Checks an Ad Manager network code is one of yours.\n- **`validate_entity_references`** · line 301 — Runs the right check for every id in a tool call. **Soft mode (default) only logs a warning and lets the call through; strict mode blocks it** and lists valid options.\n- **`build_validation_error_response`** · line 385 — Builds a structured error (`status: error`, message, alternatives) for the model to read and fix.\n- **`build_detailed_validation_error`** · line 424 — Like the one above, but covers every failed id with friendly names."
+    },
+    {
+      "file": "backend/chat/graph/nodes/__init__.py",
+      "line": 1,
+      "title": "nodes/__init__.py",
+      "description": "**`nodes/__init__.py`**\n\n**No functions.** Re-exports every node and helper from the `nodes` folder, including the three nodes the graph doesn't use."
+    },
+    {
+      "file": "backend/chat/graph/nodes/llm.py",
+      "line": 1,
+      "title": "nodes/llm.py",
+      "description": "**`nodes/llm.py`** — Creates AI models for every node. 5 functions.\n\n- **`get_provider`** · line 28 — Reads `LLM_PROVIDER`. Default: `openrouter`.\n- **`get_model_name`** · line 33 — Turns a role (`haiku` or `sonnet`) into the real model id for the current provider. Full model ids pass through unchanged.\n- **`get_llm`** · line 53 — The one function every node uses to get a model. Picks the OpenRouter or Anthropic builder.\n- **`_make_openrouter_llm`** · line 84 — Builds an OpenRouter model using LangChain's OpenAI client. **Falls back to Anthropic if `OPENROUTER_API_KEY` is missing.**\n- **`_make_anthropic_llm`** · line 149 — Builds a Claude model and passes the extended-thinking setting when one is given."
+    },
+    {
+      "file": "backend/chat/graph/nodes/router.py",
+      "line": 1,
+      "title": "nodes/router.py",
+      "description": "**`nodes/router.py`** — The first node: picks the route. 5 functions.\n\n- **`_build_route_map`** · line 62 — Builds every route name (like `admob_reporting`) from the network × capability table, plus `general` and two cross-network routes.\n- **`_build_context_string`** · line 89 — The last 6 messages, each cut to 200 characters, as plain `role: content` text.\n- **`_parse_router_response`** · line 105 — Reads the `THINKING:`, `ROUTE:` and `PATH:` lines. Unknown routes become `general`; unknown paths become `workflow`.\n- **`router_node`** · line 135 — The router step: classifies your question with the fast model at temperature 0, would handle topic changes (nothing triggers that yet), and falls back to `general` on errors.\n- **`should_use_specialist`** · line 234 — An older edge function (general vs specialist). **Not used** by the current graph."
+    },
+    {
+      "file": "backend/chat/graph/nodes/entity_loader.py",
+      "line": 1,
+      "title": "nodes/entity_loader.py",
+      "description": "**`nodes/entity_loader.py`** — The second node: loads your real accounts, apps and ad units. 7 functions.\n\n- **`_fetch_entities`** · line 39 — One call to `/api/internal/entities` for all your accounts and apps (cached by the API for 5 minutes). Empty lists on error.\n- **`_fetch_providers`** · line 64 — An older call for the providers list. **Not used** any more.\n- **`_fetch_apps_for_provider`** · line 86 — An older call for one account's apps. **Not used** any more (apps now come with the entities).\n- **`_fetch_ad_sources`** · line 104 — Lists the names of your connected ad sources (AppLovin, Unity, Mintegral, …).\n- **`_fetch_ad_units_for_provider`** · line 135 — Fetches one AdMob account's ad units. **Called once per account, one after another.**\n- **`entity_loader_node`** · line 154 — The entity loader step: loads accounts, apps and ad units, works out connected networks, builds the entity prompt, and stops the run with `action_required` if the routed network isn't connected.\n- **`build_entity_system_prompt`** · line 320 — Writes the *Available Entities* prompt section: accounts, then up to 10 apps per account and 5 ad units per app, plus the strict or soft rules and *never invent IDs*."
+    },
+    {
+      "file": "backend/chat/graph/nodes/specialist.py",
+      "line": 1,
+      "title": "nodes/specialist.py",
+      "description": "**`nodes/specialist.py`** — The third node: the AI model that answers or calls tools. 15 functions.\n\n- **`_stable_args_key`** · line 38 — Turns tool arguments into a stable text key (sorted keys, normalised JSON) so identical calls can be spotted.\n- **`normalize_value`** · line 47 (inside `_stable_args_key`) — Inside `_stable_args_key`: rewrites a JSON string in a fixed format so spacing differences don't matter.\n- **`_build_system_prompt`** · line 120 — Builds the full system prompt: role and goal, service instructions (from LangSmith), today's date with example date ranges, your entities, and the last 6 messages.\n- **`_get_model_for_execution_path`** · line 198 — Picks the model: your choice if you made one, otherwise `haiku` for simple (`reactive`) and `sonnet` for complex (`workflow`) questions. Turns on extended thinking for Anthropic, or high reasoning for OpenRouter.\n- **`_sanitize_tool_name`** · line 236 — Makes a tool name legal for Gemini: allowed characters only, must start with a letter or `_`, at most 64 characters.\n- **`_sanitize_tools_for_gemini`** · line 266 — Applies `_sanitize_tool_name` to every tool, renaming them in place.\n- **`_get_tool_text`** · line 292 — A tool's name and description in lowercase, for keyword matching.\n- **`_filter_tools_for_capability`** · line 298 — Keeps tools whose text contains a keyword for the capability. Falls back to all tools if none match.\n- **`_filter_tools_by_network_capability`** · line 316 — The main tool filter: explicit tags first, then the tool registry, then keywords. If more than 15 tools remain, full-text search keeps the top 5.\n- **`_filter_tools_for_orchestration`** · line 394 — For cross-network questions: three \"master\" tools plus tools matching the capability. **Those three come from `server.py`, which the agent never loads, so they never match.**\n- **`_resolve_enabled_account_ids`** · line 446 — Which account ids are switched on, combining your chat selection with your saved preferences.\n- **`_service_has_enabled_accounts`** · line 457 — Whether the routed network has at least one enabled account. If not, no tools are bound.\n- **`specialist_node`** · line 469 — The specialist step: builds the prompt, picks the model, loads and filters tools, streams the reply (thinking and text go out live), collects tool calls, removes repeats, and returns tool calls or the final answer. Tour 09 walks through it.\n- **`has_tool_calls`** · line 995 — True if any tool call has no result yet. Only used by `needs_more_steps`, which itself isn't used.\n- **`needs_more_steps`** · line 1003 — An older loop check. **Not used** by the current graph."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_executor.py",
+      "line": 1,
+      "title": "nodes/tool_executor.py",
+      "description": "**`nodes/tool_executor.py`** — The fourth node: runs tools, with approvals, validation and retries. 24 functions.\n\n- **`_extract_content_from_blocks`** · line 18 — MCP results arrive as a list of text blocks. This pulls out the text and parses it as JSON where possible.\n- **`_serialize_result`** · line 57 — Turns any tool result into a JSON string for the model and the UI.\n- **`_is_tool_dangerous`** · line 117 — Asks the tool registry whether a tool writes or deletes (so needs approval). Falls back to a fixed list.\n- **`_validate_entity_ids`** · line 139 — For mediation-group tools only: checks every ad source and ad unit id against your real account, before and after approval. Bad ids go back to the model to fix, so you never see a broken approval form.\n- **`parse_lines`** · line 206 (inside `_validate_entity_ids`) — Inside `_validate_entity_ids`: accepts lines sent either as a list or as JSON text.\n- **`validate_line`** · line 220 (inside `_validate_entity_ids`) — Inside `_validate_entity_ids`: checks one line's `ad_source_id`.\n- **`_get_pending_tool_calls`** · line 315 — The tool calls that don't have a result yet.\n- **`_create_approval_request`** · line 321 — Prepares the approval card: converts the arguments to the form's format, adds readable names, saves a pending approval (in a temp file) and attaches the form's schema.\n- **`tool_executor_node`** · line 373 — The tool step: takes the **first** waiting call; if it's dangerous, validates ids, then pauses with `interrupt()` until you decide; runs the tool with retries; turns errors into helpful messages and `action_required`. Tour 10 and tour 11 cover it.\n- **`_build_actionable_error_message`** · line 669 — Rewrites an error as ISSUE / TO FIX / ATTEMPTED text so the model can correct itself, for example by calling `accounts_adUnits_list` first.\n- **`_euros_to_micros`** · line 827 — 1.50 → 1,500,000. AdMob prices are stored in micros.\n- **`_micros_to_euros`** · line 848 — The reverse, for showing prices on the form.\n- **`_transform_mediation_lines_to_ui`** · line 868 — Splits the API's mediation lines into separate bidding and waterfall lists for the form.\n- **`_maybe_transform_tool_args_for_ui`** · line 928 — Before the approval card: reshapes mediation-group arguments into the form's format. Other tools pass through unchanged.\n- **`parse_json_array`** · line 968 (inside `_maybe_transform_tool_args_for_ui`) — Inside `_maybe_transform_tool_args_for_ui`: parses arrays the model sent as JSON text.\n- **`_transform_discovery_format_to_ui`** · line 1006 — For auto-generated Google tools (`parent` plus `body_json`): unpacks them into the form's fields.\n- **`_enrich_tool_args_with_names`** · line 1159 — Adds readable ad source and ad unit names (and valid/invalid flags) for the card, and hides \"coming soon\" networks.\n- **`_transform_mediation_lines_to_api`** · line 1276 — An older, dict-shaped version of the form-to-API conversion. **Not used** (marked deprecated).\n- **`_transform_mediation_lines_to_list`** · line 1332 — Form to API: merges bidding (`LIVE`) and waterfall (`MANUAL` or `ANO`) lines into one list, converting euros to micros.\n- **`_maybe_transform_tool_args`** · line 1399 — Before running: converts the (possibly edited) form back into what the AdMob tool expects, wrapped in `params`.\n- **`_transform_mediation_params`** · line 1439 — Builds the nested `targeting` object from flat form fields and merges the bidding and waterfall lines.\n- **`_execute_tool`** · line 1507 — Runs the tool through the MCP client. Retries timeouts, connection problems, 429s and 5xx errors up to 3 tries (waiting 1s, then 2s). Never retries login or 4xx errors.\n- **`_is_retryable_error`** · line 1544 (inside `_execute_tool`) — Inside `_execute_tool`: decides whether to retry by looking for words like *timeout*, *429* or *500* in the error text.\n- **`should_continue_after_tools`** · line 1606 — An older edge function. **Not used** by the current graph."
+    },
+    {
+      "file": "backend/chat/graph/nodes/tool_retriever.py",
+      "line": 1,
+      "title": "nodes/tool_retriever.py",
+      "description": "**`nodes/tool_retriever.py`** — Full-text tool search. One helper is used by the specialist; the node itself isn't used. 8 functions.\n\n- **`_get_db_connection`** · line 19 — Opens a direct Postgres connection (psycopg) using `DATABASE_URL`.\n- **`_populate_tools_sync`** · line 28 — Saves every tool's name and description into the `tool_embeddings` table with a full-text search index.\n- **`_search_tools_sync`** · line 63 — Full-text search over all tools, ranked, optionally limited to one network.\n- **`populate_tools_from_registry`** · line 91 — Fills `tool_embeddings` from the tool registry (the database work runs in a thread). **Not called anywhere** in the current code.\n- **`search_tools`** · line 105 — Async wrapper around `_search_tools_sync`. Only used by the unused node below.\n- **`_search_tools_within_set_sync`** · line 114 — Ranks only the given tools by relevance, tops up with unranked ones if too few match, and returns the first few on any error.\n- **`search_tools_within_set`** · line 160 — Used by the specialist when more than 15 tools remain: returns the top 5.\n- **`tool_retriever_node`** · line 188 — A \"search for tools\" graph step. **Not wired into the graph.**"
+    },
+    {
+      "file": "backend/chat/graph/nodes/synthesizer.py",
+      "line": 1,
+      "title": "nodes/synthesizer.py",
+      "description": "**`nodes/synthesizer.py`** — A node that isn't used by the current graph. 6 functions.\n\n- **`_format_tool_results_for_synthesis`** · line 53 — Pretty-prints tool results for a summary prompt.\n- **`_get_context_summary`** · line 87 — One line of context: service, capability and number of accounts.\n- **`_stream_synthesis`** · line 106 — Streams the model's summary, optionally into the event queue.\n- **`synthesizer_node`** · line 148 — A step that writes the final answer from tool results. **Not wired into the graph**: the specialist writes final answers itself.\n- **`format_revenue_table`** · line 260 — Turns rows of data into a Markdown table. **Not used.**\n- **`format_entity_list`** · line 288 — Turns entities into a bold-headed list of names and ids. **Not used.**"
+    },
+    {
+      "file": "backend/chat/graph/nodes/verifier.py",
+      "line": 1,
+      "title": "nodes/verifier.py",
+      "description": "**`nodes/verifier.py`** — A node that isn't used by the current graph. 4 functions.\n\n- **`_format_tool_results`** · line 54 — Tool calls with their arguments and results (cut to 2,000 characters) for the verifier prompt.\n- **`_extract_verification_status`** · line 80 — Reads `COMPLETE:` or `INCOMPLETE:`, plus an optional `RETRY_HINT:`, from the model's reply.\n- **`verifier_node`** · line 118 — A step that asks the fast model whether the tool results answer the question. **Not wired into the graph.**\n- **`should_retry_after_verification`** · line 202 — Would send the run back to the specialist up to 2 times if incomplete. **Not used.**"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists **98 of 98** functions in `backend/chat/graph`: all of them.\n\nThe next atlases cover the rest of the agent, the MCP tools, the API, and the frontend."
+    }
+  ]
+}

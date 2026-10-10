@@ -1,0 +1,666 @@
+# Coverage
+
+All **632** files in the repo (commit 4f30889), and where each one is covered.
+
+- **374** files are opened directly by a tour or atlas step.
+- **169** more sit inside a folder that a tour explains.
+- **89** aren't opened by any step. They're grouped below by type, with the reason.
+- **Every function** (1,770) is listed in the atlases A01–A10.
+
+## Opened directly
+
+- `.github/workflows/ci.yml` — 16 - Tests and observability, 21 - Interview prep
+- `.github/workflows/claude-code-review.yml` — 13 - Production
+- `.github/workflows/sentry-release.yml` — 13 - Production
+- `.github/workflows/tokens.yml` — 18 - The design system
+- `.planning/codebase/CONCERNS.md` — 21 - Interview prep
+- `README.md` — 01 - Start here, 21 - Interview prep
+- `backend/chat/adapters/mediation.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/adapters/schema.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/approval/handlers.py` — 11 - The approval pause, A02 - Atlas: agent server, streaming and tools
+- `backend/chat/approval/models.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/approval/schema_extractor.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/constants.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/graph/__init__.py` — A01 - Atlas: agent graph
+- `backend/chat/graph/builder.py` — 07 - The LangGraph graph, 15 - What's saved where, 16 - Tests and observability, 19 - Trace: a read request, 21 - Interview prep, A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/__init__.py` — A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/entity_loader.py` — 08 - Router and entity loader, 13 - Production, 19 - Trace: a read request, 21 - Interview prep, A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/llm.py` — 01 - Start here, A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/router.py` — 08 - Router and entity loader, 19 - Trace: a read request, 20 - Trace: a write request, A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/specialist.py` — 09 - The specialist, 19 - Trace: a read request, 20 - Trace: a write request, 21 - Interview prep, A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/synthesizer.py` — A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/tool_executor.py` — 10 - Tools and MCP, 11 - The approval pause, 19 - Trace: a read request, 20 - Trace: a write request, 21 - Interview prep, A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/tool_retriever.py` — 15 - What's saved where, A01 - Atlas: agent graph
+- `backend/chat/graph/nodes/verifier.py` — A01 - Atlas: agent graph
+- `backend/chat/graph/state.py` — 07 - The LangGraph graph, A01 - Atlas: agent graph
+- `backend/chat/graph/studio.py` — 07 - The LangGraph graph, A01 - Atlas: agent graph
+- `backend/chat/graph/validators.py` — 08 - Router and entity loader, A01 - Atlas: agent graph
+- `backend/chat/middleware/cache.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/middleware/error.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/middleware/rate_limit.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/middleware/resolution.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/observability/metrics.py` — 16 - Tests and observability, A02 - Atlas: agent server, streaming and tools
+- `backend/chat/observability/tracing.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/streaming/events.py` — 06 - The agent server, A02 - Atlas: agent server, streaming and tools
+- `backend/chat/streaming/processor.py` — 06 - The agent server, 11 - The approval pause, 12 - The answer on screen, 20 - Trace: a write request, 21 - Interview prep, A02 - Atlas: agent server, streaming and tools
+- `backend/chat/streaming/state.py` — 06 - The agent server, 15 - What's saved where, 21 - Interview prep, A02 - Atlas: agent server, streaming and tools
+- `backend/chat/tasks/background.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/tools/loader.py` — 01 - Start here, 10 - Tools and MCP, 15 - What's saved where, 19 - Trace: a read request, 21 - Interview prep, A02 - Atlas: agent server, streaming and tools
+- `backend/chat/tools/registry.py` — 10 - Tools and MCP, 20 - Trace: a write request, A02 - Atlas: agent server, streaming and tools
+- `backend/chat/utils/entity_resolver.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/utils/parsing.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/utils/prompts.py` — 08 - Router and entity loader, 15 - What's saved where, A02 - Atlas: agent server, streaming and tools
+- `backend/chat/utils/providers.py` — 06 - The agent server, A02 - Atlas: agent server, streaming and tools
+- `backend/chat_server.py` — 01 - Start here, 04 - Sending a message, 06 - The agent server, 11 - The approval pause, 13 - Production, 16 - Tests and observability, 19 - Trace: a read request, 21 - Interview prep, A02 - Atlas: agent server, streaming and tools
+- `backend/mcp_servers/annotations.py` — 19 - Trace: a read request, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/curated_schemas.py` — A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/dependencies.py` — A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/admanager.py` — 10 - Tools and MCP, 20 - Trace: a write request, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/admob.py` — 10 - Tools and MCP
+- `backend/mcp_servers/server.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/utils.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/visibility.py` — A03 - Atlas: MCP tool servers
+- `backend/requirements.txt` — 13 - Production
+- `backend/scripts/generate_postman_collection.py` — A10 - Atlas: tests, scripts and the rest
+- `backend/scripts/push_prompts_to_langsmith.py` — A10 - Atlas: tests, scripts and the rest
+- `backend/shared/token_service.py` — A10 - Atlas: tests, scripts and the rest
+- `backend/tests/test_approval.py` — 16 - Tests and observability, A10 - Atlas: tests, scripts and the rest
+- `backend/tests/verify_all_endpoints.py` — A10 - Atlas: tests, scripts and the rest
+- `frontend/next.config.ts` — 02 - Next.js basics on your app
+- `frontend/package.json` — 01 - Start here
+- `frontend/playwright.config.ts` — 16 - Tests and observability
+- `frontend/sanity-schema.example.ts` — A10 - Atlas: tests, scripts and the rest
+- `frontend/scripts/kill-ports.cjs` — A10 - Atlas: tests, scripts and the rest
+- `frontend/scripts/seed-blog.ts` — A10 - Atlas: tests, scripts and the rest
+- `frontend/scripts/start-agent.cjs` — A10 - Atlas: tests, scripts and the rest
+- `frontend/scripts/validate-contrast.ts` — A10 - Atlas: tests, scripts and the rest
+- `frontend/src/app/(authenticated)/admin/layout.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/admin/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/admin/waitlist/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/billing/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/chat-history/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/chat/[id]/chat-session-client.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/chat/[id]/loading.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/chat/[id]/page.tsx` — 02 - Next.js basics on your app, A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/chat/loading.tsx` — 02 - Next.js basics on your app, A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/chat/page.tsx` — 02 - Next.js basics on your app, 03 - React basics on your chat page, A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/chat/template.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/dashboard/agents/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/dashboard/loading.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/dashboard/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/demo/chat/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/experiments/[id]/loading.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/experiments/[id]/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/experiments/loading.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/experiments/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/layout-client.tsx` — 02 - Next.js basics on your app, A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/layout.tsx` — 02 - Next.js basics on your app, A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/providers/[type]/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/providers/loading.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/providers/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/settings/loading.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/settings/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(authenticated)/support/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/access-denied/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/auth/callback/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/blog/[slug]/blog-post-content.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/blog/[slug]/copy-link-button.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/blog/[slug]/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/blog/blog-content.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/blog/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/join/[token]/join-client.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/join/[token]/loading.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/join/[token]/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/layout-client.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/layout.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/login/page.tsx` — 14 - Login and OAuth, A06 - Atlas: pages
+- `frontend/src/app/(public)/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/platforms/[platform]/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/platforms/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/pricing/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/privacy/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/(public)/terms/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/api/[[...route]]/route.ts` — 01 - Start here, 02 - Next.js basics on your app
+- `frontend/src/app/api/auth/[...path]/route.ts` — 02 - Next.js basics on your app
+- `frontend/src/app/auth/[path]/loading.tsx` — A06 - Atlas: pages
+- `frontend/src/app/auth/[path]/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/auth/waitlist-callback/page.tsx` — A06 - Atlas: pages
+- `frontend/src/app/error.tsx` — 02 - Next.js basics on your app, A06 - Atlas: pages
+- `frontend/src/app/global-error.tsx` — A06 - Atlas: pages
+- `frontend/src/app/globals.css` — 18 - The design system
+- `frontend/src/app/layout.tsx` — 02 - Next.js basics on your app, A06 - Atlas: pages
+- `frontend/src/components/atoms/action-button.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/avatar.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/badge.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/button.tsx` — 18 - The design system, A08 - Atlas: design system components
+- `frontend/src/components/atoms/checkbox.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/code-block.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/input.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/label.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/loader.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/markdown.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/separator.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/skeleton.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/spinner.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/switch.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/text-shimmer.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/textarea.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/toggle.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/atoms/visually-hidden.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/authenticated-waitlist-dialog.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/billing/PlanSelector.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/billing/RecentInvoicesCard.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/brand/logo.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/chat/assistant-message.tsx` — 12 - The answer on screen, A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/action-required-block.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/activity-summary-block.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/icon-box.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/json-display.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/message-actions.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/routing-block.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/thinking-block.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/tool-denied-block.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/assistant-message/utils.ts` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/badges/context-badges.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/badges/inline-provider-badges.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/badges/status-badges.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/chat-container.tsx` — 03 - React basics on your chat page, 04 - Sending a message, 12 - The answer on screen, 19 - Trace: a read request, 20 - Trace: a write request, A05 - Atlas: chat UI
+- `frontend/src/components/chat/chat-header.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/chat-input.tsx` — 03 - React basics on your chat page, 04 - Sending a message, 19 - Trace: a read request, A05 - Atlas: chat UI
+- `frontend/src/components/chat/chat-messages.tsx` — 12 - The answer on screen, A05 - Atlas: chat UI
+- `frontend/src/components/chat/chat-settings-panel.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/command-palette/chat-command-palette.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/command-palette/use-command-palette.ts` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/footer-controls.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/hooks/use-provider-apps.ts` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/hooks/use-provider-expansion.ts` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/index.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/platform-icon.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/provider-row.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/provider-section.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/tree-checkbox.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/tree-line.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/context-settings/utils.ts` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/disclosure-block.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/example-prompts.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/final-answer-block.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/hooks/use-answer-actions.ts` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/json-tree-view.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/message.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/context.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/hooks/use-form-state.ts` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/index.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/array-field-item-template.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/array-field-template.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/base-input-template.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/field-template.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/object-field-template.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/ad-source-toggle-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/ad-source-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/base-dropdown.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/currency-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/entity-select-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/multi-select-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/platform-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/radio-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/region-codes-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/select-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/rjsf/widgets/toggle-widget.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/chat/steps-timeline.tsx` — 11 - The approval pause, 12 - The answer on screen, 20 - Trace: a write request, A05 - Atlas: chat UI
+- `frontend/src/components/chat/user-message.tsx` — A05 - Atlas: chat UI
+- `frontend/src/components/demo-banner.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/demo-chat/demo-chat-container.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/demo-chat/demo-example-prompts.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/ExperimentCard.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/execution/ExecutionModal.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/execution/ScopeSelector.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/hooks/useExperimentData.ts` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/hooks/useExperimentWizard.ts` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/hooks/usePromptParser.ts` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/recommendations/ImpactPreview.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/recommendations/RecommendationCard.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/recommendations/RecommendationList.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/reports/MetricCard.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/reports/NetworkBreakdown.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/reports/ReportCharts.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/reports/SideBySideReport.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/reports/WinnerIndicator.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/wizard/ExperimentWizard.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/wizard/StepArmSetup.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/wizard/StepBasicInfo.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/wizard/StepReview.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/experiments/wizard/StepTrafficAllocation.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/icons/platform-icons.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/icons/provider-logos.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/invitations/invitation-banner.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/invitations/invitation-card.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/invitations/my-invitations-section.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/landing/example-queries.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/landing/faq-section.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/landing/features-section.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/landing/hero-section.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/landing/how-it-works.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/landing/platforms-section.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/landing/security-section.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/landing/team-section.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/layout/OrganizationSwitcher.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/layout/UserMenu.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/layout/app-sidebar.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/molecules/accordion.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/alert-dialog.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/card.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/collapsible.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/command.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/dialog.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/dropdown-menu.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/popover.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/prompt-input.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/prompt-suggestion.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/radio-group.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/scroll-area.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/search-input.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/select.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/sheet.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/stat-card.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/steps.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/table.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/tabs.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/toggle-group.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/molecules/tooltip.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/organisms/chain-of-thought.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/organisms/chart.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/organisms/contact-autocomplete.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/organisms/data-table.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/organisms/gmail-email-input.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/organisms/sidebar.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/organisms/theme.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/organisms/tool.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/providers/AdSourceCredentialDialog.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/providers/AdSourceListItem.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/providers/ConnectProviderDropdown.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/providers/ProviderListItem.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/providers/SupportedPlatformsCard.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/providers/account-selection-modal.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/providers/index.tsx` — 03 - React basics on your chat page, A09 - Atlas: feature components
+- `frontend/src/components/providers/posthog-provider.tsx` — 16 - Tests and observability, A09 - Atlas: feature components
+- `frontend/src/components/providers/query-provider.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/providers/theme-provider.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/settings/AccountSection.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/settings/AppearanceSection.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/settings/ChatSettingsSection.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/settings/DemoModeSection.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/settings/NotificationsSection.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/settings/OrganizationSection.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/settings/PrivacySection.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/tos-modal.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/ui/loader.tsx` — A08 - Atlas: design system components
+- `frontend/src/components/waitlist-dialog.tsx` — A09 - Atlas: feature components
+- `frontend/src/components/web-vitals.tsx` — A09 - Atlas: feature components
+- `frontend/src/contexts/demo-experiments-context.tsx` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/contexts/demo-mode-context.tsx` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/contexts/entity-data-context.tsx` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/contexts/user-context.tsx` — 03 - React basics on your chat page, 14 - Login and OAuth, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/chat/useChatApprovals.ts` — 11 - The approval pause, 20 - Trace: a write request, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/chat/useChatPersistence.ts` — 12 - The answer on screen, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/chat/useChatSession.ts` — 03 - React basics on your chat page, 04 - Sending a message, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/settings/useAccountOperations.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/settings/useInvitationManagement.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/settings/useInviteLinkManagement.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/settings/useMemberManagement.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/settings/useOrganizationManagement.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/use-blog-posts.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/use-dashboard-data.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/use-mobile.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/use-touch-primary.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useAdSourceManagement.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useAuthenticatedWaitlistForm.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useBilling.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useBrand.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useProviderDetail.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useProviderManagement.ts` — 14 - Login and OAuth, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useTosAcceptance.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useWaitlistFlow.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/api.ts` — 04 - Sending a message, 19 - Trace: a read request, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/billing/formatters.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/blog.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/chat-settings.ts` — 15 - What's saved where, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-chat/intent-matcher.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-chat/scenarios/create-experiment.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-chat/scenarios/execute-recommendation.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-chat/scenarios/fallback.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-chat/scenarios/get-insights.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-chat/scenarios/index.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-chat/scenarios/simulate-whatif.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-chat/streaming-simulator.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/demo-user.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/entity-config.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/experiments/demo-data.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/experiments/prompt-parser.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/neon-auth/client.ts` — 14 - Login and OAuth
+- `frontend/src/lib/sanity.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/step-utils.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/storage.ts` — A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/utils.ts` — 18 - The design system, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/server/db/index.ts` — 05 - The API inside Next.js, A04 - Atlas: the API
+- `frontend/src/server/db/schema.ts` — 05 - The API inside Next.js, 15 - What's saved where
+- `frontend/src/server/env.ts` — 13 - Production, A04 - Atlas: the API
+- `frontend/src/server/index.ts` — 05 - The API inside Next.js, A04 - Atlas: the API
+- `frontend/src/server/lib/admob-cache.ts` — A04 - Atlas: the API
+- `frontend/src/server/lib/analytics.ts` — A04 - Atlas: the API
+- `frontend/src/server/lib/audit.ts` — A04 - Atlas: the API
+- `frontend/src/server/lib/crypto.ts` — 14 - Login and OAuth, A04 - Atlas: the API
+- `frontend/src/server/lib/email.ts` — A04 - Atlas: the API
+- `frontend/src/server/lib/neon-auth.ts` — 05 - The API inside Next.js, 15 - What's saved where, A04 - Atlas: the API
+- `frontend/src/server/lib/sentry.ts` — 13 - Production, A04 - Atlas: the API
+- `frontend/src/server/middleware/auth.ts` — 05 - The API inside Next.js, 17 - Billing, invites and admin, A04 - Atlas: the API
+- `frontend/src/server/middleware/error-handler.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/account.ts` — 17 - Billing, invites and admin, A04 - Atlas: the API
+- `frontend/src/server/routes/ad-sources.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/admin/conversations.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/admin/stats.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/admin/usage.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/agents.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/billing.ts` — 17 - Billing, invites and admin, A04 - Atlas: the API
+- `frontend/src/server/routes/blog.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/chat.ts` — 04 - Sending a message, 05 - The API inside Next.js, A04 - Atlas: the API
+- `frontend/src/server/routes/field-options.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/health.ts` — 16 - Tests and observability, A04 - Atlas: the API
+- `frontend/src/server/routes/internal.ts` — 05 - The API inside Next.js, 15 - What's saved where, A04 - Atlas: the API
+- `frontend/src/server/routes/invite-links.ts` — 17 - Billing, invites and admin, A04 - Atlas: the API
+- `frontend/src/server/routes/providers.ts` — 05 - The API inside Next.js, 14 - Login and OAuth, 21 - Interview prep, A04 - Atlas: the API
+- `frontend/src/server/routes/test-auth.ts` — A04 - Atlas: the API
+- `frontend/src/server/routes/waitlist.ts` — 14 - Login and OAuth, 17 - Billing, invites and admin, A04 - Atlas: the API
+- `frontend/src/server/routes/webhooks.ts` — 17 - Billing, invites and admin, A04 - Atlas: the API
+- `frontend/tests/e2e/auth.spec.ts` — A10 - Atlas: tests, scripts and the rest
+- `frontend/tests/e2e/fixtures.ts` — A10 - Atlas: tests, scripts and the rest
+- `frontend/tests/e2e/global.setup.ts` — A10 - Atlas: tests, scripts and the rest
+- `frontend/tests/e2e/global.teardown.ts` — A10 - Atlas: tests, scripts and the rest
+- `frontend/tests/e2e/helpers/mock-sse.ts` — A10 - Atlas: tests, scripts and the rest
+- `frontend/tests/e2e/tool-approval.spec.ts` — 16 - Tests and observability, A10 - Atlas: tests, scripts and the rest
+- `frontend/tokens/style-dictionary.config.mjs` — 18 - The design system, A10 - Atlas: tests, scripts and the rest
+- `frontend/vercel.json` — 13 - Production
+- `scripts/generate-logo-tight.py` — A10 - Atlas: tests, scripts and the rest
+- `scripts/generate-logo-wide.py` — A10 - Atlas: tests, scripts and the rest
+- `studio-sanity/schemaTypes/post.ts` — A10 - Atlas: tests, scripts and the rest
+- `tests/web/test_public_pages.py` — A10 - Atlas: tests, scripts and the rest
+
+## Inside a folder a tour explains
+
+- `backend/api/.husky/pre-commit` — 01 - Start here
+- `backend/api/GDPR_COMPLIANCE.md` — 01 - Start here
+- `backend/api/api/index.ts` — 01 - Start here
+- `backend/api/bun.lock` — 01 - Start here
+- `backend/api/drizzle.config.ts` — 01 - Start here
+- `backend/api/drizzle/0000_early_vance_astro.sql` — 01 - Start here
+- `backend/api/drizzle/meta/0000_snapshot.json` — 01 - Start here
+- `backend/api/drizzle/meta/_journal.json` — 01 - Start here
+- `backend/api/package.json` — 01 - Start here
+- `backend/api/playwright.config.ts` — 01 - Start here
+- `backend/api/scripts/check-users.ts` — 01 - Start here
+- `backend/api/scripts/migrate-ad-sources.ts` — 01 - Start here
+- `backend/api/scripts/test-smtp.ts` — 01 - Start here
+- `backend/api/src/db/index.ts` — 01 - Start here
+- `backend/api/src/db/schema.ts` — 01 - Start here
+- `backend/api/src/db/seed.ts` — 01 - Start here
+- `backend/api/src/e2e/api.e2e.ts` — 01 - Start here
+- `backend/api/src/env.ts` — 01 - Start here
+- `backend/api/src/index.ts` — 01 - Start here
+- `backend/api/src/lib/admob-cache.ts` — 01 - Start here
+- `backend/api/src/lib/analytics.ts` — 01 - Start here
+- `backend/api/src/lib/audit.ts` — 01 - Start here
+- `backend/api/src/lib/crypto.ts` — 01 - Start here
+- `backend/api/src/lib/email.ts` — 01 - Start here
+- `backend/api/src/lib/neon-auth.ts` — 01 - Start here
+- `backend/api/src/lib/sentry.ts` — 01 - Start here
+- `backend/api/src/lib/supported-networks.ts` — 01 - Start here
+- `backend/api/src/middleware/auth.ts` — 01 - Start here
+- `backend/api/src/middleware/error-handler.ts` — 01 - Start here
+- `backend/api/src/routes/account.ts` — 01 - Start here
+- `backend/api/src/routes/ad-sources.ts` — 01 - Start here
+- `backend/api/src/routes/admin/conversations.ts` — 01 - Start here
+- `backend/api/src/routes/admin/stats.ts` — 01 - Start here
+- `backend/api/src/routes/admin/usage.ts` — 01 - Start here
+- `backend/api/src/routes/agents.ts` — 01 - Start here
+- `backend/api/src/routes/billing.ts` — 01 - Start here
+- `backend/api/src/routes/blog.ts` — 01 - Start here
+- `backend/api/src/routes/chat.ts` — 01 - Start here
+- `backend/api/src/routes/field-options.ts` — 01 - Start here
+- `backend/api/src/routes/health.test.ts` — 01 - Start here
+- `backend/api/src/routes/health.ts` — 01 - Start here
+- `backend/api/src/routes/internal.ts` — 01 - Start here
+- `backend/api/src/routes/invite-links.ts` — 01 - Start here
+- `backend/api/src/routes/providers.ts` — 01 - Start here
+- `backend/api/src/routes/test-auth.ts` — 01 - Start here
+- `backend/api/src/routes/waitlist.ts` — 01 - Start here
+- `backend/api/src/routes/webhooks.ts` — 01 - Start here
+- `backend/api/src/test/setup.ts` — 01 - Start here
+- `backend/api/tsconfig.json` — 01 - Start here
+- `backend/api/vercel.json` — 01 - Start here
+- `backend/api/vitest.config.ts` — 01 - Start here
+- `backend/chat/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/adapters/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/approval/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/middleware/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/observability/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/streaming/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/tasks/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/tools/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/chat/utils/__init__.py` — A02 - Atlas: agent server, streaming and tools
+- `backend/mcp_servers/__init__.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/__init__.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/applovin.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/dtexchange.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/inmobi.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/liftoff.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/mintegral.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/pangle.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `backend/mcp_servers/providers/unity.py` — 10 - Tools and MCP, A03 - Atlas: MCP tool servers
+- `frontend/.gitignore` — 01 - Start here
+- `frontend/Library/Preferences/nextjs-nodejs/config.json` — 01 - Start here
+- `frontend/README.md` — 01 - Start here
+- `frontend/bun.lock` — 01 - Start here
+- `frontend/components.json` — 01 - Start here
+- `frontend/docs/design-tokens.md` — 01 - Start here
+- `frontend/eslint.config.mjs` — 01 - Start here
+- `frontend/postcss.config.mjs` — 01 - Start here
+- `frontend/public/file.svg` — 01 - Start here
+- `frontend/public/globe.svg` — 01 - Start here
+- `frontend/public/icon-dark.svg` — 01 - Start here
+- `frontend/public/icon-light.svg` — 01 - Start here
+- `frontend/public/logo-tight.svg` — 01 - Start here
+- `frontend/public/logo-wide.svg` — 01 - Start here
+- `frontend/public/logo.svg` — 01 - Start here
+- `frontend/public/logos/admob.svg` — 01 - Start here
+- `frontend/public/logos/applovin.svg` — 01 - Start here
+- `frontend/public/logos/dtexchange.svg` — 01 - Start here
+- `frontend/public/logos/google-ad-manager.svg` — 01 - Start here
+- `frontend/public/logos/inmobi.svg` — 01 - Start here
+- `frontend/public/logos/liftoff-light.svg` — 01 - Start here
+- `frontend/public/logos/liftoff.svg` — 01 - Start here
+- `frontend/public/logos/meta.svg` — 01 - Start here
+- `frontend/public/logos/mintegral.png` — 01 - Start here
+- `frontend/public/logos/pangle.svg` — 01 - Start here
+- `frontend/public/logos/unity-light.svg` — 01 - Start here
+- `frontend/public/logos/unity.svg` — 01 - Start here
+- `frontend/public/next.svg` — 01 - Start here
+- `frontend/public/vercel.svg` — 01 - Start here
+- `frontend/public/window.svg` — 01 - Start here
+- `frontend/src/app/apple-icon.svg` — 01 - Start here, 02 - Next.js basics on your app, A06 - Atlas: pages
+- `frontend/src/app/icon.svg` — 01 - Start here, 02 - Next.js basics on your app, A06 - Atlas: pages
+- `frontend/src/components/atoms/index.ts` — 01 - Start here, 18 - The design system, A08 - Atlas: design system components, A09 - Atlas: feature components
+- `frontend/src/components/billing/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/chat/assistant-message/index.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/chat/badges/index.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/chat/context-settings/hooks/index.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/chat/context-settings/types.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/chat/rjsf/index.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/hooks/index.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/templates/index.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/chat/rjsf/rjsf-parameter-form/types.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/chat/rjsf/widgets/index.ts` — 01 - Start here, A05 - Atlas: chat UI, A09 - Atlas: feature components
+- `frontend/src/components/demo-chat/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/experiments/execution/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/experiments/hooks/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/experiments/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/experiments/recommendations/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/experiments/reports/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/experiments/wizard/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/invitations/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/landing/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/molecules/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/organisms/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/providers/NetworkCredentialDialog.tsx` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/providers/NetworkListItem.tsx` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/components/settings/index.ts` — 01 - Start here, A09 - Atlas: feature components
+- `frontend/src/constants/navigation.ts` — 01 - Start here
+- `frontend/src/constants/pricing.ts` — 01 - Start here
+- `frontend/src/hooks/chat/index.ts` — 01 - Start here, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/settings/index.ts` — 01 - Start here, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/use-user.ts` — 01 - Start here, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/hooks/useNetworkManagement.ts` — 01 - Start here, A07 - Atlas: hooks, lib and contexts
+- `frontend/src/lib/billing/index.ts` — 01 - Start here
+- `frontend/src/lib/billing/types.ts` — 01 - Start here
+- `frontend/src/lib/demo-chat/index.ts` — 01 - Start here
+- `frontend/src/lib/demo-chat/types.ts` — 01 - Start here
+- `frontend/src/lib/experiments/constants.ts` — 01 - Start here
+- `frontend/src/lib/experiments/index.ts` — 01 - Start here
+- `frontend/src/lib/experiments/types.ts` — 01 - Start here
+- `frontend/src/lib/neon-auth/server.ts` — 01 - Start here
+- `frontend/src/lib/types.ts` — 01 - Start here
+- `frontend/src/server/lib/supported-networks.ts` — 01 - Start here, A04 - Atlas: the API
+- `frontend/src/server/shared/supported-networks.json` — 01 - Start here, A04 - Atlas: the API
+- `frontend/src/styles/tokens-dark.css` — 01 - Start here
+- `frontend/src/styles/tokens-light.css` — 01 - Start here
+- `frontend/src/styles/tokens-primitives.css` — 01 - Start here
+- `frontend/src/styles/tokens.css` — 01 - Start here
+- `frontend/src/styles/tokens.json` — 01 - Start here
+- `frontend/tests/e2e/chat-streaming.spec.ts` — 01 - Start here, 16 - Tests and observability, A10 - Atlas: tests, scripts and the rest
+- `frontend/tests/e2e/entity-resolution.spec.ts` — 01 - Start here, 16 - Tests and observability, A10 - Atlas: tests, scripts and the rest
+- `frontend/tests/e2e/smoke.spec.ts` — 01 - Start here, 16 - Tests and observability, A10 - Atlas: tests, scripts and the rest
+- `frontend/tests/e2e/tool-approval-hybrid.spec.ts` — 01 - Start here, 16 - Tests and observability, A10 - Atlas: tests, scripts and the rest
+- `frontend/tokens/$metadata.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/$themes.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/README.md` — 01 - Start here, 18 - The design system
+- `frontend/tokens/primitives.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/primitives/breakpoints.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/primitives/colors.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/primitives/motion.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/primitives/radius.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/primitives/shadow.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/primitives/spacing.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/primitives/typography.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/semantic-dark.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/semantic-light.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/semantic/dark.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tokens/semantic/light.tokens.json` — 01 - Start here, 18 - The design system
+- `frontend/tsconfig.json` — 01 - Start here
+- `frontend/~/.npm/_update-notifier-last-checked` — 01 - Start here
+
+## Not opened by any step
+
+### Docs and planning notes (40)
+
+- `.planning/REQUIREMENTS.md`
+- `.planning/ROADMAP.md`
+- `.planning/STATE.md`
+- `.planning/codebase/ARCHITECTURE.md`
+- `.planning/codebase/CONVENTIONS.md`
+- `.planning/codebase/INTEGRATIONS.md`
+- `.planning/codebase/STACK.md`
+- `.planning/codebase/STRUCTURE.md`
+- `.planning/codebase/TESTING.md`
+- `.planning/config.json`
+- `.planning/phases/01-shared-components/01-01-PLAN.md`
+- `.planning/phases/01-shared-components/01-01-SUMMARY.md`
+- `.planning/phases/01-shared-components/01-02-PLAN.md`
+- `.planning/phases/01-shared-components/01-02-SUMMARY.md`
+- `.planning/phases/01-shared-components/01-03-PLAN.md`
+- `.planning/phases/01-shared-components/01-03-SUMMARY.md`
+- `.planning/phases/01-shared-components/01-04-PLAN.md`
+- `.planning/phases/01-shared-components/01-04-SUMMARY.md`
+- `.planning/phases/01-shared-components/01-05-PLAN.md`
+- `CLAUDE.md`
+- `GEMINI.md`
+- `backend/README.md`
+- `docs/architecture/agent-architecture.md`
+- `docs/architecture/api-frontend-flow.md`
+- `docs/architecture/separation-of-concerns.md`
+- `docs/backend/mcp-catalog.md`
+- `docs/compliance/GDPR_DELETION_SUMMARY.md`
+- `docs/composition-refactoring-plan.md`
+- `docs/devops/DEVOPS_GUIDE.md`
+- `docs/devops/deploy-mcp-to-render.md`
+- `docs/field-options-performance-plan.md`
+- `docs/frontend/component-patterns.md`
+- `docs/frontend/design-system.md`
+- `docs/frontend/figma-integration.md`
+- `docs/frontend/linear-theme-migration.md`
+- `docs/frontend/react-19-notes.md`
+- `docs/frontend/theme.md`
+- `docs/testing/e2e-tests.md`
+- `docs/testing/tool-approval-testing-strategy.md`
+- `studio-sanity/README.md`
+
+### API description files (read by the tool generators, tour 10) (18)
+
+- `backend/ADAgentAI_Postman_Collection.json`
+- `backend/admanager_v1_discovery.json`
+- `backend/admob_v1beta_discovery.json`
+- `backend/api_specs/admanager_v1_discovery.json`
+- `backend/api_specs/admob_v1beta_discovery.json`
+- `backend/api_specs/agent_plan.md`
+- `backend/api_specs/agent_research_2026-01-23.md`
+- `backend/api_specs/applovin.yml`
+- `backend/api_specs/dtexchange.yml`
+- `backend/api_specs/endpoint_audit_2026-01-23.md`
+- `backend/api_specs/inmobi.yml`
+- `backend/api_specs/liftoff.yml`
+- `backend/api_specs/logic_mapping.md`
+- `backend/api_specs/mintegral.yml`
+- `backend/api_specs/pangle.yml`
+- `backend/api_specs/unified_spec_2026-01-24.md`
+- `backend/api_specs/unity.yml`
+- `backend/api_specs/user_journey_2026-01-24.md`
+
+### Config and settings files (16)
+
+- `.github/workflows/claude.yml`
+- `.github/workflows/e2e.yml`
+- `.gitignore`
+- `LICENSE.txt`
+- `backend/adagent_backend.egg-info/SOURCES.txt`
+- `backend/adagent_backend.egg-info/dependency_links.txt`
+- `backend/adagent_backend.egg-info/requires.txt`
+- `backend/adagent_backend.egg-info/top_level.txt`
+- `backend/langgraph.json`
+- `backend/pyproject.toml`
+- `backend/shared/supported-networks.json`
+- `studio-sanity/.gitignore`
+- `studio-sanity/eslint.config.mjs`
+- `studio-sanity/package.json`
+- `studio-sanity/static/.gitkeep`
+- `studio-sanity/tsconfig.json`
+
+### Images and binary files (7)
+
+- `backend/.langgraph_api/.langgraph_checkpoint.1.pckl`
+- `backend/.langgraph_api/.langgraph_checkpoint.2.pckl`
+- `backend/.langgraph_api/.langgraph_checkpoint.3.pckl`
+- `backend/.langgraph_api/.langgraph_ops.pckl`
+- `backend/.langgraph_api/.langgraph_retry_counter.pckl`
+- `backend/.langgraph_api/store.pckl`
+- `backend/.langgraph_api/store.vectors.pckl`
+
+### Other source files without functions (types, re-exports, constants) (7)
+
+- `backend/adagent_backend.egg-info/PKG-INFO`
+- `backend/run_mcp.py`
+- `backend/shared/__init__.py`
+- `backend/tests/__init__.py`
+- `studio-sanity/sanity.cli.ts`
+- `studio-sanity/sanity.config.ts`
+- `studio-sanity/schemaTypes/index.ts`
+
+### Lock files (generated) (1)
+
+- `backend/uv.lock`

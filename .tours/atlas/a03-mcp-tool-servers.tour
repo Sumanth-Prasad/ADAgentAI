@@ -1,0 +1,58 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "A03 - Atlas: MCP tool servers",
+  "description": "Every function in its area (41), one file per step.",
+  "steps": [
+    {
+      "directory": "backend/mcp_servers",
+      "title": "How to use this atlas",
+      "description": "### A03 - Atlas: MCP tool servers\n\n**41 functions in 7 files.** Each step opens one file and lists every function in it, in order. Press Ctrl+G and type a line number to jump to one.\n\n**How to read an entry:**\n- ✎ marks a note I wrote after reading the code.\n- Other entries quote the function's own comment from the code. If it has none, it says so.\n- In brackets: facts a script checked, such as *React component*, the API route, or which other files mention it.\n\n*No other file mentions it* is a plain text search. It's a strong hint that a function is unused, but not proof."
+    },
+    {
+      "file": "backend/mcp_servers/annotations.py",
+      "line": 1,
+      "title": "backend/mcp_servers/annotations.py",
+      "description": "**`backend/mcp_servers/annotations.py`** — 11 functions.\n\n- **`to_dict`** · line 65 — Convert to dictionary for MCP tool discovery. (method; inside `ToolAnnotation`)\n- **`_matches_patterns`** · line 160 — Check if tool name matches any pattern. (no other file mentions it)\n- **`_get_network`** · line 166 — Extract network from tool name prefix. (no other file mentions it)\n- **`_get_category`** · line 175 — Infer category from tool name. (no other file mentions it)\n- **`classify_tool`** · line 184 — Automatically classify a tool based on its name and HTTP method. (no other file mentions it)\n- **`get_tool_annotation`** · line 310 — Get the annotation for a tool. (no other file mentions it)\n- **`is_dangerous_tool`** · line 330 — Quick check if a tool is dangerous (requires approval).\n- **`get_risk_level`** · line 343 — Get the risk level for a tool. (no other file mentions it)\n- **`get_all_annotations`** · line 357 — Get annotations for all known tools. (no other file mentions it)\n- **`get_tool_tags`** · line 562 — Get network and capability tags for a tool. (no other file mentions it)\n- **`get_tools_for_network_capability`** · line 595 — ✎ Returns the explicitly tagged tool names for a network and capability, from `TOOL_TAGS` (tour 09). (used in `chat/graph/nodes/specialist.py`)"
+    },
+    {
+      "file": "backend/mcp_servers/curated_schemas.py",
+      "line": 1,
+      "title": "backend/mcp_servers/curated_schemas.py",
+      "description": "**`backend/mcp_servers/curated_schemas.py`** — 5 functions.\n\n- **`_set_nested`** · line 211 — Set a value at a nested path in a dict. (no other file mentions it)\n- **`build_body_from_flat_params`** · line 231 — Build nested API body from flat parameters. (used in `mcp_servers/providers/admanager.py`)\n- **`_transform_mediation_lines`** · line 289 — Transform flat bidding/waterfall arrays to API's mediationGroupLines format. (no other file mentions it)\n- **`get_curated_schema`** · line 359 — Get curated schema for a tool if it exists. (used in `mcp_servers/providers/admanager.py`)\n- **`is_curated_tool`** · line 371 — Check if a tool has a curated schema. (no other file mentions it)"
+    },
+    {
+      "file": "backend/mcp_servers/dependencies.py",
+      "line": 1,
+      "title": "backend/mcp_servers/dependencies.py",
+      "description": "**`backend/mcp_servers/dependencies.py`** — 7 functions.\n\n- **`is_expired`** · line 57 — Check if OAuth token is expired. (method; inside `NetworkCredentials`)\n- **`get_auth_header`** · line 63 — Get the appropriate Authorization header for this network. (method; inside `NetworkCredentials`)\n- **`fetch_oauth_credentials`** · line 80 — Fetch OAuth credentials from connected_providers table. (no other file mentions it)\n- **`fetch_api_key_credentials`** · line 135 — ✎ Would fetch an API key for networks like AppLovin. Only called by `get_credentials`, which is unused. (no other file mentions it)\n- **`get_credentials`** · line 195 — ✎ Would fetch OAuth or API-key credentials per network. Nothing outside this file calls it, which is why seven networks get no credentials (tour 10). (no other file mentions it)\n- **`get_network_credentials`** · line 251 — Create a FastMCP Depends-compatible credential fetcher for a specific network. (no other file mentions it)\n- **`_get_credentials`** · line 268 — Fetch credentials from request context. (inside `get_network_credentials`)"
+    },
+    {
+      "file": "backend/mcp_servers/providers/admanager.py",
+      "line": 1,
+      "title": "backend/mcp_servers/providers/admanager.py",
+      "description": "**`backend/mcp_servers/providers/admanager.py`** — 5 functions.\n\n- **`create_google_mcp`** · line 17 — ✎ Builds a whole MCP server from a Google Discovery file: one tool per API method (tour 10). (used in `mcp_servers/providers/admob.py`)\n- **`process_resources`** · line 29 — ✎ Walks the Discovery file's resources and nested resources, registering every method. (inside `create_google_mcp`)\n- **`register_method`** · line 37 — ✎ Names the tool from the method id (dots become underscores) and picks the curated or default builder. (inside `create_google_mcp`)\n- **`_register_curated_method`** · line 60 — ✎ Writes a Python function with simple, flat parameters as text, runs it with `exec`, and registers it as a tool. (inside `create_google_mcp`)\n- **`_register_default_method`** · line 216 — ✎ Same as the curated version, but the request body is passed as raw JSON text (`body_json`). (inside `create_google_mcp`)"
+    },
+    {
+      "file": "backend/mcp_servers/server.py",
+      "line": 1,
+      "title": "backend/mcp_servers/server.py",
+      "description": "**`backend/mcp_servers/server.py`** — 3 functions.\n\n- **`full_unity_admob_integration`** · line 55 — ✎ A placeholder: returns *success* without calling Unity or AdMob. Only in the unused master server. (used in `chat/graph/nodes/specialist.py`, `mcp_servers/annotations.py`, `scripts/push_prompts_to_langsmith.py`)\n- **`global_revenue_summary`** · line 93 — ✎ A placeholder that says *implementation in progress*. (used in `chat/graph/nodes/specialist.py`, `mcp_servers/annotations.py`, `scripts/push_prompts_to_langsmith.py`)\n- **`check_network_health`** · line 126 — ✎ A placeholder that reports all nine networks as connected without checking. (used in `chat/graph/nodes/specialist.py`, `mcp_servers/annotations.py`, `scripts/push_prompts_to_langsmith.py`)"
+    },
+    {
+      "file": "backend/mcp_servers/utils.py",
+      "line": 1,
+      "title": "backend/mcp_servers/utils.py",
+      "description": "**`backend/mcp_servers/utils.py`** — 2 functions.\n\n- **`_normalize_non_json_response`** · line 12 — ✎ Response hook that turns non-JSON API replies into something the tools can return. (no other file mentions it)\n- **`create_mcp_from_spec`** · line 62 — ✎ Builds an MCP server from an OpenAPI file with `FastMCP.from_openapi`; the token is read once at start-up (tour 10). (used in `mcp_servers/providers/applovin.py`, `mcp_servers/providers/dtexchange.py`, `mcp_servers/providers/inmobi.py` and 4 more)"
+    },
+    {
+      "file": "backend/mcp_servers/visibility.py",
+      "line": 1,
+      "title": "backend/mcp_servers/visibility.py",
+      "description": "**`backend/mcp_servers/visibility.py`** — 8 functions.\n\n- **`get_tool_network`** · line 58 — Extract network from tool name prefix. (no other file mentions it)\n- **`get_provider_type`** · line 77 — Map network name to provider type for database lookup. (no other file mentions it)\n- **`get_connected_providers`** · line 89 — Fetch connected providers for a user/org. (no other file mentions it)\n- **`get_visible_tools`** · line 152 — Filter tools to only those for connected providers. (no other file mentions it)\n- **`verify_tool_access`** · line 185 — Verify user has access to a tool before execution. (no other file mentions it)\n- **`get_tools_by_network`** · line 218 — Group tools by their network. (no other file mentions it)\n- **`get_disconnect_message`** · line 243 — Get user-friendly message for disconnected provider. (no other file mentions it)\n- **`check_all_provider_status`** · line 274 — Check status of all supported providers for a user. (no other file mentions it)"
+    },
+    {
+      "title": "Coverage",
+      "description": "### Coverage\n\nThis atlas lists all **41** functions in its area, **13** of them with a hand-written note (✎)."
+    }
+  ]
+}
